@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>res/add_circle.png</file>
+        <file>res/add_est.png</file>
+        <file>res/add_man.png</file>
+        <file>res/add_pnt.png</file>
+        <file>res/circle.png</file>
+        <file>res/Earth-Scan-icon.png</file>
+        <file>res/man.png</file>
+        <file>res/open-diamond.png</file>
+        <file>res/placemark_circle.png</file>
+        <file>res/stepfinal2.png</file>
+        <file>res/target.png</file>
+        <file>res/google-earth-icon.png</file>
+        <file>res/gen_google_earth.png</file>
+        <file>res/gentarget.png</file>
+        <file>res/kamal_64x64.png</file>
+    </qresource>
+</RCC>

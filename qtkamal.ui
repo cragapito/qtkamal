@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>kamal</class>
+ <widget class="QMainWindow" name="kamal">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>kamal</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="res.qrc">
+    <normaloff>:/icon/res/kamal_64x64.png</normaloff>:/icon/res/kamal_64x64.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTreeWidget" name="treeWidget">
+      <column>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="res.qrc">
+         <normaloff>:/icon/res/stepfinal2.png</normaloff>:/icon/res/stepfinal2.png</iconset>
+       </property>
+      </column>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+   </widget>
+   <addaction name="menuMenu"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionPnt"/>
+   <addaction name="actionMan"/>
+   <addaction name="actionEst"/>
+   <addaction name="actionCirc"/>
+   <addaction name="actionTrTarget"/>
+   <addaction name="actionGetEarth"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionPnt">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icon/res/add_pnt.png</normaloff>:/icon/res/add_pnt.png</iconset>
+   </property>
+   <property name="text">
+    <string>addPnt</string>
+   </property>
+   <property name="toolTip">
+    <string>Adiciona Ponto</string>
+   </property>
+  </action>
+  <action name="actionMan">
+   <property name="icon">
+    <iconset>
+     <activeon>:/icon/res/add_man.png</activeon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Man</string>
+   </property>
+   <property name="toolTip">
+    <string>Adiciona Feixe Manual</string>
+   </property>
+  </action>
+  <action name="actionEst">
+   <property name="icon">
+    <iconset>
+     <activeon>:/icon/res/add_est.png</activeon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Est</string>
+   </property>
+   <property name="toolTip">
+    <string>Adiciona medição de estação</string>
+   </property>
+  </action>
+  <action name="actionCirc">
+   <property name="icon">
+    <iconset>
+     <activeon>:/icon/res/add_circle.png</activeon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>circ</string>
+   </property>
+   <property name="toolTip">
+    <string>Adiciona círculo de área</string>
+   </property>
+  </action>
+  <action name="actionGetEarth">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icon/res/gen_google_earth.png</normaloff>:/icon/res/gen_google_earth.png</iconset>
+   </property>
+   <property name="text">
+    <string>getEarth</string>
+   </property>
+   <property name="toolTip">
+    <string>Gera arquivo para Google Earth®</string>
+   </property>
+  </action>
+  <action name="actionTrTarget">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icon/res/gentarget.png</normaloff>:/icon/res/gentarget.png</iconset>
+   </property>
+   <property name="text">
+    <string>trTarget</string>
+   </property>
+   <property name="toolTip">
+    <string>Triangula Alvo</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
+ <connections/>
+</ui>
