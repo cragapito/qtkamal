@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>kamal</class>
- <widget class="QMainWindow" name="kamal">
+ <class>qtkamal</class>
+ <widget class="QMainWindow" name="qtkamal">
   <property name="geometry">
    <rect>
     <x>0</x>
