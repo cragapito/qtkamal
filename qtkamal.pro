@@ -13,27 +13,30 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    point.cpp \
     src/base/Point.cpp \
     src/base/Straight.cpp \
     src/Geo/Coordinate.cpp \
     src/Geo/Beam.cpp \
-    gbcoordinates.cpp \
-    qtkamal.cpp
+    qtkamal.cpp \
+    utils/qtpointitem.cpp \
+    widgets/gbcoordinates.cpp \
+    dialogs/point.cpp
 
 HEADERS  += \
-    point.h \
     src/base/Straight.h \
     src/base/Point.h \
     src/Geo/Coordinate.h \
     src/Geo/Beam.h \
-    gbcoordinates.h \
-    qtkamal.h
+    qtkamal.h \
+    utils/qtpointitem.h \
+    widgets/gbcoordinates.h \
+    dialog/point.h \
+    dialogs/point.h
 
 FORMS    += \
-    point.ui \
-    gbcoordinates.ui \
-    qtkamal.ui
+    qtkamal.ui \
+    widgets/gbcoordinates.ui \
+    dialogs/point.ui
 
 RESOURCES += \
     res.qrc

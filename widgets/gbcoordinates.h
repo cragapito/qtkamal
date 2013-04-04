@@ -1,21 +1,25 @@
-#ifndef GROUPBOXCOORDINATES_H
-#define GROUPBOXCOORDINATES_H
+#ifndef GBCOORDINATES_H
+#define GBCOORDINATES_H
 
-#include <QWidget>
+#include <QGroupBox>
 #include "src/Geo/Coordinate.h"
 
-class groupboxcoordinates : public QWidget
+namespace Ui {
+class gbcoordinates;
+}
+
+class gbcoordinates : public QGroupBox
 {
     Q_OBJECT
-public:
-    explicit groupboxcoordinates(QWidget *parent = 0);
-    Coordinate* returnCoord();
     
-signals:
+public:
+    explicit gbcoordinates(QWidget *parent = 0);
+    ~gbcoordinates();
 
+    Coordinate* returnCoord();
+    Coordinate* c;
+    
 private slots:
-
-    void on_buttonBox_accepted();
 
     void on_latgr_textChanged (const QString &arg1);
     void on_latmin_textChanged(const QString &arg1);
@@ -23,10 +27,9 @@ private slots:
 
     void on_longr_textChanged (const QString &arg1);
     void on_lonmin_textChanged(const QString &arg1);
-    void on_lonseg_textChanged(const QString &arg1);
-    
-public slots:
-    
+
+private:
+    Ui::gbcoordinates *ui;
 };
 
-#endif // GROUPBOXCOORDINATES_H
+#endif // GBCOORDINATES_H

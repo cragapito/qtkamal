@@ -2,7 +2,7 @@
 #include <QVariant>
 #include "qtkamal.h"
 #include "ui_qtkamal.h"
-#include "point.h"
+#include "dialogs/point.h"
 
 qtkamal::qtkamal(QWidget *parent) :
     QMainWindow(parent),
@@ -39,8 +39,6 @@ qtkamal::~qtkamal()
 
 void qtkamal::on_actionPnt_triggered()
 {
-    //point a(this);
-
     point *a = new point();
     int result = a->exec();
 
@@ -51,10 +49,11 @@ void qtkamal::on_actionPnt_triggered()
         QTreeWidgetItem *itempoint = new QTreeWidgetItem( groupPoints );
 
         //inserindo objeto
-        // itempoint->setIcon(0, QIcon(":/icon/res/open-diamond.png"));
-        //QVariant v;
-        //v.setValue( a->returnCoord() );
-        //itempoint->setText(0, QString::fromStdString( a->returnCoord()->name ));
+        itempoint->setIcon(0, QIcon(":/icon/res/open-diamond.png"));
+        QVariant v;
+
+        //v.setValue( a->gb->returnCoord() );
+        itempoint->setText(0, QString::fromStdString( a->gb->returnCoord()->name ));
         //itempoint->setData(0, Qt::UserRole, v);
     }
 }

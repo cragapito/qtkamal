@@ -1,5 +1,6 @@
 #include "point.h"
 #include "ui_point.h"
+#include "utils/qtpointitem.h"
 
 point::point(QWidget *parent) :
     QDialog(parent),
@@ -13,3 +14,10 @@ point::~point()
 {
     delete ui;
 }
+
+
+void point::on_buttonBox_accepted()
+{
+
+}
+

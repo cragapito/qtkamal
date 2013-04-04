@@ -16,26 +16,22 @@ gbcoordinates::~gbcoordinates()
 
 Coordinate *gbcoordinates::returnCoord()
 {
-    Coordinate *c = new Coordinate(
+   /* Coordinate *c = new Coordinate(
                 ui->latgr->text().toInt(),
                 ui->latmin->text().toInt(),
                 ui->latseg->text().toDouble(),
 
                 ui->longr->text().toInt(),
                 ui->lonmin->text().toInt(),
-                ui->lonseg->text().toDouble()   );
+                ui->lonseg->text().toDouble()   ); */
 
+    Coordinate *c = new Coordinate(10,10);
     //c->name = ui->name->text().toStdString();
-
+    c->name = "testando";
     return c;
 }
 
 //TODO: Adicionar Validação
-
-void gbcoordinates::on_buttonBox_accepted()
-{
-    returnCoord();
-}
 
 void gbcoordinates::on_latgr_textChanged(const QString &arg1)
 {
