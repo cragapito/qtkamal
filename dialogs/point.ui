@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>329</width>
-    <height>200</height>
+    <height>199</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,7 +20,7 @@
    <string>Ponto</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="res.qrc">
+   <iconset resource="../res.qrc">
     <normaloff>:/icon/res/Earth-Scan-icon.png</normaloff>:/icon/res/Earth-Scan-icon.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -55,7 +55,7 @@
     <string>Nome</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="name">
+  <widget class="QLineEdit" name="piname">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -65,7 +65,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="gbcoordinates" name="widget" native="true">
+  <widget class="gbcoordinates" name="gbwidget" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -88,45 +88,12 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>name</tabstop>
-  <tabstop>widget</tabstop>
+  <tabstop>piname</tabstop>
+  <tabstop>gbwidget</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="res.qrc"/>
+  <include location="../res.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>point</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>299</x>
-     <y>171</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>299</x>
-     <y>151</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>point</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>192</x>
-     <y>171</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>189</x>
-     <y>152</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

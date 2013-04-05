@@ -18,9 +18,9 @@ SOURCES += main.cpp\
     src/Geo/Coordinate.cpp \
     src/Geo/Beam.cpp \
     qtkamal.cpp \
-    utils/qtpointitem.cpp \
-    widgets/gbcoordinates.cpp \
-    dialogs/point.cpp
+    dialogs/point.cpp \
+    gbcoordinates.cpp \
+    utils/qtpointitem.cpp
 
 HEADERS  += \
     src/base/Straight.h \
@@ -29,14 +29,14 @@ HEADERS  += \
     src/Geo/Beam.h \
     qtkamal.h \
     utils/qtpointitem.h \
-    widgets/gbcoordinates.h \
     dialog/point.h \
-    dialogs/point.h
+    dialogs/point.h \
+    gbcoordinates.h
 
 FORMS    += \
     qtkamal.ui \
-    widgets/gbcoordinates.ui \
-    dialogs/point.ui
+    dialogs/point.ui \
+    gbcoordinates.ui
 
 RESOURCES += \
     res.qrc

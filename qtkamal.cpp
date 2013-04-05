@@ -4,6 +4,8 @@
 #include "ui_qtkamal.h"
 #include "dialogs/point.h"
 
+#include <QMessageBox>
+
 qtkamal::qtkamal(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::qtkamal)
@@ -43,6 +45,21 @@ void qtkamal::on_actionPnt_triggered()
     int result = a->exec();
 
     if (result == QDialog::Accepted) {
+        groupPoints->setExpanded( true );
+        groupPoints->addChild( a->pi );
+    }
+
+    QMessageBox *m = new QMessageBox();
+    m->setInformativeText( QString::fromStdString( a->pi->pc->name) );
+    m->exec();
+}
+
+void qtkamal::on_actionCirc_triggered()
+{
+    point *a = new point();
+    int result = a->exec();
+
+    if (result == QDialog::Accepted) {
 
         groupPoints->setExpanded( true );
 
@@ -56,10 +73,7 @@ void qtkamal::on_actionPnt_triggered()
         itempoint->setText(0, QString::fromStdString( a->gb->returnCoord()->name ));
         //itempoint->setData(0, Qt::UserRole, v);
     }
-}
 
-void qtkamal::on_actionCirc_triggered()
-{
     QTreeWidgetItemIterator it(ui->treeWidget);
         while (*it) {
             if ((*it)->text(0) == "Feixes Manuais")
