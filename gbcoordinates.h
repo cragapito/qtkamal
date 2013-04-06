@@ -1,6 +1,7 @@
 #ifndef GBCOORDINATES_H
 #define GBCOORDINATES_H
 
+#include <math.h>
 #include <QGroupBox>
 #include "src/Geo/Coordinate.h"
 
@@ -14,6 +15,7 @@ class gbcoordinates : public QGroupBox
     
 public:
     explicit gbcoordinates(QWidget *parent = 0);
+    explicit gbcoordinates(QWidget *parent, Coordinate *c);
     ~gbcoordinates();
 
     Coordinate* returnCoord();

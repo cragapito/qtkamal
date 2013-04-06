@@ -12,6 +12,14 @@ qtkamal::qtkamal(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    /*
+     * Esse slot não traz os dados da derivada!
+     *
+    connect(ui->treeWidget,
+            SIGNAL(itemClicked(QTreeWidgetItem*,int)),
+            this,
+            SLOT(on_treeWidget_itemClicked(QTreeWidgetItem*,int)) );*/
+
     groupPoints = new QTreeWidgetItem();
     groupBeans = new QTreeWidgetItem();
     groupERMs = new QTreeWidgetItem();
@@ -49,44 +57,24 @@ void qtkamal::on_actionPnt_triggered()
         groupPoints->addChild( a->pi );
     }
 
-    QMessageBox *m = new QMessageBox();
-    m->setInformativeText( QString::fromStdString( a->pi->pc->name) );
-    m->exec();
+    // Após implementar Triangulação
+    //if ( (groupERMs->childCount() + groupBeans->childCount() ) >=2 ) {
+    //    ui->actionTrTarget->setEnabled( true );
+    //}
+
+    /* Após implementar mapa
+    QTreeWidgetItemIterator it(ui->treeWidget);
+    while (*it) {
+        if ( (*it)->childCount() > 0 ) {
+            ui->actionGetEarth->setEnabled( true );
+            break;
+        }
+        ++it;
+    }
+    */
 }
 
 void qtkamal::on_actionCirc_triggered()
 {
-    point *a = new point();
-    int result = a->exec();
 
-    if (result == QDialog::Accepted) {
-
-        groupPoints->setExpanded( true );
-
-        QTreeWidgetItem *itempoint = new QTreeWidgetItem( groupPoints );
-
-        //inserindo objeto
-        itempoint->setIcon(0, QIcon(":/icon/res/open-diamond.png"));
-        QVariant v;
-
-        //v.setValue( a->gb->returnCoord() );
-        itempoint->setText(0, QString::fromStdString( a->gb->returnCoord()->name ));
-        //itempoint->setData(0, Qt::UserRole, v);
-    }
-
-    QTreeWidgetItemIterator it(ui->treeWidget);
-        while (*it) {
-            if ((*it)->text(0) == "Feixes Manuais")
-                (*it)->setSelected(true);
-            ++it;
-        }
-
-        QTreeWidgetItem* const item = new QTreeWidgetItem();
-
-    ui->treeWidget->addTopLevelItem(item);
-    ui->treeWidget->addTopLevelItem(item);
-    ui->treeWidget->addTopLevelItem(item);
-
-    item->setIcon(0, QIcon(":/icon/res/man.png"));
-    item->setText(0, tr("teste"));
 }

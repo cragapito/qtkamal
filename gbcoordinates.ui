@@ -51,6 +51,9 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
    </property>
@@ -60,8 +63,11 @@
    <property name="maxLength">
     <number>2</number>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
    <property name="cursorMoveStyle">
-    <enum>Qt::VisualMoveStyle</enum>
+    <enum>Qt::LogicalMoveStyle</enum>
    </property>
   </widget>
   <widget class="QLabel" name="minlatlabel">
@@ -86,6 +92,9 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
    </property>
@@ -95,8 +104,11 @@
    <property name="maxLength">
     <number>4</number>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
    <property name="cursorMoveStyle">
-    <enum>Qt::VisualMoveStyle</enum>
+    <enum>Qt::LogicalMoveStyle</enum>
    </property>
   </widget>
   <widget class="QLabel" name="label_lon">
@@ -157,6 +169,9 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
    </property>
@@ -166,8 +181,11 @@
    <property name="maxLength">
     <number>2</number>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
    <property name="cursorMoveStyle">
-    <enum>Qt::VisualMoveStyle</enum>
+    <enum>Qt::LogicalMoveStyle</enum>
    </property>
   </widget>
   <widget class="QLabel" name="grlatlabel">
@@ -192,6 +210,9 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
    </property>
@@ -201,8 +222,11 @@
    <property name="maxLength">
     <number>4</number>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
    <property name="cursorMoveStyle">
-    <enum>Qt::VisualMoveStyle</enum>
+    <enum>Qt::LogicalMoveStyle</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="latmin">
@@ -214,6 +238,9 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
    </property>
@@ -223,8 +250,11 @@
    <property name="maxLength">
     <number>2</number>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
    <property name="cursorMoveStyle">
-    <enum>Qt::VisualMoveStyle</enum>
+    <enum>Qt::LogicalMoveStyle</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="lonmin">
@@ -236,6 +266,9 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
    </property>
@@ -245,8 +278,11 @@
    <property name="maxLength">
     <number>2</number>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
    <property name="cursorMoveStyle">
-    <enum>Qt::VisualMoveStyle</enum>
+    <enum>Qt::LogicalMoveStyle</enum>
    </property>
   </widget>
   <widget class="QLabel" name="seglatlabel">

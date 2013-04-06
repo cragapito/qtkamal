@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 #include "src/Geo/Coordinate.h"
+#include "utils/qtpointitem.h"
 
 namespace Ui {
 class qtkamal;

@@ -6,16 +6,18 @@ point::point(QWidget *parent) :
     ui(new Ui::point)
 {   
     gb = new gbcoordinates();
-
-    if ( pi ) {
-        pi = new qtpointitem();
-        isnew = true;
-    } else {
-        isnew = false;
-    }
+    pi = new qtpointitem();
 
     ui->setupUi(this);
     ui->piname->setFocus();
+}
+
+point::point(QWidget *parent, Coordinate *pc) :
+    QDialog(parent),
+    ui(new Ui::point)
+{
+    gb = new gbcoordinates( parent, pc );
+    ui->setupUi(this);
 }
 
 point::~point()

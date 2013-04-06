@@ -10,6 +10,15 @@ gbcoordinates::gbcoordinates(QWidget *parent) :
     ui->setupUi(this);
 }
 
+gbcoordinates::gbcoordinates(QWidget *parent, Coordinate *c)
+{
+    double fractpart, intpart;
+    fractpart = modf(c->x, &intpart);
+    ui->latgr->text().setNum ( (int) intpart );
+    ui->latseg->text().setNum( modf((fabs(fractpart) * 60.0), &intpart) * 60.0);
+    ui->latmin->text().setNum( (int) intpart );
+}
+
 gbcoordinates::~gbcoordinates()
 {
     delete ui;
