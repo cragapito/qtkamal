@@ -27,6 +27,8 @@ private slots:
     void on_actionPnt_triggered();
     void on_actionCirc_triggered();
 
+    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
+
 private:
     Ui::qtkamal *ui;
 };

@@ -15,14 +15,14 @@ class gbcoordinates : public QGroupBox
     
 public:
     explicit gbcoordinates(QWidget *parent = 0);
-    explicit gbcoordinates(QWidget *parent, Coordinate *c);
     ~gbcoordinates();
 
     Coordinate* returnCoord();
-    Coordinate* c;
-    
-private slots:
+    Coordinate* gbc;
 
+    void EditCoordinates( Coordinate *c );
+
+private slots: 
     void on_latgr_textChanged (const QString &arg1);
     void on_latmin_textChanged(const QString &arg1);
     void on_latseg_textChanged(const QString &arg1);
@@ -33,7 +33,6 @@ private slots:
 
 private:
     Ui::gbcoordinates *ui;
-
 };
 
 #endif // GBCOORDINATES_H

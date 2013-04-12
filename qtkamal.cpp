@@ -78,3 +78,11 @@ void qtkamal::on_actionCirc_triggered()
 {
 
 }
+
+void qtkamal::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+{
+    if ( item->parent() == groupPoints && column == 0 ) {
+        qtpointitem* pwi = static_cast<qtpointitem*>(item);
+        pwi->open( this );
+    }
+}

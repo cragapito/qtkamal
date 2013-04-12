@@ -6,17 +6,8 @@ gbcoordinates::gbcoordinates(QWidget *parent) :
     QGroupBox(parent),
     ui(new Ui::gbcoordinates)
 {
-    c = NULL;
+    gbc = NULL;
     ui->setupUi(this);
-}
-
-gbcoordinates::gbcoordinates(QWidget *parent, Coordinate *c)
-{
-    double fractpart, intpart;
-    fractpart = modf(c->x, &intpart);
-    ui->latgr->text().setNum ( (int) intpart );
-    ui->latseg->text().setNum( modf((fabs(fractpart) * 60.0), &intpart) * 60.0);
-    ui->latmin->text().setNum( (int) intpart );
 }
 
 gbcoordinates::~gbcoordinates()
@@ -26,9 +17,9 @@ gbcoordinates::~gbcoordinates()
 
 Coordinate *gbcoordinates::returnCoord()
 {
-    c = new Coordinate();
+    if ( ! gbc ) gbc = new Coordinate();
 
-    c->setGMS( ui->latgr->text().toInt(),
+    gbc->setGMS( ui->latgr->text().toInt(),
                ui->latmin->text().toInt(),
                ui->latseg->text().toDouble(),
 
@@ -36,7 +27,24 @@ Coordinate *gbcoordinates::returnCoord()
                ui->lonmin->text().toInt(),
                ui->lonseg->text().toDouble() );
 
-    return c;
+    return gbc;
+}
+
+void gbcoordinates::EditCoordinates(Coordinate *c)
+{
+    gbc = c;
+    double fractpart, intpart;
+    fractpart = modf(c->x, &intpart);
+    ui->latgr->setText( QString::number((int) intpart ));
+    ui->latseg->setText( QString::number(
+        modf((fabs(fractpart) * 60.0), &intpart) * 60.0));
+    ui->latmin->setText( QString::number((int) intpart ));
+
+    fractpart = modf(c->y, &intpart);
+    ui->longr->setText( QString::number((int) intpart ));
+    ui->lonseg->setText( QString::number(
+        modf((fabs(fractpart) * 60.0), &intpart) * 60.0));
+    ui->lonmin->setText( QString::number((int) intpart ));
 }
 
 //TODO: Adicionar Validação

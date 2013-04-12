@@ -13,7 +13,6 @@ class point;
 class point : public QDialog
 {
     Q_OBJECT
-    bool isnew;
 
 public:
     explicit point(QWidget *parent = 0);
@@ -21,7 +20,6 @@ public:
     ~point();
 
     qtpointitem *pi;
-    gbcoordinates* gb;
 
 private slots:
     void on_buttonBox_accepted();
