@@ -19,11 +19,17 @@ Coordinate *gbcoordinates::returnCoord()
 {
     if ( ! gbc ) gbc = new Coordinate();
 
-    gbc->setGMS( ui->latgr->text().toInt(),
+    int lat = ui->latgr->text().toInt();
+    int lon = ui->longr->text().toInt();
+
+    if ( ui->comboLat->currentIndex() == 0 ) lat *= -1;
+    if ( ui->comboLon->currentIndex() == 0 ) lon *= -1;
+
+    gbc->setGMS( lat,
                ui->latmin->text().toInt(),
                ui->latseg->text().toDouble(),
 
-               ui->longr->text().toInt(),
+               lon,
                ui->lonmin->text().toInt(),
                ui->lonseg->text().toDouble() );
 
@@ -34,18 +40,25 @@ void gbcoordinates::EditCoordinates(Coordinate *c)
 {
     gbc = c;
     double fractpart, intpart;
-    fractpart = modf(c->x, &intpart);
+    fractpart = modf(fabs(c->x), &intpart);
     ui->latgr->setText( QString::number((int) intpart ));
     ui->latseg->setText( QString::number(
         modf((fabs(fractpart) * 60.0), &intpart) * 60.0));
     ui->latmin->setText( QString::number((int) intpart ));
 
-    fractpart = modf(c->y, &intpart);
+    fractpart = modf(fabs(c->y), &intpart);
     ui->longr->setText( QString::number((int) intpart ));
     ui->lonseg->setText( QString::number(
         modf((fabs(fractpart) * 60.0), &intpart) * 60.0));
     ui->lonmin->setText( QString::number((int) intpart ));
+
+    (c->x < 0 )? ui->comboLat->setCurrentIndex( 0 ):
+                 ui->comboLat->setCurrentIndex( 1 );
+    (c->y < 0 )? ui->comboLon->setCurrentIndex( 0 ):
+                 ui->comboLon->setCurrentIndex( 1 );
 }
+
+
 
 //TODO: Adicionar Validação
 // Movimentação do Foco
