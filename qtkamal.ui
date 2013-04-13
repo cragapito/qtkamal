@@ -21,6 +21,9 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QTreeWidget" name="treeWidget">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
       <column>
        <property name="text">
         <string/>
@@ -43,14 +46,11 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuMenu">
-    <property name="title">
-     <string>Menu</string>
-    </property>
-   </widget>
-   <addaction name="menuMenu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <attribute name="toolBarArea">
     <enum>LeftToolBarArea</enum>
    </attribute>
@@ -74,6 +74,9 @@
     <string>addPnt</string>
    </property>
    <property name="toolTip">
+    <string>Adiciona um ponto de referência.</string>
+   </property>
+   <property name="statusTip">
     <string>Adiciona Ponto</string>
    </property>
   </action>
@@ -87,6 +90,9 @@
     <string>Man</string>
    </property>
    <property name="toolTip">
+    <string>Adiciona medição realizada manualmente com antena e analisador de espectro.</string>
+   </property>
+   <property name="statusTip">
     <string>Adiciona Feixe Manual</string>
    </property>
   </action>
@@ -100,6 +106,9 @@
     <string>Est</string>
    </property>
    <property name="toolTip">
+    <string>Adiciona medição realizada a partir de uma estação de radiomonitoragem.</string>
+   </property>
+   <property name="statusTip">
     <string>Adiciona medição de estação</string>
    </property>
   </action>
@@ -113,6 +122,9 @@
     <string>circ</string>
    </property>
    <property name="toolTip">
+    <string>Cria um círculo de raio determinado.</string>
+   </property>
+   <property name="statusTip">
     <string>Adiciona círculo de área</string>
    </property>
   </action>
@@ -128,6 +140,9 @@
     <string>getEarth</string>
    </property>
    <property name="toolTip">
+    <string>Gera arquivo de mapa para ser importado no Google Earth®.</string>
+   </property>
+   <property name="statusTip">
     <string>Gera arquivo para Google Earth®</string>
    </property>
   </action>
@@ -143,6 +158,9 @@
     <string>trTarget</string>
    </property>
    <property name="toolTip">
+    <string>Calcula provável localização da transmissora.</string>
+   </property>
+   <property name="statusTip">
     <string>Triangula Alvo</string>
    </property>
   </action>

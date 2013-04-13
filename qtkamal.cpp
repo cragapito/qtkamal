@@ -12,14 +12,6 @@ qtkamal::qtkamal(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    /*
-     * Esse slot não traz os dados da derivada!
-     *
-    connect(ui->treeWidget,
-            SIGNAL(itemClicked(QTreeWidgetItem*,int)),
-            this,
-            SLOT(on_treeWidget_itemClicked(QTreeWidgetItem*,int)) );*/
-
     groupPoints = new QTreeWidgetItem();
     groupBeans = new QTreeWidgetItem();
     groupERMs = new QTreeWidgetItem();
@@ -38,7 +30,7 @@ qtkamal::qtkamal(QWidget *parent) :
     groupPoints->setText(0, tr("Pontos"));
     groupBeans->setText(0, tr("Feixes Manuais"));
     groupERMs->setText(0, tr("Feixes de Estação"));
-    groupCircles->setText(0, tr("Círculos"));
+    groupCircles->setText(0, tr("Círculos")); 
 }
 
 qtkamal::~qtkamal()
@@ -55,6 +47,20 @@ void qtkamal::on_actionPnt_triggered()
     if (result == QDialog::Accepted) {
         groupPoints->setExpanded( true );
         groupPoints->addChild( a->pi );
+    }
+}
+
+void qtkamal::on_actionCirc_triggered()
+{
+
+}
+
+void qtkamal::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+{
+    if ( item->parent() == groupPoints && column == 0 ) {
+        qtpointitem* pwi = static_cast<qtpointitem*>(item);
+        pwi->open( this );
+        item->setText(0, QString::fromStdString(pwi->pc->name) );
     }
 
     // Após implementar Triangulação
@@ -74,15 +80,30 @@ void qtkamal::on_actionPnt_triggered()
     */
 }
 
-void qtkamal::on_actionCirc_triggered()
+void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
 {
+    QTreeWidgetItem *item = ui->treeWidget->itemAt( pos );
+    if (!item) return; // Nenhum item selecionado
 
+    // Se o item não estiver na raiz
+    if ( item->parent() ) {
+        QPoint globalPos = ui->treeWidget->mapToGlobal(pos);
+        QMenu ctxMenu;
+
+        deleteItemAction = new QAction(tr("delete"), this);
+        deleteItemAction->setIcon(QIcon(QPixmap(":/icon/res/delete_icon.png")));
+        deleteItemAction->setStatusTip(tr("Remove este item"));
+
+        connect(deleteItemAction, SIGNAL(triggered()), this, SLOT(deleteItemHandler()));
+
+        ctxMenu.addAction(deleteItemAction);
+        ctxMenu.exec(globalPos);
+    }
 }
 
-void qtkamal::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+void qtkamal::deleteItemHandler()
 {
-    if ( item->parent() == groupPoints && column == 0 ) {
-        qtpointitem* pwi = static_cast<qtpointitem*>(item);
-        pwi->open( this );
-    }
+    int i = ui->treeWidget->indexOfTopLevelItem(ui->treeWidget->currentItem());
+    ui->treeWidget->takeTopLevelItem(i);
+    delete ui->treeWidget->currentItem();
 }

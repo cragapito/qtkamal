@@ -6,6 +6,7 @@ point::point(QWidget *parent) :
     ui(new Ui::point)
 {   
     pi = new qtpointitem();
+
     ui->setupUi(this);
     ui->piname->setFocus();
 }
@@ -14,10 +15,11 @@ point::point(QWidget *parent, Coordinate *pc) :
     QDialog(parent),
     ui(new Ui::point)
 {
-    ui->setupUi(this);
-    ui->piname->setText( QString::fromStdString( pc->name ) );
     pi = new qtpointitem();
     pi->pc = pc;
+
+    ui->setupUi(this);
+    ui->piname->setText( QString::fromStdString( pc->name ) );
     ui->gbwidget->EditCoordinates( pc );
 }
 
