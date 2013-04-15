@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>kamal</string>
+   <string>qt-Kamal</string>
   </property>
   <property name="windowIcon">
    <iconset resource="res.qrc">
@@ -23,6 +23,18 @@
      <widget class="QTreeWidget" name="treeWidget">
       <property name="contextMenuPolicy">
        <enum>Qt::CustomContextMenu</enum>
+      </property>
+      <property name="acceptDrops">
+       <bool>true</bool>
+      </property>
+      <property name="dragEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="dragDropOverwriteMode">
+       <bool>false</bool>
+      </property>
+      <property name="dragDropMode">
+       <enum>QAbstractItemView::NoDragDrop</enum>
       </property>
       <column>
        <property name="text">
@@ -81,6 +93,9 @@
    </property>
   </action>
   <action name="actionMan">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <activeon>:/icon/res/add_man.png</activeon>
@@ -97,6 +112,9 @@
    </property>
   </action>
   <action name="actionEst">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <activeon>:/icon/res/add_est.png</activeon>
@@ -113,6 +131,9 @@
    </property>
   </action>
   <action name="actionCirc">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <activeon>:/icon/res/add_circle.png</activeon>
@@ -158,7 +179,7 @@
     <string>trTarget</string>
    </property>
    <property name="toolTip">
-    <string>Calcula provável localização da transmissora.</string>
+    <string>Calcula provável localização da estação transmissora.</string>
    </property>
    <property name="statusTip">
     <string>Triangula Alvo</string>

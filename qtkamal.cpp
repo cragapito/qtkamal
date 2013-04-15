@@ -4,8 +4,6 @@
 #include "ui_qtkamal.h"
 #include "dialogs/point.h"
 
-#include <QMessageBox>
-
 qtkamal::qtkamal(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::qtkamal)
@@ -55,7 +53,7 @@ void qtkamal::on_actionCirc_triggered()
 
 }
 
-void qtkamal::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     if ( item->parent() == groupPoints && column == 0 ) {
         qtpointitem* pwi = static_cast<qtpointitem*>(item);
@@ -66,7 +64,7 @@ void qtkamal::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     // Após implementar Triangulação
     //if ( (groupERMs->childCount() + groupBeans->childCount() ) >=2 ) {
     //    ui->actionTrTarget->setEnabled( true );
-    //}
+    //}delete_icon
 
     /* Após implementar mapa
     QTreeWidgetItemIterator it(ui->treeWidget);
@@ -91,12 +89,12 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
         QMenu ctxMenu;
 
         deleteItemAction = new QAction(tr("delete"), this);
-        deleteItemAction->setIcon(QIcon(QPixmap(":/icon/res/delete_icon.png")));
+        deleteItemAction->setIcon(QIcon(":/icon/res/delete_icon.png"));
         deleteItemAction->setStatusTip(tr("Remove este item"));
 
         connect(deleteItemAction, SIGNAL(triggered()), this, SLOT(deleteItemHandler()));
-
         ctxMenu.addAction(deleteItemAction);
+        ctxMenu.setStyleSheet("QMenu::item:selected { background: transparent; }");
         ctxMenu.exec(globalPos);
     }
 }
