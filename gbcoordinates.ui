@@ -51,8 +51,17 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="focusPolicy">
     <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
@@ -64,7 +73,7 @@
     <number>2</number>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
    <property name="cursorMoveStyle">
     <enum>Qt::LogicalMoveStyle</enum>
@@ -92,8 +101,17 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="focusPolicy">
     <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
@@ -105,7 +123,7 @@
     <number>4</number>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
    <property name="cursorMoveStyle">
     <enum>Qt::LogicalMoveStyle</enum>
@@ -169,8 +187,17 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="focusPolicy">
     <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
@@ -182,7 +209,7 @@
     <number>2</number>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
    <property name="cursorMoveStyle">
     <enum>Qt::LogicalMoveStyle</enum>
@@ -210,8 +237,17 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="focusPolicy">
     <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
@@ -223,7 +259,7 @@
     <number>4</number>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
    <property name="cursorMoveStyle">
     <enum>Qt::LogicalMoveStyle</enum>
@@ -238,8 +274,17 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="focusPolicy">
     <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
@@ -251,7 +296,7 @@
     <number>2</number>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
    <property name="cursorMoveStyle">
     <enum>Qt::LogicalMoveStyle</enum>
@@ -266,8 +311,17 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="focusPolicy">
     <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly</set>
@@ -279,7 +333,7 @@
     <number>2</number>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
    <property name="cursorMoveStyle">
     <enum>Qt::LogicalMoveStyle</enum>

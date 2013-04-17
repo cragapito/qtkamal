@@ -14,6 +14,7 @@ public:
     Coordinate* pc;
 
     void open(QWidget *parent);
+    void setText( int column, const QString & text ); // Overrided
 };
 
 Q_DECLARE_METATYPE(qtpointitem)

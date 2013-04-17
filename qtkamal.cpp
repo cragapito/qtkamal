@@ -1,8 +1,11 @@
-#include <QLayout>
-#include <QVariant>
 #include "qtkamal.h"
 #include "ui_qtkamal.h"
 #include "dialogs/point.h"
+#include "utils/kml.h"
+
+#include <QLayout>
+#include <QVariant>
+#include <QFileDialog>
 
 qtkamal::qtkamal(QWidget *parent) :
     QMainWindow(parent),
@@ -104,4 +107,16 @@ void qtkamal::deleteItemHandler()
     int i = ui->treeWidget->indexOfTopLevelItem(ui->treeWidget->currentItem());
     ui->treeWidget->takeTopLevelItem(i);
     delete ui->treeWidget->currentItem();
+}
+
+void qtkamal::on_actionGetEarth_triggered()
+{
+    QString fileName;
+    fileName = QFileDialog::getOpenFileName(this, tr("Abrir arquivo"),
+                                                     "",
+                                                     tr("Files (*.kml)"));
+    if ( !fileName.isEmpty() ) {
+        kml *m = new kml( this, ui->treeWidget );
+        m->readfile(fileName);
+    }
 }

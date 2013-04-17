@@ -30,9 +30,7 @@ point::~point()
 
 void point::on_buttonBox_accepted()
 {
-    // Não está alterando o nome no widget
     pi->pc = ui->gbwidget->returnCoord();
-    pi->pc->name = ui->piname->text().toStdString();
     pi->setText(0, QString::fromStdString(
                     ui->piname->text().toStdString() ));
     this->accept();

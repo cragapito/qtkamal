@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     qtkamal.cpp \
     dialogs/point.cpp \
     gbcoordinates.cpp \
-    utils/qtpointitem.cpp
+    utils/qtpointitem.cpp \
+    utils/kml.cpp \
+    utils/qxmlputget.cpp
 
 HEADERS  += \
     src/base/Straight.h \
@@ -31,7 +33,9 @@ HEADERS  += \
     utils/qtpointitem.h \
     dialog/point.h \
     dialogs/point.h \
-    gbcoordinates.h
+    gbcoordinates.h \
+    utils/kml.h \
+    utils/qxmlputget.h
 
 FORMS    += \
     qtkamal.ui \
@@ -40,3 +44,6 @@ FORMS    += \
 
 RESOURCES += \
     res.qrc
+
+QT += xml \
+    network

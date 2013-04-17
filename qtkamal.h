@@ -34,6 +34,8 @@ private slots:
 
     void deleteItemHandler();
 
+    void on_actionGetEarth_triggered();
+
 private:
     Ui::qtkamal *ui;
 };
