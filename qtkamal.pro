@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qtkamal
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
     src/base/Point.cpp \
     src/base/Straight.cpp \
@@ -22,7 +21,8 @@ SOURCES += main.cpp\
     gbcoordinates.cpp \
     utils/qtpointitem.cpp \
     utils/kml.cpp \
-    utils/qxmlputget.cpp
+    utils/qxmlputget.cpp \
+    utils/networkicon.cpp
 
 HEADERS  += \
     src/base/Straight.h \
@@ -35,7 +35,8 @@ HEADERS  += \
     dialogs/point.h \
     gbcoordinates.h \
     utils/kml.h \
-    utils/qxmlputget.h
+    utils/qxmlputget.h \
+    utils/networkicon.h
 
 FORMS    += \
     qtkamal.ui \

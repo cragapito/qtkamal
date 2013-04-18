@@ -4,7 +4,6 @@
 #include <QTreeWidgetItem>
 #include <src/Geo/Coordinate.h>
 
-
 class qtpointitem : public QTreeWidgetItem
 {
 public:

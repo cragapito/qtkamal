@@ -60,7 +60,7 @@ void gbcoordinates::EditCoordinates(Coordinate *c)
 
 
 
-//TODO: Adicionar Validação
+//TODO: Adicionar Validacao
 // Movimentação do Foco
 void gbcoordinates::on_latgr_textChanged(const QString &arg1) {
     if ( arg1.size() >= 2 ) {
