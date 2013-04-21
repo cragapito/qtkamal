@@ -3,6 +3,7 @@
 
 #include <QUrl>
 #include <QHash>
+#include <QIcon>
 #include <QImageReader>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -13,17 +14,17 @@ class NetworkIcon : public QObject
 {
     Q_OBJECT
     QNetworkAccessManager* nam;
-    QTreeWidgetItem *wtree;
-    QHash<QString, QIcon> iconStyle;
+    QIcon *ni;
 
 public:
-    NetworkIcon();
-    NetworkIcon(QTreeWidgetItem *wt);
-    void setIcon(QTreeWidgetItem *wt, QString style);
-    void request(QUrl url);
+    NetworkIcon(QIcon *newni);
+    void request(const QUrl url);
 
 private slots:
-    void finishedSlot(QNetworkReply* reply);
+    void finishedSlot(QNetworkReply*);
+
+signals:
+    void requestDone();
 };
 
 #endif // NETWORKICON_H

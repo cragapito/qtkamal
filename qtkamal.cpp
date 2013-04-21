@@ -1,7 +1,7 @@
 #include "qtkamal.h"
+#include "utils/kml.h"
 #include "ui_qtkamal.h"
 #include "dialogs/point.h"
-#include "utils/kml.h"
 
 #include <QLayout>
 #include <QVariant>
@@ -12,6 +12,7 @@ qtkamal::qtkamal(QWidget *parent) :
     ui(new Ui::qtkamal)
 {
     ui->setupUi(this);
+    sty = new styleFold();
 
     groupPoints = new QTreeWidgetItem();
     groupBeans = new QTreeWidgetItem();
@@ -38,7 +39,6 @@ qtkamal::~qtkamal()
 {
     delete ui;
 }
-
 
 void qtkamal::on_actionPnt_triggered()
 {

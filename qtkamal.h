@@ -3,8 +3,10 @@
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
-#include "src/Geo/Coordinate.h"
+
+#include "utils/stylefold.h"
 #include "utils/qtpointitem.h"
+#include "src/Geo/Coordinate.h"
 
 namespace Ui {
 class qtkamal;
@@ -13,7 +15,6 @@ class qtkamal;
 class qtkamal : public QMainWindow
 {
     Q_OBJECT
-
     QAction *deleteItemAction;
 
 public:
@@ -24,17 +25,18 @@ public:
     QTreeWidgetItem* groupBeans;
     QTreeWidgetItem* groupERMs;
     QTreeWidgetItem* groupCircles;
+
+    styleFold       *sty;
     
 private slots:
     void on_actionPnt_triggered();
     void on_actionCirc_triggered();
+    void on_actionGetEarth_triggered();
 
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void on_treeWidget_customContextMenuRequested(const QPoint &pos);
 
     void deleteItemHandler();
-
-    void on_actionGetEarth_triggered();
 
 private:
     Ui::qtkamal *ui;

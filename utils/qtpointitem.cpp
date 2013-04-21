@@ -20,6 +20,7 @@ void qtpointitem::open(QWidget *parent)
 
 void qtpointitem::qtpointitem::setText(int column, const QString &text) // Overrided
 {
-    pc->name = text.toStdString();
+    if ( !text.isEmpty() )
+        pc->name = text.toStdString();
     QTreeWidgetItem::setText(column, text);
 }

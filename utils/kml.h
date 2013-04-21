@@ -12,16 +12,17 @@
 
 class kml
 {
-    QWidget *parent;
-    QTreeWidget *wtree;
-    QString filename;
-    QDomDocument *doc;
-    qtkamal *main;
+    QString         filename;
+
+    QDomDocument    *doc;
+    qtkamal         *main;
+    QTreeWidget     *wtree;
+    QWidget         *parent;
 
 public:
     kml(QWidget *parent, QTreeWidget *wt);
 
-    bool readfile(QString name);
+    bool readfile(const QString name);
 };
 
 #endif // KMLPARSER_H

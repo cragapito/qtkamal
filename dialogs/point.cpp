@@ -6,7 +6,6 @@ point::point(QWidget *parent) :
     ui(new Ui::point)
 {   
     pi = new qtpointitem();
-
     ui->setupUi(this);
     ui->piname->setFocus();
 }
@@ -32,7 +31,7 @@ void point::on_buttonBox_accepted()
 {
     pi->pc = ui->gbwidget->returnCoord();
     pi->setText(0, QString::fromStdString(
-                    ui->piname->text().toStdString() ));
+        ui->piname->text().toStdString() ));
     this->accept();
 }
 

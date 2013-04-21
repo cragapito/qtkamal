@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     utils/qtpointitem.cpp \
     utils/kml.cpp \
     utils/qxmlputget.cpp \
-    utils/networkicon.cpp
+    utils/networkicon.cpp \
+    utils/stylefold.cpp
 
 HEADERS  += \
     src/base/Straight.h \
@@ -36,7 +37,8 @@ HEADERS  += \
     gbcoordinates.h \
     utils/kml.h \
     utils/qxmlputget.h \
-    utils/networkicon.h
+    utils/networkicon.h \
+    utils/stylefold.h
 
 FORMS    += \
     qtkamal.ui \

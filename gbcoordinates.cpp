@@ -58,9 +58,6 @@ void gbcoordinates::EditCoordinates(Coordinate *c)
                  ui->comboLon->setCurrentIndex( 1 );
 }
 
-
-
-//TODO: Adicionar Validacao
 // Movimentação do Foco
 void gbcoordinates::on_latgr_textChanged(const QString &arg1) {
     if ( arg1.size() >= 2 ) {
