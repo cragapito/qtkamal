@@ -14,7 +14,7 @@ qtpointitem::~qtpointitem()
 
 void qtpointitem::open(QWidget *parent)
 {
-    point *a = new point( parent, this->pc );
+    point *a = new point( parent, this->pc, this->icon(0));
     a->exec();
 }
 

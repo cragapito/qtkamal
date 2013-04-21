@@ -16,7 +16,7 @@ class point : public QDialog
 
 public:
     explicit point(QWidget *parent = 0);
-    explicit point(QWidget *parent, Coordinate *pc );
+    explicit point(QWidget *parent, Coordinate *pc, QIcon icon );
     ~point();
 
     qtpointitem *pi;

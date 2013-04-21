@@ -10,7 +10,7 @@ point::point(QWidget *parent) :
     ui->piname->setFocus();
 }
 
-point::point(QWidget *parent, Coordinate *pc) :
+point::point(QWidget *parent, Coordinate *pc, QIcon icon ) :
     QDialog(parent),
     ui(new Ui::point)
 {
@@ -19,6 +19,9 @@ point::point(QWidget *parent, Coordinate *pc) :
 
     ui->setupUi(this);
     ui->piname->setText( QString::fromStdString( pc->name ) );
+    //QPixmap pixmap(QIcon(":/icon/res/circle.png").pixmap(40, QIcon::Normal, QIcon::On));
+    QPixmap pixmap( icon.pixmap(40, QIcon::Normal, QIcon::On) );
+    ui->iconPreview->setPixmap( pixmap );
     ui->gbwidget->EditCoordinates( pc );
 }
 
