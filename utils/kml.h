@@ -22,9 +22,11 @@ class kml
 public:
     kml(QWidget *parent, QTreeWidget *wt);
 
+    bool readfile();
     bool readfile(const QString name);
     bool save();
 
+    void newFile();
     void update (qtpointitem *item);
     void remove (qtpointitem *item);
 };

@@ -4,6 +4,8 @@
 #include "utils/networkicon.h"
 
 #include <QDomText>
+#include <QFileInfo>
+#include <QFileDialog>
 
 kml::kml(QWidget *parent, QTreeWidget *wt)
 {
@@ -11,16 +13,40 @@ kml::kml(QWidget *parent, QTreeWidget *wt)
     wtree = wt;
     main = static_cast<qtkamal*>(parent);
     doc = new QDomDocument;
+    filename="";
+}
+
+bool kml::readfile()
+{
+    filename = QFileDialog::getOpenFileName(main, QObject::tr("Abrir arquivo"),
+                                                  "",
+                                                  QObject::tr("Files (*.kml)"));
+    if ( !filename.isEmpty() ) {
+        this->readfile( filename );
+        return true;
+    }
+    return false;
 }
 
 bool kml::readfile(QString name)
 {
-    QXmlGet xmlGet;
+    QTreeWidgetItemIterator it( wtree );
+    while (*it) {
+        if ( (*it)->parent() ) {
+            (*it)->setDisabled( true );
+        }
+        it++;
+    }
+
+    QXmlGet xmlGet = QXmlGet();
 
     if ( !xmlGet.load(name) ){
-        QMessageBox::critical( parent, "Erro", "Arquivo não suportado ou corrompido");
+        QMessageBox::critical( parent, "Erro",
+                               "Arquivo não suportado ou corrompido");
         return false;
     }
+
+    filename = name;
 
     if (xmlGet.find("Document")) {
         xmlGet.descend();
@@ -57,6 +83,8 @@ bool kml::readfile(QString name)
     QString placeName;
     QDomElement e;
 
+    xmlGet.findAndDescend("Folder");
+
     while ( xmlGet.findNext("Placemark")) {
         e = xmlGet.element();
         xmlGet.descend();
@@ -87,27 +115,90 @@ bool kml::readfile(QString name)
 
     main->groupPoints->setExpanded(true);
 
+    this->save();
+
     return true;
 }
 
 bool kml::save()
 {
+    QString arq;
     QXmlPut xmlPut = QXmlPut( QXmlGet( *doc ) );
-    if (! xmlPut.save("file.kml")) std::cerr << "Falha ao gravar";
+
+    if ( filename.isEmpty() ) {
+    filename = QFileDialog::getSaveFileName(main, QObject::tr("Salvar arquivo"),
+                                                  "",
+                                                  QObject::tr("Files (*.kml)"));
+    }
+
+    arq = filename;
+
+    ( filename.endsWith(".kml") )?
+        filename.remove( filename.length()-4, 4 ):
+        arq.append(".kml");
+
+    if (! xmlPut.save( arq )) {
+        QMessageBox::critical( parent,
+            "Erro",
+            "Não é possível gravar arquivo" + QString(filename) );
+        return false;
+    }
+
     return true;
+}
+
+void kml::newFile()
+{
+    QMap<QString, QUrl> styleUrlList = main->sty->getListUrl();
+    QString style;
+
+    QXmlPut xmlPut("kml");
+    xmlPut.setAttributeString("xmlns","http://www.opengis.net/kml/2.2");
+    xmlPut.setAttributeString("xmlns:gx","http://www.google.com/kml/ext/2.2");
+    xmlPut.setAttributeString("xmlns:kml","http://www.opengis.net/kml/2.2");
+    xmlPut.setAttributeString("xmlns:atom","http://www.w3.org/2005/Atom");
+    xmlPut.descend("Document");
+    if ( filename.isEmpty() ) this->save();
+    xmlPut.putString("name", QString( QFileInfo(filename).fileName() ) );
+    wtree->setHeaderLabel(   QString( QFileInfo(filename).fileName() ) );
+
+    foreach ( style, styleUrlList.keys() ) {
+        xmlPut.descend("Style");
+        xmlPut.setAttributeString("id", style);
+        xmlPut.descend("IconStyle");
+        xmlPut.descend("Icon");
+        xmlPut.putString("href", styleUrlList[style].toString());
+        xmlPut.rise();
+        xmlPut.putInt("scale", 1);
+        xmlPut.rise();
+        xmlPut.rise();
+    }
+
+    *doc = xmlPut.document();
+
+    this->save();
 }
 
 void kml::update(qtpointitem *item)
 {
+    if ( ! doc->hasChildNodes() ) this->newFile();
+
+    if ( item->isDisabled() ) {
+        item->element = QDomElement();
+        item->setDisabled( false );
+    }
+
     // Cria estrutura vazia caso não exista nenhuma e atribui ao item.
     if ( item->element.isNull() ) {
         QDomNode docref = doc->firstChildElement("kml").firstChildElement("Document");
         QDomElement place = doc->createElement("Placemark");
         docref.appendChild( place );
         QDomElement elname = doc->createElement("name");
-        place.appendChild( elname );
+        place.appendChild( elname ); 
         QDomElement elstyle = doc->createElement("styleUrl");
         place.appendChild( elstyle );
+        QDomText styledflt = doc->createTextNode("#sn_place"); // Default Point Style
+        elstyle.appendChild( styledflt );
         QDomElement elpoint = doc->createElement("Point");
         place.appendChild( elpoint );
         QDomElement elcoord = doc->createElement("coordinates");
@@ -138,7 +229,6 @@ void kml::update(qtpointitem *item)
 void kml::remove(qtpointitem *item)
 {
     item->element.parentNode().removeChild( item->element );
+
     this->save();
 }
-
-

@@ -13,7 +13,7 @@
   <property name="minimumSize">
    <size>
     <width>300</width>
-    <height>200</height>
+    <height>300</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -79,8 +79,9 @@
    <addaction name="actionMan"/>
    <addaction name="actionEst"/>
    <addaction name="actionCirc"/>
-   <addaction name="actionTrTarget"/>
    <addaction name="actionGetEarth"/>
+   <addaction name="actionTrTarget"/>
+   <addaction name="actionAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionPnt">
@@ -92,7 +93,7 @@
     <string>addPnt</string>
    </property>
    <property name="toolTip">
-    <string>Adiciona um ponto de referência.</string>
+    <string>Adiciona Ponto de referência</string>
    </property>
    <property name="statusTip">
     <string>Adiciona Ponto</string>
@@ -161,16 +162,16 @@
    </property>
    <property name="icon">
     <iconset resource="res.qrc">
-     <normaloff>:/icon/res/gen_google_earth.png</normaloff>:/icon/res/gen_google_earth.png</iconset>
+     <normaloff>:/icon/res/google-earth-import.png</normaloff>:/icon/res/google-earth-import.png</iconset>
    </property>
    <property name="text">
     <string>getEarth</string>
    </property>
    <property name="toolTip">
-    <string>Gera arquivo de mapa para ser importado no Google Earth®.</string>
+    <string>Importa arquivo de mapa gerado no Google Earth®.</string>
    </property>
    <property name="statusTip">
-    <string>Gera arquivo para Google Earth®</string>
+    <string>Importa arquivo do Google Earth®</string>
    </property>
   </action>
   <action name="actionTrTarget">
@@ -189,6 +190,24 @@
    </property>
    <property name="statusTip">
     <string>Triangula Alvo</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icon/res/about.png</normaloff>:/icon/res/about.png</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="toolTip">
+    <string>Informações sobre o programa.</string>
+   </property>
+   <property name="statusTip">
+    <string>Sobre ...</string>
    </property>
   </action>
  </widget>

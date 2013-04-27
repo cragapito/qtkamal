@@ -18,6 +18,7 @@ class qtkamal : public QMainWindow
 {
     Q_OBJECT
     QAction *deleteItemAction;
+    QAction *clearOldAction;
 
 public:
     explicit qtkamal(QWidget *parent = 0);
@@ -29,7 +30,7 @@ public:
     QTreeWidgetItem* groupCircles;
 
     styleFold       *sty;
-    kml *m;
+    kml             *map;
     
 private slots:
     void on_actionPnt_triggered();
@@ -40,6 +41,7 @@ private slots:
     void on_treeWidget_customContextMenuRequested(const QPoint &pos);
 
     void deleteItemHandler();
+    void clearOldHandler();
 
 private:
     Ui::qtkamal *ui;

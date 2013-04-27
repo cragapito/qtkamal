@@ -19,7 +19,6 @@ point::point(QWidget *parent, Coordinate *pc, QIcon icon ) :
 
     ui->setupUi(this);
     ui->piname->setText( QString::fromStdString( pc->name ) );
-    //QPixmap pixmap(QIcon(":/icon/res/circle.png").pixmap(40, QIcon::Normal, QIcon::On));
     QPixmap pixmap( icon.pixmap(40, QIcon::Normal, QIcon::On) );
     ui->iconPreview->setPixmap( pixmap );
     ui->gbwidget->EditCoordinates( pc );

@@ -20,6 +20,7 @@ public:
     void setIconStyle(const QString style, QTreeWidgetItem *wt);
     void addStyle(QString style, QUrl url);
     void addMappedStyle(QString from, QString to);
+    QMap<QString, QUrl> getListUrl();
 
 public slots:
     void solvePendingIcons();

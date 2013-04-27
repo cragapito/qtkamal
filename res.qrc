@@ -16,5 +16,8 @@
         <file>res/gentarget.png</file>
         <file>res/kamal_64x64.png</file>
         <file>res/delete_icon.png</file>
+        <file>res/google-earth-import.png</file>
+        <file>res/about.png</file>
+        <file>res/clear.png</file>
     </qresource>
 </RCC>

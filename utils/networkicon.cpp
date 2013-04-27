@@ -1,6 +1,7 @@
-#include "networkicon.h"
-#include <iostream>
 #include "stylefold.h"
+#include "networkicon.h"
+
+#include <iostream>
 
 NetworkIcon::NetworkIcon(QIcon *newni)
 {

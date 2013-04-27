@@ -12,10 +12,10 @@ qtpointitem::~qtpointitem()
     delete(pc);
 }
 
-void qtpointitem::open(QWidget *parent)
+int qtpointitem::open(QWidget *parent)
 {
     point *a = new point( parent, this->pc, this->icon(0));
-    a->exec();
+    return a->exec();
 }
 
 void qtpointitem::qtpointitem::setText(int column, const QString &text) // Overrided
