@@ -8,6 +8,8 @@
 #include "utils/qtpointitem.h"
 #include "src/Geo/Coordinate.h"
 
+class kml;
+
 namespace Ui {
 class qtkamal;
 }
@@ -27,6 +29,7 @@ public:
     QTreeWidgetItem* groupCircles;
 
     styleFold       *sty;
+    kml *m;
     
 private slots:
     void on_actionPnt_triggered();

@@ -23,6 +23,10 @@ public:
     kml(QWidget *parent, QTreeWidget *wt);
 
     bool readfile(const QString name);
+    bool save();
+
+    void update (qtpointitem *item);
+    void remove (qtpointitem *item);
 };
 
 #endif // KMLPARSER_H

@@ -1,6 +1,7 @@
 #ifndef QTPOINTITEM_H
 #define QTPOINTITEM_H
 
+#include <QtXml>
 #include <QTreeWidgetItem>
 #include <src/Geo/Coordinate.h>
 
@@ -11,6 +12,7 @@ public:
     ~qtpointitem();
 
     Coordinate* pc;
+    QDomElement element;
 
     void open(QWidget *parent);
     void setText( int column, const QString & text ); // Overrided

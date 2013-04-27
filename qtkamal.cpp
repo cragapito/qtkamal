@@ -48,6 +48,9 @@ void qtkamal::on_actionPnt_triggered()
     if (result == QDialog::Accepted) {
         groupPoints->setExpanded( true );
         groupPoints->addChild( a->pi );
+        if ( a->pi->element.isNull() ) {
+            m->update( a->pi );
+        }
     }
 }
 
@@ -62,6 +65,7 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         qtpointitem* pwi = static_cast<qtpointitem*>(item);
         pwi->open( this );
         item->setText(0, QString::fromStdString(pwi->pc->name) );
+        m->update( pwi );
     }
 
     // Após implementar Triangulação
@@ -104,7 +108,10 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
 
 void qtkamal::deleteItemHandler()
 {
-    int i = ui->treeWidget->indexOfTopLevelItem(ui->treeWidget->currentItem());
+    QTreeWidgetItem* item = ui->treeWidget->currentItem();
+    qtpointitem* pwi = static_cast<qtpointitem*>( item );
+    m->remove( pwi );
+    int i = ui->treeWidget->indexOfTopLevelItem( item );
     ui->treeWidget->takeTopLevelItem(i);
     delete ui->treeWidget->currentItem();
 }
@@ -116,7 +123,7 @@ void qtkamal::on_actionGetEarth_triggered()
                                                      "",
                                                      tr("Files (*.kml)"));
     if ( !fileName.isEmpty() ) {
-        kml *m = new kml( this, ui->treeWidget );
+        m = new kml( this, ui->treeWidget );
         m->readfile(fileName);
     }
 }

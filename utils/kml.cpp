@@ -3,6 +3,8 @@
 #include "utils/qxmlputget.h"
 #include "utils/networkicon.h"
 
+#include <QDomText>
+
 kml::kml(QWidget *parent, QTreeWidget *wt)
 {
     parent = parent;
@@ -53,11 +55,13 @@ bool kml::readfile(QString name)
     }
 
     QString placeName;
+    QDomElement e;
 
     while ( xmlGet.findNext("Placemark")) {
+        e = xmlGet.element();
         xmlGet.descend();
         if (xmlGet.find("name")) {
-            placeName = xmlGet.getString();
+            placeName = xmlGet.getString();      
             xmlGet.findAndDescend("styleUrl");
             style = xmlGet.getString().remove(0,1); // Remove o # da styleUrl
             xmlGet.rise();
@@ -69,6 +73,7 @@ bool kml::readfile(QString name)
                     pi->setText(0, placeName) ;
                     pi->pc->x = StringList.at(1).toDouble();
                     pi->pc->y = StringList.at(0).toDouble();
+                    pi->element = e;
                     main->sty->setIconStyle(style, pi);
                     main->groupPoints->addChild( pi );
                 }
@@ -78,7 +83,62 @@ bool kml::readfile(QString name)
         xmlGet.rise();
     }
 
+    *doc = xmlGet.document();
+
     main->groupPoints->setExpanded(true);
 
     return true;
 }
+
+bool kml::save()
+{
+    QXmlPut xmlPut = QXmlPut( QXmlGet( *doc ) );
+    if (! xmlPut.save("file.kml")) std::cerr << "Falha ao gravar";
+    return true;
+}
+
+void kml::update(qtpointitem *item)
+{
+    // Cria estrutura vazia caso não exista nenhuma e atribui ao item.
+    if ( item->element.isNull() ) {
+        QDomNode docref = doc->firstChildElement("kml").firstChildElement("Document");
+        QDomElement place = doc->createElement("Placemark");
+        docref.appendChild( place );
+        QDomElement elname = doc->createElement("name");
+        place.appendChild( elname );
+        QDomElement elstyle = doc->createElement("styleUrl");
+        place.appendChild( elstyle );
+        QDomElement elpoint = doc->createElement("Point");
+        place.appendChild( elpoint );
+        QDomElement elcoord = doc->createElement("coordinates");
+        elpoint.appendChild( elcoord );
+        QDomText coorddflt = doc->createTextNode("");
+        elcoord.appendChild( coorddflt );
+        item->element = place;
+    }
+
+    QDomElement tagname = item->element.firstChildElement("name");
+    QDomText newname = doc->createTextNode(
+                QString::fromStdString( item->pc->name ) );
+    tagname.removeChild( tagname.childNodes().at(0) );
+    tagname.appendChild( newname );
+
+    QDomElement coord = item->element.firstChildElement("Point");
+    coord = coord.firstChildElement("coordinates");
+    QDomText newcoord = doc->createTextNode(
+                  QString::number( item->pc->y, 'g', 12 )
+                + ", "
+                + QString::number( item->pc->x, 'g', 12 ) );
+    coord.removeChild( coord.childNodes().at(0) );
+    coord.appendChild( newcoord );
+
+    this->save();
+}
+
+void kml::remove(qtpointitem *item)
+{
+    item->element.parentNode().removeChild( item->element );
+    this->save();
+}
+
+
