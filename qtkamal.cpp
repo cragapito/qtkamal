@@ -3,6 +3,10 @@
 #include "ui_qtkamal.h"
 #include "dialogs/point.h"
 
+#include <QUrl>
+#include <QList>
+#include <QDropEvent>
+
 qtkamal::qtkamal(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::qtkamal)
@@ -11,9 +15,9 @@ qtkamal::qtkamal(QWidget *parent) :
     sty = new styleFold();
     map = new kml( this, ui->treeWidget );
 
-    groupPoints = new QTreeWidgetItem();
-    groupBeans = new QTreeWidgetItem();
-    groupERMs = new QTreeWidgetItem();
+    groupPoints  = new QTreeWidgetItem();
+    groupBeans   = new QTreeWidgetItem();
+    groupERMs    = new QTreeWidgetItem();
     groupCircles = new QTreeWidgetItem();
 
     ui->treeWidget->addTopLevelItem(groupPoints);
@@ -21,20 +25,54 @@ qtkamal::qtkamal(QWidget *parent) :
     ui->treeWidget->addTopLevelItem(groupERMs);
     ui->treeWidget->addTopLevelItem(groupCircles);
 
-    groupPoints->setIcon(0, QIcon(":/icon/res/open-diamond.png"));
-    groupBeans->setIcon(0, QIcon(":/icon/res/man.png"));
-    groupERMs->setIcon(0, QIcon(":/icon/res/target.png"));
-    groupCircles->setIcon(0, QIcon(":/icon/res/circle.png"));
+    groupPoints->setIcon    (0, QIcon(":/icon/res/open-diamond.png"));
+    groupBeans->setIcon     (0, QIcon(":/icon/res/man.png"));
+    groupERMs->setIcon      (0, QIcon(":/icon/res/target.png"));
+    groupCircles->setIcon   (0, QIcon(":/icon/res/circle.png"));
 
-    groupPoints->setText(0, tr("Pontos"));
-    groupBeans->setText(0, tr("Feixes Manuais"));
-    groupERMs->setText(0, tr("Feixes de Estação"));
-    groupCircles->setText(0, tr("Círculos"));
+    groupPoints->setText    (0, tr("Pontos"));
+    groupBeans->setText     (0, tr("Feixes Manuais"));
+    groupERMs->setText      (0, tr("Feixes de Estação"));
+    groupCircles->setText   (0, tr("Círculos"));
+
+    // disable dropping of leaves as top level items
+    ui->treeWidget->invisibleRootItem()->setFlags(    Qt::ItemIsSelectable
+                          | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
+    // top level itens
+    groupPoints->setFlags ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
+                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled);
+    groupBeans->setFlags  ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
+                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled);
+    groupERMs->setFlags   ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
+                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled);
+    groupCircles->setFlags( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
+                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled);
 }
 
 qtkamal::~qtkamal()
 {
     delete ui;
+}
+
+void qtkamal::dropEvent(QDropEvent *ev)
+{
+    QList<QUrl> urls = ev->mimeData()->urls();
+    foreach(QUrl url, urls)
+    {    
+        map->readfile( url.toLocalFile() );
+    }
+}
+
+void qtkamal::dragEnterEvent(QDragEnterEvent *ev)
+{
+    QList<QUrl> urls = ev->mimeData()->urls();
+    foreach(QUrl url, urls) {
+        qDebug() << url.toString();
+        if (QFileInfo(url.toLocalFile()).suffix().toUpper() != "KML") {
+            return;
+        }
+    }
+    ev->accept();
 }
 
 void qtkamal::on_actionPnt_triggered()
@@ -55,6 +93,11 @@ void qtkamal::on_actionPnt_triggered()
 void qtkamal::on_actionCirc_triggered()
 {
 
+}
+
+void qtkamal::on_actionGetEarth_triggered()
+{
+    map->readfile();
 }
 
 void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -96,7 +139,7 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
     if (!item) { // Nenhum item selecionado
         clearOldAction = new QAction(tr("limpa"), this);
         clearOldAction->setIcon(QIcon(":/icon/res/clear.png"));
-        clearOldAction->setStatusTip(tr("Limpa referências obsoletas"));
+        clearOldAction->setStatusTip(tr("Limpa todas as referências obsoletas"));
 
         connect(clearOldAction, SIGNAL(triggered()), this, SLOT(clearOldHandler()));
         ctxMenu.addAction(clearOldAction);
@@ -141,7 +184,13 @@ void qtkamal::clearOldHandler()
     }
 }
 
-void qtkamal::on_actionGetEarth_triggered()
+void qtkamal::args(QStringList args)
 {
-    map->readfile();
+    foreach(QString arg, args) {
+        if ( arg.contains(".kml",Qt::CaseInsensitive) ) {
+            map->readfile( arg );
+        }
+    }
 }
+
+

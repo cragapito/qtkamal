@@ -1,10 +1,14 @@
 #include "utils/qtpointitem.h"
 #include "dialogs/point.h"
 
+#include <QDragEnterEvent>
+
 qtpointitem::qtpointitem(QTreeWidget *parent) :
     QTreeWidgetItem(parent)
 {
     pc = new Coordinate();
+    this->setFlags(Qt::ItemIsSelectable  | Qt::ItemIsUserCheckable
+                 | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
 }
 
 qtpointitem::~qtpointitem()

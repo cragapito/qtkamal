@@ -31,6 +31,12 @@ public:
 
     styleFold       *sty;
     kml             *map;
+
+    void args(QStringList args);
+
+protected:
+    void dropEvent(QDropEvent *ev);
+    void dragEnterEvent(QDragEnterEvent *ev);
     
 private slots:
     void on_actionPnt_triggered();

@@ -18,6 +18,9 @@ void NetworkIcon::request(QUrl url)
 
 void NetworkIcon::finishedSlot(QNetworkReply *reply )
 {
+    if (reply->error() == QNetworkReply::TimeoutError )
+        std::cerr << "Timeout when bringing icon.";
+
     if (reply->error() == QNetworkReply::NoError)
         {
         QImageReader imageReader(reply);
