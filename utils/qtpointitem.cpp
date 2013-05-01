@@ -1,8 +1,6 @@
 #include "utils/qtpointitem.h"
 #include "dialogs/point.h"
 
-#include <QDragEnterEvent>
-
 qtpointitem::qtpointitem(QTreeWidget *parent) :
     QTreeWidgetItem(parent)
 {
@@ -18,8 +16,8 @@ qtpointitem::~qtpointitem()
 
 int qtpointitem::open(QWidget *parent)
 {
-    point *a = new point( parent, this->pc, this->icon(0));
-    return a->exec();
+    point *dialog = new point( parent, this->pc, this->icon(0));
+    return dialog->exec();
 }
 
 void qtpointitem::qtpointitem::setText(int column, const QString &text) // Overrided

@@ -99,7 +99,9 @@ void qtkamal::on_actionMan_triggered()
     int result = bd->exec();
 
     if (result == QDialog::Accepted) {
-
+        groupBeans->setExpanded( true );
+        groupBeans->addChild( bd->bi );
+        sty->setIconStyle( "sn_man", bd->bi );
     }
 }
 
@@ -109,7 +111,9 @@ void qtkamal::on_actionEst_triggered()
     int result = bd->exec();
 
     if (result == QDialog::Accepted) {
-
+        groupERMs->setExpanded( true );
+        groupERMs->addChild( bd->bi );
+        sty->setIconStyle( "sn_erm", bd->bi );
     }
 }
 
@@ -119,7 +123,9 @@ void qtkamal::on_actionCirc_triggered()
     int result = cd->exec();
 
     if (result == QDialog::Accepted) {
-
+        groupCircles->setExpanded( true );
+        groupCircles->addChild( cd->ci );
+        sty->setIconStyle( "sn_cir", cd->ci );
     }
 }
 
@@ -135,6 +141,22 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         if ( pwi->open( this ) ) {
             item->setText(0, QString::fromStdString(pwi->pc->name) );
             map->update( pwi );
+        }
+    }
+
+    if ( ( item->parent() == groupBeans || item->parent() == groupERMs ) && column == 0 ) {
+        qtbeamitem* bwi = static_cast<qtbeamitem*>(item);
+        if ( bwi->open( this ) ) {
+            item->setText(0, QString::fromStdString( bwi->bm->source->name ) );
+            //map->update( bwi );
+        }
+    }
+
+    if ( item->parent() == groupCircles && column == 0 ) {
+        qtcircleitem* pwi = static_cast<qtcircleitem*>(item);
+        if ( pwi->open( this ) ) {
+            item->setText(0, QString::fromStdString(pwi->center->name) );
+            //map->update( pwi );
         }
     }
 

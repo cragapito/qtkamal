@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QString>
-#include <gbcoordinates.h>
+
 #include "utils/qtpointitem.h"
 
 namespace Ui {

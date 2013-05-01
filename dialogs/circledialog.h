@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "utils/qtcircleitem.h"
+
 namespace Ui {
 class circleDialog;
 }
@@ -13,8 +15,15 @@ class circleDialog : public QDialog
     
 public:
     explicit circleDialog(QWidget *parent = 0);
+    explicit circleDialog(QWidget *parent, qtcircleitem *ci);
     ~circleDialog();
+
+    qtcircleitem *ci;
     
+private slots:
+    void on_buttonBox_accepted();
+    void on_buttonBox_rejected();
+
 private:
     Ui::circleDialog *ui;
 };

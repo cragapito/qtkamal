@@ -84,7 +84,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
+    <enum>Qt::TabFocus</enum>
    </property>
   </widget>
   <widget class="QLabel" name="iconPreview">
@@ -119,6 +119,10 @@
    <extends>QWidget</extends>
    <header>gbcoordinates.h</header>
    <container>1</container>
+   <slots>
+    <signal>editDone()</signal>
+    <slot>slot1()</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -129,5 +133,22 @@
  <resources>
   <include location="../res.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>gbwidget</sender>
+   <signal>editDone()</signal>
+   <receiver>buttonBox</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>102</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>175</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

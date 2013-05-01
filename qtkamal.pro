@@ -26,7 +26,9 @@ SOURCES += main.cpp\
     utils/stylefold.cpp \
     dialogs/beamdialog.cpp \
     dialogs/circledialog.cpp \
-    dialogs/aboutdialog.cpp
+    dialogs/aboutdialog.cpp \
+    utils/qtbeamitem.cpp \
+    utils/qtcircleitem.cpp
 
 HEADERS  += \
     src/base/Straight.h \
@@ -44,7 +46,9 @@ HEADERS  += \
     utils/stylefold.h \
     dialogs/beamdialog.h \
     dialogs/circledialog.h \
-    dialogs/aboutdialog.h
+    dialogs/aboutdialog.h \
+    utils/qtbeamitem.h \
+    utils/qtcircleitem.h
 
 FORMS    += \
     qtkamal.ui \

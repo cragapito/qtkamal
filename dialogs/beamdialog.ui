@@ -68,7 +68,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="gbcoordinates" name="widget" native="true">
+  <widget class="gbcoordinates" name="gbwidget" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -177,6 +177,10 @@
    <extends>QWidget</extends>
    <header>gbcoordinates.h</header>
    <container>1</container>
+   <slots>
+    <signal>editDone()</signal>
+    <slot>slot1()</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources>
@@ -212,6 +216,22 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gbwidget</sender>
+   <signal>editDone()</signal>
+   <receiver>azimute</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>102</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>55</x>
+     <y>181</y>
     </hint>
    </hints>
   </connection>

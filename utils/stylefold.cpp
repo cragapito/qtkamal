@@ -6,9 +6,9 @@ styleFold::styleFold()
 {
     iconStyle.insert("sn_man",      new QIcon(":/icon/res/man.png")             );
     iconStyle.insert("sn_erm",      new QIcon(":/icon/res/target.png")          );
-    iconStyle.insert("sn_cir",      new QIcon(":/icon/res/open-diamond.png")    );
+    iconStyle.insert("sn_cir",      new QIcon(":/icon/res/circle.png")          );
     iconStyle.insert("sn_place",    new QIcon(":/icon/res/open-diamond.png")    );
-    iconStyle.insert("sn_location", new QIcon(":/icon/res/circle.png")          );
+    iconStyle.insert("sn_location", new QIcon(":/icon/res/open-diamond.png")    );
 
     mappedUrl.insert("sn_man",      QUrl("http://maps.google.com/mapfiles/kml/shapes/man.png")              );
     mappedUrl.insert("sn_erm",      QUrl("http://maps.google.com/mapfiles/kml/shapes/target.png")           );

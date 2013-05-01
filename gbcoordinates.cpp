@@ -8,6 +8,7 @@ gbcoordinates::gbcoordinates(QWidget *parent) :
 {
     gbc = NULL;
     ui->setupUi(this);
+    setFocusProxy( ui->latgr );
 }
 
 gbcoordinates::~gbcoordinates()
@@ -91,6 +92,7 @@ void gbcoordinates::on_lonmin_textChanged(const QString &arg1) {
 
 void gbcoordinates::on_lonseg_textChanged(const QString &arg1) {
     if ( arg1.size() >= 4 ) {
+        emit editDone();
     }
 }
 

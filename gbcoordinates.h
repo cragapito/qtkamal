@@ -22,6 +22,9 @@ public:
 
     void EditCoordinates( Coordinate *c );
 
+private:
+    Ui::gbcoordinates *ui;
+
 private slots: 
     void on_latgr_textChanged (const QString &arg1);
     void on_latmin_textChanged(const QString &arg1);
@@ -31,8 +34,8 @@ private slots:
     void on_lonmin_textChanged(const QString &arg1);
     void on_lonseg_textChanged(const QString &arg1);
 
-private:
-    Ui::gbcoordinates *ui;
+signals:
+    void editDone();
 };
 
 #endif // GBCOORDINATES_H

@@ -1,15 +1,16 @@
 #ifndef QTPOINTITEM_H
 #define QTPOINTITEM_H
 
+#include "src/Geo/Coordinate.h"
+
 #include <QtXml>
 #include <QTreeWidgetItem>
-#include <src/Geo/Coordinate.h>
 
 class qtpointitem : public QTreeWidgetItem
 {
 public:
     qtpointitem(QTreeWidget *parent = 0);
-    ~qtpointitem();
+    virtual ~qtpointitem();
 
     Coordinate* pc;
     QDomElement element;

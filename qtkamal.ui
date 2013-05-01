@@ -177,10 +177,10 @@
     <string>getEarth</string>
    </property>
    <property name="toolTip">
-    <string>Importa arquivo de mapa gerado no Google Earth®.</string>
+    <string>Importa arquivo Keyhole Markup Language</string>
    </property>
    <property name="statusTip">
-    <string>Importa arquivo do Google Earth®</string>
+    <string>Importa arquivo KML</string>
    </property>
   </action>
   <action name="actionTrTarget">
