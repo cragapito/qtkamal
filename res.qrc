@@ -19,5 +19,6 @@
         <file>res/google-earth-import.png</file>
         <file>res/about.png</file>
         <file>res/clear.png</file>
+        <file>res/bussola.png</file>
     </qresource>
 </RCC>

@@ -23,7 +23,10 @@ SOURCES += main.cpp\
     utils/kml.cpp \
     utils/qxmlputget.cpp \
     utils/networkicon.cpp \
-    utils/stylefold.cpp
+    utils/stylefold.cpp \
+    dialogs/beamdialog.cpp \
+    dialogs/circledialog.cpp \
+    dialogs/aboutdialog.cpp
 
 HEADERS  += \
     src/base/Straight.h \
@@ -38,12 +41,18 @@ HEADERS  += \
     utils/kml.h \
     utils/qxmlputget.h \
     utils/networkicon.h \
-    utils/stylefold.h
+    utils/stylefold.h \
+    dialogs/beamdialog.h \
+    dialogs/circledialog.h \
+    dialogs/aboutdialog.h
 
 FORMS    += \
     qtkamal.ui \
     dialogs/point.ui \
-    gbcoordinates.ui
+    gbcoordinates.ui \
+    dialogs/beamdialog.ui \
+    dialogs/circledialog.ui \
+    dialogs/aboutdialog.ui
 
 RESOURCES += \
     res.qrc

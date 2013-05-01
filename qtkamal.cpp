@@ -2,6 +2,9 @@
 #include "utils/kml.h"
 #include "ui_qtkamal.h"
 #include "dialogs/point.h"
+#include "dialogs/beamdialog.h"
+#include "dialogs/aboutdialog.h"
+#include "dialogs/circledialog.h"
 
 #include <QUrl>
 #include <QList>
@@ -20,33 +23,33 @@ qtkamal::qtkamal(QWidget *parent) :
     groupERMs    = new QTreeWidgetItem();
     groupCircles = new QTreeWidgetItem();
 
-    ui->treeWidget->addTopLevelItem(groupPoints);
-    ui->treeWidget->addTopLevelItem(groupBeans);
-    ui->treeWidget->addTopLevelItem(groupERMs);
+    ui->treeWidget->addTopLevelItem(groupPoints );
+    ui->treeWidget->addTopLevelItem(groupBeans  );
+    ui->treeWidget->addTopLevelItem(groupERMs   );
     ui->treeWidget->addTopLevelItem(groupCircles);
 
-    groupPoints->setIcon    (0, QIcon(":/icon/res/open-diamond.png"));
-    groupBeans->setIcon     (0, QIcon(":/icon/res/man.png"));
-    groupERMs->setIcon      (0, QIcon(":/icon/res/target.png"));
-    groupCircles->setIcon   (0, QIcon(":/icon/res/circle.png"));
+    groupPoints->setIcon    (0, QIcon(":/icon/res/open-diamond.png" ));
+    groupBeans->setIcon     (0, QIcon(":/icon/res/man.png"          ));
+    groupERMs->setIcon      (0, QIcon(":/icon/res/target.png"       ));
+    groupCircles->setIcon   (0, QIcon(":/icon/res/circle.png"       ));
 
-    groupPoints->setText    (0, tr("Pontos"));
-    groupBeans->setText     (0, tr("Feixes Manuais"));
-    groupERMs->setText      (0, tr("Feixes de Estação"));
-    groupCircles->setText   (0, tr("Círculos"));
+    groupPoints->setText    (0, tr("Pontos"             ));
+    groupBeans->setText     (0, tr("Feixes Manuais"     ));
+    groupERMs->setText      (0, tr("Feixes de Estação"  ));
+    groupCircles->setText   (0, tr("Círculos"           ));
 
     // disable dropping of leaves as top level items
     ui->treeWidget->invisibleRootItem()->setFlags(    Qt::ItemIsSelectable
-                          | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
+                          | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled         );
     // top level itens
     groupPoints->setFlags ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled);
+                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
     groupBeans->setFlags  ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled);
+                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
     groupERMs->setFlags   ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled);
+                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
     groupCircles->setFlags( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled);
+                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
 }
 
 qtkamal::~qtkamal()
@@ -77,22 +80,47 @@ void qtkamal::dragEnterEvent(QDragEnterEvent *ev)
 
 void qtkamal::on_actionPnt_triggered()
 {
-    point *a = new point();
-    int result = a->exec();
+    point *pd = new point();
+    int result = pd->exec();
 
     if (result == QDialog::Accepted) {
         groupPoints->setExpanded( true );
-        groupPoints->addChild( a->pi );
-        if ( a->pi->element.isNull() ) {
-            sty->setIconStyle( "sn_place", a->pi );
-            map->update( a->pi );
+        groupPoints->addChild( pd->pi );
+        if ( pd->pi->element.isNull() ) {
+            sty->setIconStyle( "sn_place", pd->pi );
+            map->update( pd->pi );
         }
+    }
+}
+
+void qtkamal::on_actionMan_triggered()
+{
+    beamDialog *bd = new beamDialog();
+    int result = bd->exec();
+
+    if (result == QDialog::Accepted) {
+
+    }
+}
+
+void qtkamal::on_actionEst_triggered()
+{
+    beamDialog *bd = new beamDialog();
+    int result = bd->exec();
+
+    if (result == QDialog::Accepted) {
+
     }
 }
 
 void qtkamal::on_actionCirc_triggered()
 {
+    circleDialog *cd = new circleDialog();
+    int result = cd->exec();
 
+    if (result == QDialog::Accepted) {
+
+    }
 }
 
 void qtkamal::on_actionGetEarth_triggered()
@@ -193,4 +221,8 @@ void qtkamal::args(QStringList args)
     }
 }
 
-
+void qtkamal::on_actionAbout_triggered()
+{
+    aboutDialog *ad = new aboutDialog();
+    ad->exec();
+}
