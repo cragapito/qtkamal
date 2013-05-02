@@ -101,7 +101,9 @@ void qtkamal::on_actionMan_triggered()
     if (result == QDialog::Accepted) {
         groupBeans->setExpanded( true );
         groupBeans->addChild( bd->bi );
+        bd->bi->beamType = bd->bi->MAN;
         sty->setIconStyle( "sn_man", bd->bi );
+        map->update( bd->bi );
     }
 }
 
@@ -113,7 +115,9 @@ void qtkamal::on_actionEst_triggered()
     if (result == QDialog::Accepted) {
         groupERMs->setExpanded( true );
         groupERMs->addChild( bd->bi );
+        bd->bi->beamType = bd->bi->ERM;
         sty->setIconStyle( "sn_erm", bd->bi );
+        map->update( bd->bi );
     }
 }
 
@@ -148,7 +152,7 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         qtbeamitem* bwi = static_cast<qtbeamitem*>(item);
         if ( bwi->open( this ) ) {
             item->setText(0, QString::fromStdString( bwi->bm->source->name ) );
-            //map->update( bwi );
+            map->update( bwi );
         }
     }
 

@@ -10,12 +10,16 @@ class styleFold : public QObject
     Q_OBJECT
 
     QMap<QString, QIcon*>               iconStyle;
-    QMap<QString, QUrl>                 mappedUrl;
     QMap<QString, QString>              mappedStyle;
+    QMap<QString, QUrl>                 mappedUrl;
 
     QMap<QTreeWidgetItem*, QString>     pending;
 
 public:
+    QMap<QString, QString>              mappedLineColor;
+    QMap<QString, QString>              mappedLineWidth;
+    QMap<QString, QString>              mappedPolyColor;
+
     styleFold();
     void setIconStyle(const QString style, QTreeWidgetItem *wt);
     void addStyle(QString style, QUrl url);

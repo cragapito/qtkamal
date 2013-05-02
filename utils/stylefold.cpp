@@ -15,6 +15,16 @@ styleFold::styleFold()
     mappedUrl.insert("sn_cir",      QUrl("http://maps.google.com/mapfiles/kml/shapes/open-diamond.png")     );
     mappedUrl.insert("sn_place",    QUrl("http://maps.google.com/mapfiles/kml/shapes/open-diamond.png")     );
     mappedUrl.insert("sn_location", QUrl("http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png") );
+
+    // Atenção: Ambos devem conter dados para os mesmos estilos, isso não será verificado!
+    mappedLineColor.insert("sn_man", "7fffaa55");
+    mappedLineColor.insert("sn_erm", "7f00aaff");
+    mappedLineColor.insert("sn_cir", "7f00aaff");
+    mappedLineWidth.insert("sn_man", "10"  );
+    mappedLineWidth.insert("sn_erm", "10"  );
+    mappedLineWidth.insert("sn_cir", "1,4");
+
+    mappedPolyColor.insert("sn_cir", "66ffffaa");
 }
 
 void styleFold::setIconStyle(const QString style, QTreeWidgetItem *wt)

@@ -17,6 +17,9 @@ public:
     double      alcance;
     QDomElement element;
 
+    enum        TYPE { MAN, ERM };
+    TYPE        beamType;
+
     int open(QWidget *parent);
     void setText( int column, const QString & text ); // Overrided
 };

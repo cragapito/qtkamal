@@ -27,7 +27,11 @@ public:
     bool save();
 
     void newFile();
+
+    void update (qtbeamitem *item);
     void update (qtpointitem *item);
+    void update (qtcircleitem *item);
+
     void remove (qtpointitem *item);
 };
 

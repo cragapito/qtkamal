@@ -5,7 +5,9 @@
 #include <QTreeWidgetItem>
 
 #include "utils/stylefold.h"
+#include "utils/qtbeamitem.h"
 #include "utils/qtpointitem.h"
+#include "utils/qtcircleitem.h"
 #include "src/Geo/Coordinate.h"
 
 class kml;
@@ -41,6 +43,7 @@ protected:
 private slots:
     void on_actionPnt_triggered();
     void on_actionMan_triggered();
+    void on_actionEst_triggered();
     void on_actionCirc_triggered();
     void on_actionGetEarth_triggered();
 
@@ -49,8 +52,6 @@ private slots:
 
     void deleteItemHandler();
     void clearOldHandler();
-
-    void on_actionEst_triggered();
 
     void on_actionAbout_triggered();
 

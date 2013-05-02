@@ -171,10 +171,80 @@ void kml::newFile()
         xmlPut.rise();
         xmlPut.putInt("scale", 1);
         xmlPut.rise();
+        if ( main->sty->mappedLineColor.contains(style)) {
+            xmlPut.descend("LineStyle");
+            xmlPut.putString( "color", main->sty->mappedLineColor[style]);
+            xmlPut.putString( "width", main->sty->mappedLineWidth[style]);
+            xmlPut.rise();
+        }
+        if ( main->sty->mappedPolyColor.contains(style)) {
+            xmlPut.descend("PolyStyle");
+            xmlPut.putString( "color", main->sty->mappedPolyColor[style]);
+            xmlPut.rise();
+        }
         xmlPut.rise();
     }
 
     *doc = xmlPut.document();
+
+    this->save();
+}
+
+void kml::update(qtbeamitem *item)
+{
+    if ( ! doc->hasChildNodes() ) this->newFile();
+
+    if ( item->isDisabled() ) {
+        item->element = QDomElement();
+        item->setDisabled( false );
+    }
+
+    // Cria estrutura vazia caso não exista nenhuma e atribui ao item.
+    if ( item->element.isNull() ) {
+        QDomNode docref = doc->firstChildElement("kml").firstChildElement("Document");
+        QDomElement place = doc->createElement("Placemark");
+        docref.appendChild( place );
+        QDomElement elname = doc->createElement("name");
+        place.appendChild( elname );
+        QDomElement elstyle = doc->createElement("styleUrl");
+        place.appendChild( elstyle );
+        QDomText styledflt;
+        if ( item->beamType == item->MAN )
+            styledflt = doc->createTextNode("#sn_man");
+        if ( item->beamType == item->ERM )
+            styledflt = doc->createTextNode("#sn_erm");
+        elstyle.appendChild( styledflt );
+        QDomElement elpoint = doc->createElement("LineString");
+        place.appendChild( elpoint );
+        QDomElement eltesselate = doc->createElement("tessellate");
+        elpoint.appendChild( eltesselate );
+        eltesselate.appendChild( doc->createTextNode("1") );
+        QDomElement elcoord = doc->createElement("coordinates");
+        elpoint.appendChild( elcoord );
+        QDomText coorddflt = doc->createTextNode("");
+        elcoord.appendChild( coorddflt );
+        item->element = place;
+    }
+
+    QDomElement tagname = item->element.firstChildElement("name");
+    QDomText newname = doc->createTextNode(
+                QString::fromStdString( item->bm->source->name ) );
+    tagname.removeChild( tagname.childNodes().at(0) );
+    tagname.appendChild( newname );
+
+    QDomElement coord = item->element.firstChildElement("LineString");
+    coord = coord.firstChildElement("coordinates");
+    QDomText newcoord = doc->createTextNode(
+                  QString::number( item->bm->source->y, 'g', 12     )
+                + ", "
+                + QString::number( item->bm->source->x, 'g', 12     )
+                + ",0 "
+                + QString::number( item->bm->scope->y, 'g', 12      )
+                + ", "
+                + QString::number( item->bm->scope->x, 'g', 12      )
+                + ",0 "                                             );
+    coord.removeChild( coord.childNodes().at(0) );
+    coord.appendChild( newcoord );
 
     this->save();
 }
@@ -226,9 +296,18 @@ void kml::update(qtpointitem *item)
     this->save();
 }
 
+void kml::update(qtcircleitem *item)
+{
+    if ( ! doc->hasChildNodes() ) this->newFile();
+
+    if ( item->isDisabled() ) {
+        item->element = QDomElement();
+        item->setDisabled( false );
+    }
+}
+
 void kml::remove(qtpointitem *item)
 {
     item->element.parentNode().removeChild( item->element );
-
     this->save();
 }
