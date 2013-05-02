@@ -228,7 +228,7 @@ void kml::update(qtbeamitem *item)
 
     QDomElement tagname = item->element.firstChildElement("name");
     QDomText newname = doc->createTextNode(
-                QString::fromStdString( item->bm->source->name ) );
+                QString::fromStdString( "Feixe " + item->bm->source->name ) );
     tagname.removeChild( tagname.childNodes().at(0) );
     tagname.appendChild( newname );
 
@@ -304,6 +304,46 @@ void kml::update(qtcircleitem *item)
         item->element = QDomElement();
         item->setDisabled( false );
     }
+
+    // Cria estrutura vazia caso não exista nenhuma e atribui ao item.
+    if ( item->element.isNull() ) {
+        QDomNode docref = doc->firstChildElement("kml").firstChildElement("Document");
+        QDomElement place = doc->createElement("Placemark");
+        docref.appendChild( place );
+        QDomElement elname = doc->createElement("name");
+        place.appendChild( elname );
+        QDomElement elstyle = doc->createElement("styleUrl");
+        place.appendChild( elstyle );
+        QDomText styledflt = doc->createTextNode("#sn_cir"); // Default Circle Style
+        elstyle.appendChild( styledflt );
+        QDomElement elpol = doc->createElement("Polygon");
+        place.appendChild( elpol );
+        QDomElement bound = doc->createElement("outerBoundaryIs");
+        elpol.appendChild(bound);
+        QDomElement ring = doc->createElement("LinearRing");
+        bound.appendChild(ring);
+        QDomElement coords = doc->createElement("coordinates");
+        ring.appendChild(coords);
+        QDomText coorddflt = doc->createTextNode( "" );
+        coords.appendChild( coorddflt );
+        item->element = place;
+    }
+
+    QDomElement tagname = item->element.firstChildElement("name");
+    QDomText newname = doc->createTextNode(
+                QString::fromStdString( item->center->name ) );
+    tagname.removeChild( tagname.childNodes().at(0) );
+    tagname.appendChild( newname );
+
+    QDomElement coord = item->element.firstChildElement("Polygon");
+    coord = coord.firstChildElement("outerBoundaryIs");
+    coord = coord.firstChildElement("LinearRing");
+    coord = coord.firstChildElement("coordinates");
+    QDomText newcoord = doc->createTextNode( item->perimeter );
+    coord.removeChild( coord.childNodes().at(0) );
+    coord.appendChild( newcoord );
+
+    this->save();
 }
 
 void kml::remove(qtpointitem *item)

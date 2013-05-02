@@ -130,6 +130,7 @@ void qtkamal::on_actionCirc_triggered()
         groupCircles->setExpanded( true );
         groupCircles->addChild( cd->ci );
         sty->setIconStyle( "sn_cir", cd->ci );
+        map->update( cd->ci );
     }
 }
 

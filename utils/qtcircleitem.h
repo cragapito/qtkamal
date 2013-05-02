@@ -15,6 +15,7 @@ public:
     Coordinate* center;
     double      radius;
     double      points;
+    QString      perimeter;
     QDomElement element;
 
     int open(QWidget *parent);
