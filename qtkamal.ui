@@ -12,8 +12,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>300</width>
-    <height>300</height>
+    <width>200</width>
+    <height>200</height>
    </size>
   </property>
   <property name="acceptDrops">
@@ -159,10 +159,10 @@
     <string>circ</string>
    </property>
    <property name="toolTip">
-    <string>Cria um círculo de raio determinado.</string>
+    <string>Cria um círculo de raio determinado ou uma secção de círculo.</string>
    </property>
    <property name="statusTip">
-    <string>Adiciona círculo de área</string>
+    <string>Adiciona círculo ou secção de área</string>
    </property>
   </action>
   <action name="actionGetEarth">

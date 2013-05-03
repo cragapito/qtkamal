@@ -36,7 +36,7 @@ qtkamal::qtkamal(QWidget *parent) :
     groupPoints->setText    (0, tr("Pontos"             ));
     groupBeans->setText     (0, tr("Feixes Manuais"     ));
     groupERMs->setText      (0, tr("Feixes de Estação"  ));
-    groupCircles->setText   (0, tr("Círculos"           ));
+    groupCircles->setText   (0, tr("Área"               ));
 
     // disable dropping of leaves as top level items
     ui->treeWidget->invisibleRootItem()->setFlags(    Qt::ItemIsSelectable
@@ -161,7 +161,8 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         qtcircleitem* pwi = static_cast<qtcircleitem*>(item);
         if ( pwi->open( this ) ) {
             item->setText(0, QString::fromStdString(pwi->center->name) );
-            //map->update( pwi );
+            pwi->calc();
+            map->update( pwi );
         }
     }
 

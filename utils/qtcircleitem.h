@@ -15,11 +15,15 @@ public:
     Coordinate* center;
     double      radius;
     double      points;
-    QString      perimeter;
+    double      azimute;
+    double      abertura;
+    int         tipoSelect;
+    QString     perimeter;
     QDomElement element;
 
     int open(QWidget *parent);
     void setText( int column, const QString & text ); // Overrided
+    void calc();
 };
 
 Q_DECLARE_METATYPE(qtcircleitem)

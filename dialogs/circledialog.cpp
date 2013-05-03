@@ -17,10 +17,16 @@ circleDialog::circleDialog(QWidget *parent, qtcircleitem *ci) :
 {
     this->ci = ci;
     ui->setupUi(this);
-    ui->circname->setText( QString::fromStdString( ci->center->name ));
+
     ui->gbwidget->EditCoordinates( ci->center );
-    ui->raio->setValue(   ci->radius );
-    ui->pontos->setValue( ci->points );
+    ui->circname->setText( QString::fromStdString( ci->center->name ));
+    ui->comboType->setCurrentIndex( ci->tipoSelect );
+
+    ui->raio->setValue    ( ci->radius   );
+    ui->pontos->setValue  ( ci->points   );
+    ui->azimute->setValue ( ci->azimute  );
+    ui->alcance->setValue ( ci->radius   );
+    ui->abertura->setValue( ci->abertura );
 }
 
 circleDialog::~circleDialog()
@@ -30,14 +36,18 @@ circleDialog::~circleDialog()
 
 void circleDialog::on_buttonBox_accepted()
 {
-    ci->center = ui->gbwidget->returnCoord();
     ci->center->name = ui->circname->text().toStdString();
-    ci->radius = ui->raio->value();
-    ci->points = ui->pontos->value();
+    ci->center       = ui->gbwidget->returnCoord();
+    ci->radius       = ui->raio->value();
+    ci->points       = ui->pontos->value();
+    ci->azimute      = ui->azimute->value();
+    ci->abertura     = ui->abertura->value();
+    ci->tipoSelect   = ui->comboType->currentIndex();
+
     ci->setText(0, QString::fromStdString(
         ui->circname->text().toStdString() ));
 
-    this->calc();
+    ci->calc();
     this->accept();
 }
 
@@ -46,23 +56,8 @@ void circleDialog::on_buttonBox_rejected()
     this->reject();
 }
 
-void circleDialog::calc()
+void circleDialog::on_comboType_currentIndexChanged(int index)
 {
-    Beam *b = new Beam();
-    b->source = ci->center;
-    double step = 360.0 / ci->points;
-
-    ci->perimeter.clear();
-
-    for ( int i = 0 ; i < ci->points + 1 ; i++ ){
-        b->daz = i * step;
-        b->proj( ci->radius );
-
-        ci->perimeter.append(   QString::number( b->scope->y, 'g', 12)
-                          + ","
-                          + QString::number( b->scope->x, 'g', 12)
-                          + ",0 ");
-    }
-
-    delete(b);
+    ui->cirSect->setCurrentIndex( index );
+    ci->tipoSelect = index;
 }

@@ -24,7 +24,8 @@ private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
 
-    void calc();
+    void on_comboType_currentIndexChanged(int index);
+
 private:
     Ui::circleDialog *ui;
 };
