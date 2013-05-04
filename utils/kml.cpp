@@ -79,7 +79,7 @@ bool kml::readfile(QString name)
         xmlGet.rise();
     }
 
-    if ( xmlGet.findNext("Placemark" ) )
+    while ( xmlGet.findNext("Placemark" ) )
          parsePlaceMark( xmlGet.element(), xmlGet );
 
     while ( xmlGet.findNext( "Folder" ) ) {
@@ -119,8 +119,9 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
         xmlGet.findAndDescend("styleUrl");
         style = xmlGet.getString().remove(0,1); // Remove o # da styleUrl
         xmlGet.rise();
-        while (xmlGet.findNext("Point")) {
-            xmlGet.descend();
+
+        // Point
+        while (xmlGet.findNextAndDescend("Point")) {
             if (xmlGet.find("coordinates")) {
                 qtpointitem *pi = new qtpointitem();
                 QStringList StringList = xmlGet.getString().split(","); // longitude, latitude
@@ -132,6 +133,69 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
                 main->groupPoints->addChild( pi );
             }
             xmlGet.rise();
+        }
+
+        // Beam
+        while (xmlGet.findNext("MultiGeometry")) {
+            qtbeamitem *bi = new qtbeamitem();
+
+            bi->element  = e;
+            bi->alcance  = xmlGet.getAttributeDouble("alcance");
+            bi->bm->daz  = xmlGet.getAttributeDouble("azimute");
+
+            if ( xmlGet.getAttributeInt("tipo") ) {
+                bi->beamType = bi->ERM;
+            } else {
+                bi->beamType = bi->MAN;
+            }
+
+            xmlGet.descend();
+            while (xmlGet.findNextAndDescend("LineString")) {
+                if (xmlGet.find("coordinates")) {
+                    QStringList StringList = xmlGet.getString().split(",");
+                    bi->setText(0, placeName) ;
+                    bi->bm->source->x = StringList.at(1).toDouble();
+                    bi->bm->source->y = StringList.at(0).toDouble();
+                    bi->bm->proj( bi->alcance );
+                    main->sty->setIconStyle(style, bi);
+                    if ( bi->beamType == bi->MAN ) {
+                        main->groupBeans->addChild( bi );
+                        main->groupBeans->setExpanded( true );
+                    } else {
+                        main->groupERMs->addChild(  bi );
+                        main->groupERMs->setExpanded( true );
+                    }
+                }
+                xmlGet.rise();
+            }
+        }
+
+        // Circle / Section
+        while (xmlGet.findNext("Polygon")) {
+            qtcircleitem *ci = new qtcircleitem();
+
+            ci->element = e;
+
+            xmlGet.descend();
+            xmlGet.findAndDescend("outerBoundaryIs");
+            xmlGet.findAndDescend("LinearRing");
+
+            ci->radius     = xmlGet.getAttributeDouble("radius");
+            ci->points     = xmlGet.getAttributeDouble("points");
+            ci->azimute    = xmlGet.getAttributeDouble("azimute");
+            ci->abertura   = xmlGet.getAttributeDouble("abertura");
+            ci->tipoSelect = xmlGet.getAttributeInt   ("tipo");
+
+            ci->setText(0, placeName);
+
+            QStringList StringList = xmlGet.getAttributeString("center").split(", ");
+            ci->center->x = StringList.at(1).toDouble();
+            ci->center->y = StringList.at(0).toDouble();
+            ci->calc();
+
+            main->groupCircles->addChild( ci );
+            main->sty->setIconStyle(style, ci);
+            main->groupCircles->setExpanded( true );
         }
     }
     xmlGet.rise();
@@ -219,37 +283,56 @@ void kml::update(qtbeamitem *item)
     // Cria estrutura vazia caso não exista nenhuma e atribui ao item.
     if ( item->element.isNull() ) {
         QDomNode docref = doc->firstChildElement("kml").firstChildElement("Document");
-        QDomElement place = doc->createElement("Placemark");
-        docref.appendChild( place );
-        QDomElement elname = doc->createElement("name");
-        place.appendChild( elname );
-        QDomElement elstyle = doc->createElement("styleUrl");
-        place.appendChild( elstyle );
-        QDomText styledflt;
+        QDomElement placemark = doc->createElement("Placemark");
+        docref.appendChild( placemark );
+        QDomElement name = doc->createElement("name");
+        placemark.appendChild( name );
+        QDomElement styleurl = doc->createElement("styleUrl");
+        placemark.appendChild( styleurl );
+        QDomText style;
         if ( item->beamType == item->MAN )
-            styledflt = doc->createTextNode("#sn_man");
+            style = doc->createTextNode("#sn_man");
         if ( item->beamType == item->ERM )
-            styledflt = doc->createTextNode("#sn_erm");
-        elstyle.appendChild( styledflt );
-        QDomElement elpoint = doc->createElement("LineString");
-        place.appendChild( elpoint );
-        QDomElement eltesselate = doc->createElement("tessellate");
-        elpoint.appendChild( eltesselate );
-        eltesselate.appendChild( doc->createTextNode("1") );
-        QDomElement elcoord = doc->createElement("coordinates");
-        elpoint.appendChild( elcoord );
-        QDomText coorddflt = doc->createTextNode("");
-        elcoord.appendChild( coorddflt );
-        item->element = place;
+            style = doc->createTextNode("#sn_erm");
+        styleurl.appendChild( style );
+        QDomElement multigeometry = doc->createElement("MultiGeometry");
+        placemark.appendChild( multigeometry );
+        QDomElement linesource = doc->createElement("Point");
+        multigeometry.appendChild( linesource );
+        QDomElement coordinates = doc->createElement("coordinates");
+        linesource.appendChild( coordinates );
+        QDomElement linestring = doc->createElement("LineString");
+        multigeometry.appendChild( linestring );
+        QDomElement tessellate = doc->createElement("tessellate");
+        linestring.appendChild( tessellate );
+        tessellate.appendChild( doc->createTextNode("1") );
+        QDomElement linecoord = doc->createElement("coordinates");
+        linestring.appendChild( linecoord );
+        item->element = placemark;
     }
 
     QDomElement tagname = item->element.firstChildElement("name");
     QDomText newname = doc->createTextNode(
-                QString::fromStdString( "Feixe " + item->bm->source->name ) );
+                QString::fromStdString( item->bm->source->name ) );
     tagname.removeChild( tagname.childNodes().at(0) );
     tagname.appendChild( newname );
 
-    QDomElement coord = item->element.firstChildElement("LineString");
+    QDomElement multi = item->element.firstChildElement("MultiGeometry");
+
+    multi.setAttribute("tipo",    QString::number( item->beamType) );
+    multi.setAttribute("alcance", QString::number( item->alcance ) );
+    multi.setAttribute("azimute", QString::number( item->bm->daz ) );
+
+    QDomElement coordsource = multi.firstChildElement("Point");
+    coordsource = coordsource.firstChildElement("coordinates");
+    QDomText newcoordsource = doc->createTextNode(
+                  QString::number( item->bm->source->y, 'g', 12 )
+                + ", "
+                + QString::number( item->bm->source->x, 'g', 12 ) );
+    coordsource.removeChild( coordsource.childNodes().at(0) );
+    coordsource.appendChild( newcoordsource );
+
+    QDomElement coord = multi.firstChildElement("LineString");
     coord = coord.firstChildElement("coordinates");
     QDomText newcoord = doc->createTextNode(
                   QString::number( item->bm->source->y, 'g', 12     )
@@ -278,21 +361,19 @@ void kml::update(qtpointitem *item)
     // Cria estrutura vazia caso não exista nenhuma e atribui ao item.
     if ( item->element.isNull() ) {
         QDomNode docref = doc->firstChildElement("kml").firstChildElement("Document");
-        QDomElement place = doc->createElement("Placemark");
-        docref.appendChild( place );
-        QDomElement elname = doc->createElement("name");
-        place.appendChild( elname ); 
-        QDomElement elstyle = doc->createElement("styleUrl");
-        place.appendChild( elstyle );
-        QDomText styledflt = doc->createTextNode("#sn_place"); // Default Point Style
-        elstyle.appendChild( styledflt );
-        QDomElement elpoint = doc->createElement("Point");
-        place.appendChild( elpoint );
-        QDomElement elcoord = doc->createElement("coordinates");
-        elpoint.appendChild( elcoord );
-        QDomText coorddflt = doc->createTextNode("");
-        elcoord.appendChild( coorddflt );
-        item->element = place;
+        QDomElement placemark = doc->createElement("Placemark");
+        docref.appendChild( placemark );
+        QDomElement name = doc->createElement("name");
+        placemark.appendChild( name );
+        QDomElement styleurl = doc->createElement("styleUrl");
+        placemark.appendChild( styleurl );
+        QDomText style = doc->createTextNode("#sn_place"); // Default Point Style
+        styleurl.appendChild( style );
+        QDomElement point = doc->createElement("Point");
+        placemark.appendChild( point );
+        QDomElement coordinates = doc->createElement("coordinates");
+        point.appendChild( coordinates );
+        item->element = placemark;
     }
 
     QDomElement tagname = item->element.firstChildElement("name");
@@ -341,8 +422,6 @@ void kml::update(qtcircleitem *item)
         bound.appendChild(ring);
         QDomElement coords = doc->createElement("coordinates");
         ring.appendChild(coords);
-        QDomText coorddflt = doc->createTextNode( "" );
-        coords.appendChild( coorddflt );
         item->element = place;
     }
 
@@ -355,6 +434,15 @@ void kml::update(qtcircleitem *item)
     QDomElement coord = item->element.firstChildElement("Polygon");
     coord = coord.firstChildElement("outerBoundaryIs");
     coord = coord.firstChildElement("LinearRing");
+    coord.setAttribute("tipo",     item->tipoSelect );
+    coord.setAttribute("radius",   item->radius     );
+    coord.setAttribute("points",   item->points     );
+    coord.setAttribute("azimute",  item->azimute    );
+    coord.setAttribute("abertura", item->abertura   );
+    coord.setAttribute("center",
+                          QString::number( item->center->y, 'g', 12 )
+                        + ", "
+                        + QString::number( item->center->x, 'g', 12 ) );
     coord = coord.firstChildElement("coordinates");
     QDomText newcoord = doc->createTextNode( item->perimeter );
     coord.removeChild( coord.childNodes().at(0) );
