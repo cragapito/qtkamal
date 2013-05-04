@@ -2,6 +2,7 @@
 #define KMLPARSER_H
 
 #include "qtkamal.h"
+#include "utils/qxmlputget.h"
 
 #include <QFile>
 #include <QtXml>
@@ -18,6 +19,9 @@ class kml
     qtkamal         *main;
     QTreeWidget     *wtree;
     QWidget         *parent;
+
+    void parseFolder   (QXmlGet xmlGet);
+    void parsePlaceMark(QDomElement e , QXmlGet xmlGet);
 
 public:
     kml(QWidget *parent, QTreeWidget *wt);

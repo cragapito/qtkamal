@@ -1,6 +1,5 @@
 #include "kml.h"
 #include "qtpointitem.h"
-#include "utils/qxmlputget.h"
 #include "utils/networkicon.h"
 
 #include <QDomText>
@@ -80,35 +79,11 @@ bool kml::readfile(QString name)
         xmlGet.rise();
     }
 
-    QString placeName;
-    QDomElement e;
+    if ( xmlGet.findNext("Placemark" ) )
+         parsePlaceMark( xmlGet.element(), xmlGet );
 
-    xmlGet.findAndDescend("Folder");
-
-    while ( xmlGet.findNext("Placemark")) {
-        e = xmlGet.element();
-        xmlGet.descend();
-        if (xmlGet.find("name")) {
-            placeName = xmlGet.getString();      
-            xmlGet.findAndDescend("styleUrl");
-            style = xmlGet.getString().remove(0,1); // Remove o # da styleUrl
-            xmlGet.rise();
-            while (xmlGet.findNext("Point")) {
-                xmlGet.descend();
-                if (xmlGet.find("coordinates")) {
-                    qtpointitem *pi = new qtpointitem();
-                    QStringList StringList = xmlGet.getString().split(","); // longitude, latitude
-                    pi->setText(0, placeName) ;
-                    pi->pc->x = StringList.at(1).toDouble();
-                    pi->pc->y = StringList.at(0).toDouble();
-                    pi->element = e;
-                    main->sty->setIconStyle(style, pi);
-                    main->groupPoints->addChild( pi );
-                }
-                xmlGet.rise();
-            }
-        }
-        xmlGet.rise();
+    while ( xmlGet.findNext( "Folder" ) ) {
+         parseFolder( xmlGet );
     }
 
     *doc = xmlGet.document();
@@ -118,6 +93,48 @@ bool kml::readfile(QString name)
     this->save();
 
     return true;
+}
+
+void kml::parseFolder( QXmlGet xmlGet )
+{
+    xmlGet.descend();
+
+    while ( xmlGet.findNext( "Folder" ) ) {
+         parseFolder( xmlGet );
+    }
+
+    while ( xmlGet.findNext("Placemark") ) {
+        parsePlaceMark( xmlGet.element(), xmlGet );
+    }
+}
+
+void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
+{
+    QString placeName;
+    QString style;
+
+    xmlGet.descend();
+    if (xmlGet.find("name")) {
+        placeName = xmlGet.getString();
+        xmlGet.findAndDescend("styleUrl");
+        style = xmlGet.getString().remove(0,1); // Remove o # da styleUrl
+        xmlGet.rise();
+        while (xmlGet.findNext("Point")) {
+            xmlGet.descend();
+            if (xmlGet.find("coordinates")) {
+                qtpointitem *pi = new qtpointitem();
+                QStringList StringList = xmlGet.getString().split(","); // longitude, latitude
+                pi->setText(0, placeName) ;
+                pi->pc->x = StringList.at(1).toDouble();
+                pi->pc->y = StringList.at(0).toDouble();
+                pi->element = e;
+                main->sty->setIconStyle(style, pi);
+                main->groupPoints->addChild( pi );
+            }
+            xmlGet.rise();
+        }
+    }
+    xmlGet.rise();
 }
 
 bool kml::save()
