@@ -126,9 +126,13 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
                 qtpointitem *pi = new qtpointitem();
                 QStringList StringList = xmlGet.getString().split(","); // longitude, latitude
                 pi->setText(0, placeName) ;
-                pi->pc->x = StringList.at(1).toDouble();
-                pi->pc->y = StringList.at(0).toDouble();
-                pi->element = e;
+
+                if ( StringList.count() >= 2 ) {
+                    pi->pc->x = StringList.at(1).toDouble();
+                    pi->pc->y = StringList.at(0).toDouble();
+                    pi->element = e;
+                }
+
                 main->sty->setIconStyle(style, pi);
                 main->groupPoints->addChild( pi );
             }
@@ -153,10 +157,14 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
             while (xmlGet.findNextAndDescend("LineString")) {
                 if (xmlGet.find("coordinates")) {
                     QStringList StringList = xmlGet.getString().split(",");
-                    bi->setText(0, placeName) ;
-                    bi->bm->source->x = StringList.at(1).toDouble();
-                    bi->bm->source->y = StringList.at(0).toDouble();
-                    bi->bm->proj( bi->alcance );
+                    bi->setText(0, placeName);
+
+                    if ( StringList.count() >= 2 ) {
+                        bi->bm->source->x = StringList.at(1).toDouble();
+                        bi->bm->source->y = StringList.at(0).toDouble();
+                        bi->bm->proj( bi->alcance );
+                    }
+
                     main->sty->setIconStyle(style, bi);
                     if ( bi->beamType == bi->MAN ) {
                         main->groupBeans->addChild( bi );
@@ -189,9 +197,12 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
             ci->setText(0, placeName);
 
             QStringList StringList = xmlGet.getAttributeString("center").split(", ");
-            ci->center->x = StringList.at(1).toDouble();
-            ci->center->y = StringList.at(0).toDouble();
-            ci->calc();
+
+            if ( StringList.count() >= 2 ) {
+                ci->center->x = StringList.at(1).toDouble();
+                ci->center->y = StringList.at(0).toDouble();
+                ci->calc();
+            }
 
             main->groupCircles->addChild( ci );
             main->sty->setIconStyle(style, ci);
