@@ -8,7 +8,7 @@
 
 kml::kml(QWidget *parent, QTreeWidget *wt)
 {
-    parent = parent;
+    this->parent = parent;
     wtree = wt;
     main = static_cast<qtkamal*>(parent);
     doc = new QDomDocument;
@@ -462,8 +462,23 @@ void kml::update(qtcircleitem *item)
     this->save();
 }
 
-void kml::remove(qtpointitem *item)
+void kml::remove(QTreeWidgetItem *item)
 {
-    item->element.parentNode().removeChild( item->element );
+    QDomElement e;
+
+    if ( dynamic_cast<qtpointitem*>(item) ) {
+        e = dynamic_cast<qtpointitem*>( item )->element;
+    }
+
+    if ( dynamic_cast<qtbeamitem*>(item) ) {
+        e = dynamic_cast<qtbeamitem*>( item )->element;
+    }
+
+    if ( dynamic_cast<qtcircleitem*>(item) ) {
+        e = dynamic_cast<qtcircleitem*>( item )->element;
+    }
+
+    e.parentNode().removeChild( e );
+
     this->save();
 }
