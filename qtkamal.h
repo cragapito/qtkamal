@@ -5,10 +5,6 @@
 #include <QTreeWidgetItem>
 
 #include "utils/stylefold.h"
-#include "utils/qtbeamitem.h"
-#include "utils/qtpointitem.h"
-#include "utils/qtcircleitem.h"
-#include "src/Geo/Coordinate.h"
 
 class kml;
 
@@ -19,6 +15,8 @@ class qtkamal;
 class qtkamal : public QMainWindow
 {
     Q_OBJECT
+
+private:
     QAction *deleteItemAction;
     QAction *clearOldAction;
 

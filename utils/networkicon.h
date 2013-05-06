@@ -13,6 +13,8 @@
 class NetworkIcon : public QObject
 {
     Q_OBJECT
+
+private:
     QNetworkAccessManager* nam;
     QIcon *ni;
 

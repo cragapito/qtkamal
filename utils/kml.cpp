@@ -10,6 +10,7 @@ kml::kml(QWidget *parent, kamalTree *wt)
 {
     this->parent = parent;
     wtree = wt;
+    // TODO: Desacoplar qtkamal
     main = static_cast<qtkamal*>(parent);
     doc = new QDomDocument;
     filename="";
@@ -17,7 +18,7 @@ kml::kml(QWidget *parent, kamalTree *wt)
 
 bool kml::readfile()
 {
-    filename = QFileDialog::getOpenFileName(main, QObject::tr("Abrir arquivo"),
+    filename = QFileDialog::getOpenFileName(parent, QObject::tr("Abrir arquivo"),
                                                   "",
                                                   QObject::tr("Files (*.kml)"));
     if ( !filename.isEmpty() ) {
@@ -218,7 +219,7 @@ bool kml::save()
     QXmlPut xmlPut = QXmlPut( QXmlGet( *doc ) );
 
     if ( filename.isEmpty() ) {
-    filename = QFileDialog::getSaveFileName(main, QObject::tr("Salvar arquivo"),
+    filename = QFileDialog::getSaveFileName(parent, QObject::tr("Salvar arquivo"),
                                                   "",
                                                   QObject::tr("Files (*.kml)"));
     }

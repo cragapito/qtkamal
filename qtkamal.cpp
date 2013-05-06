@@ -18,6 +18,7 @@ qtkamal::qtkamal(QWidget *parent) :
     ui->setupUi(this);
     sty = new styleFold();
     map = new kml( this, ui->treeWidget );
+    ui->treeWidget->SetStyleFold( sty );
 }
 
 qtkamal::~qtkamal()

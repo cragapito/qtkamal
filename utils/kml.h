@@ -14,6 +14,7 @@
 
 class kml
 {
+private:
     QString         filename;
 
     QDomDocument    *doc;

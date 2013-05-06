@@ -42,13 +42,35 @@ kamalTree::kamalTree(QWidget *parent) :
     groupERMs->setFlags   ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
                           | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
     groupCircles->setFlags( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
+                            | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
+}
+
+void kamalTree::SetStyleFold(styleFold *sf)
+{
+    this->sty = sf;
 }
 
 void kamalTree::dropEvent(QDropEvent *event)
 {
-    qDebug() << "Moving " << currentItem()->text(0);
+    QTreeWidgetItem *item = currentItem();
+
     QTreeWidget::dropEvent(event);
+
+    QString group;
+
+    if ( itemAt(event->pos())->parent() ) {
+        group = itemAt(event->pos())->parent()->text(0);
+    } else {
+        group = itemAt(event->pos())->text(0);
+    }
+
+    if ( group == "Pontos" && dynamic_cast<qtbeamitem*>(item))
+        toPoint( dynamic_cast<qtbeamitem*>(item) );
+
+    if ( group == "Pontos" && dynamic_cast<qtcircleitem*>(item))
+        toPoint( dynamic_cast<qtcircleitem*>(item) );
+
+    // TODO: Implementar o resto
 }
 
 void kamalTree::clearOldHandler()
@@ -62,4 +84,37 @@ void kamalTree::clearOldHandler()
         }
         it++;
     }
+}
+
+void kamalTree::toPoint(qtbeamitem *bi)
+{
+    qtpointitem *pi = new qtpointitem();
+
+    pi->pc->x = bi->bm->source->x;
+    pi->pc->y = bi->bm->source->y;
+    pi->pc->name = bi->bm->source->name;
+    pi->setText(0, bi->text(0) );
+    sty->setIconStyle( "sn_place", pi );
+
+    bi->parent()->addChild( pi );
+    // TODO: Mapa fora do alcance
+    //map->update( pi );
+    //map->remove( bi );
+    delete bi;
+}
+
+void kamalTree::toPoint(qtcircleitem *ci)
+{
+    qtpointitem *pi = new qtpointitem();
+
+    pi->pc->x = ci->center->x;
+    pi->pc->y = ci->center->y;
+    pi->pc->name = ci->center->name;
+    pi->setText(0, ci->text(0) );
+    sty->setIconStyle( "sn_place", pi );
+
+    ci->parent()->addChild( pi );
+    //map->update( pi );
+    //map->remove( ci );
+    delete ci;
 }

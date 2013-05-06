@@ -9,6 +9,7 @@ class styleFold : public QObject
 {
     Q_OBJECT
 
+private:
     QMap<QString, QIcon*>               iconStyle;
     QMap<QString, QString>              mappedStyle;
     QMap<QString, QUrl>                 mappedUrl;
