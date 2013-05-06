@@ -26,11 +26,6 @@ public:
     explicit qtkamal(QWidget *parent = 0);
     ~qtkamal();
 
-    QTreeWidgetItem* groupPoints;
-    QTreeWidgetItem* groupBeans;
-    QTreeWidgetItem* groupERMs;
-    QTreeWidgetItem* groupCircles;
-
     styleFold       *sty;
     kml             *map;
 
@@ -46,14 +41,12 @@ private slots:
     void on_actionEst_triggered();
     void on_actionCirc_triggered();
     void on_actionGetEarth_triggered();
+    void on_actionAbout_triggered();
 
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void on_treeWidget_customContextMenuRequested(const QPoint &pos);
 
     void deleteItemHandler();
-    void clearOldHandler();
-
-    void on_actionAbout_triggered();
 
 private:
     Ui::qtkamal *ui;

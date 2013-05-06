@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     dialogs/circledialog.cpp \
     dialogs/aboutdialog.cpp \
     utils/qtbeamitem.cpp \
-    utils/qtcircleitem.cpp
+    utils/qtcircleitem.cpp \
+    kamaltree.cpp
 
 HEADERS  += \
     src/base/Straight.h \
@@ -48,7 +49,8 @@ HEADERS  += \
     dialogs/circledialog.h \
     dialogs/aboutdialog.h \
     utils/qtbeamitem.h \
-    utils/qtcircleitem.h
+    utils/qtcircleitem.h \
+    kamaltree.h
 
 FORMS    += \
     qtkamal.ui \

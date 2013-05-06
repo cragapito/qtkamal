@@ -2,6 +2,7 @@
 #define KMLPARSER_H
 
 #include "qtkamal.h"
+#include "kamaltree.h"
 #include "utils/qxmlputget.h"
 
 #include <QFile>
@@ -17,14 +18,14 @@ class kml
 
     QDomDocument    *doc;
     qtkamal         *main;
-    QTreeWidget     *wtree;
+    kamalTree       *wtree;
     QWidget         *parent;
 
     void parseFolder   (QXmlGet xmlGet);
     void parsePlaceMark(QDomElement e , QXmlGet xmlGet);
 
 public:
-    kml(QWidget *parent, QTreeWidget *wt);
+    kml(QWidget *parent, kamalTree *wt);
 
     bool readfile();
     bool readfile(const QString name);
@@ -36,7 +37,7 @@ public:
     void update (qtpointitem *item);
     void update (qtcircleitem *item);
 
-    void remove (qtpointitem *item);
+    void remove (QTreeWidgetItem *item);
 };
 
 #endif // KMLPARSER_H

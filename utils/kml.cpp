@@ -6,7 +6,7 @@
 #include <QFileInfo>
 #include <QFileDialog>
 
-kml::kml(QWidget *parent, QTreeWidget *wt)
+kml::kml(QWidget *parent, kamalTree *wt)
 {
     this->parent = parent;
     wtree = wt;
@@ -88,7 +88,7 @@ bool kml::readfile(QString name)
 
     *doc = xmlGet.document();
 
-    main->groupPoints->setExpanded(true);
+    wtree->groupPoints->setExpanded(true);
 
     this->save();
 
@@ -134,7 +134,7 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
                 }
 
                 main->sty->setIconStyle(style, pi);
-                main->groupPoints->addChild( pi );
+                wtree->groupPoints->addChild( pi );
             }
             xmlGet.rise();
         }
@@ -167,11 +167,11 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
 
                     main->sty->setIconStyle(style, bi);
                     if ( bi->beamType == bi->MAN ) {
-                        main->groupBeans->addChild( bi );
-                        main->groupBeans->setExpanded( true );
+                        wtree->groupBeans->addChild( bi );
+                        wtree->groupBeans->setExpanded( true );
                     } else {
-                        main->groupERMs->addChild(  bi );
-                        main->groupERMs->setExpanded( true );
+                        wtree->groupERMs->addChild(  bi );
+                        wtree->groupERMs->setExpanded( true );
                     }
                 }
                 xmlGet.rise();
@@ -204,9 +204,9 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
                 ci->calc();
             }
 
-            main->groupCircles->addChild( ci );
+            wtree->groupCircles->addChild( ci );
             main->sty->setIconStyle(style, ci);
-            main->groupCircles->setExpanded( true );
+            wtree->groupCircles->setExpanded( true );
         }
     }
     xmlGet.rise();

@@ -1,6 +1,7 @@
 #include "qtkamal.h"
 #include "utils/kml.h"
 #include "ui_qtkamal.h"
+
 #include "dialogs/point.h"
 #include "dialogs/beamdialog.h"
 #include "dialogs/aboutdialog.h"
@@ -17,39 +18,6 @@ qtkamal::qtkamal(QWidget *parent) :
     ui->setupUi(this);
     sty = new styleFold();
     map = new kml( this, ui->treeWidget );
-
-    groupPoints  = new QTreeWidgetItem();
-    groupBeans   = new QTreeWidgetItem();
-    groupERMs    = new QTreeWidgetItem();
-    groupCircles = new QTreeWidgetItem();
-
-    ui->treeWidget->addTopLevelItem(groupPoints );
-    ui->treeWidget->addTopLevelItem(groupBeans  );
-    ui->treeWidget->addTopLevelItem(groupERMs   );
-    ui->treeWidget->addTopLevelItem(groupCircles);
-
-    groupPoints->setIcon    (0, QIcon(":/icon/res/open-diamond.png" ));
-    groupBeans->setIcon     (0, QIcon(":/icon/res/man.png"          ));
-    groupERMs->setIcon      (0, QIcon(":/icon/res/target.png"       ));
-    groupCircles->setIcon   (0, QIcon(":/icon/res/circle.png"       ));
-
-    groupPoints->setText    (0, tr("Pontos"             ));
-    groupBeans->setText     (0, tr("Feixes Manuais"     ));
-    groupERMs->setText      (0, tr("Feixes de Estação"  ));
-    groupCircles->setText   (0, tr("Área"               ));
-
-    // disable dropping of leaves as top level items
-    ui->treeWidget->invisibleRootItem()->setFlags(    Qt::ItemIsSelectable
-                          | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled         );
-    // top level itens
-    groupPoints->setFlags ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
-    groupBeans->setFlags  ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
-    groupERMs->setFlags   ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
-    groupCircles->setFlags( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
 }
 
 qtkamal::~qtkamal()
@@ -84,8 +52,8 @@ void qtkamal::on_actionPnt_triggered()
     int result = pd->exec();
 
     if (result == QDialog::Accepted) {
-        groupPoints->setExpanded( true );
-        groupPoints->addChild( pd->pi );
+        ui->treeWidget->groupPoints->setExpanded( true );
+        ui->treeWidget->groupPoints->addChild( pd->pi );
         if ( pd->pi->element.isNull() ) {
             sty->setIconStyle( "sn_place", pd->pi );
             map->update( pd->pi );
@@ -99,8 +67,8 @@ void qtkamal::on_actionMan_triggered()
     int result = bd->exec();
 
     if (result == QDialog::Accepted) {
-        groupBeans->setExpanded( true );
-        groupBeans->addChild( bd->bi );
+        ui->treeWidget->groupBeans->setExpanded( true );
+        ui->treeWidget->groupBeans->addChild( bd->bi );
         bd->bi->beamType = bd->bi->MAN;
         sty->setIconStyle( "sn_man", bd->bi );
         map->update( bd->bi );
@@ -113,8 +81,8 @@ void qtkamal::on_actionEst_triggered()
     int result = bd->exec();
 
     if (result == QDialog::Accepted) {
-        groupERMs->setExpanded( true );
-        groupERMs->addChild( bd->bi );
+        ui->treeWidget->groupERMs->setExpanded( true );
+        ui->treeWidget->groupERMs->addChild( bd->bi );
         bd->bi->beamType = bd->bi->ERM;
         sty->setIconStyle( "sn_erm", bd->bi );
         map->update( bd->bi );
@@ -127,8 +95,8 @@ void qtkamal::on_actionCirc_triggered()
     int result = cd->exec();
 
     if (result == QDialog::Accepted) {
-        groupCircles->setExpanded( true );
-        groupCircles->addChild( cd->ci );
+        ui->treeWidget->groupCircles->setExpanded( true );
+        ui->treeWidget->groupCircles->addChild( cd->ci );
         sty->setIconStyle( "sn_cir", cd->ci );
         map->update( cd->ci );
     }
@@ -141,7 +109,7 @@ void qtkamal::on_actionGetEarth_triggered()
 
 void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-    if ( item->parent() == groupPoints && column == 0 ) {
+    if ( item->parent() == ui->treeWidget->groupPoints && column == 0 ) {
         qtpointitem* pwi = static_cast<qtpointitem*>(item);
         if ( pwi->open( this ) ) {
             item->setText(0, QString::fromStdString(pwi->pc->name) );
@@ -149,7 +117,7 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         }
     }
 
-    if ( ( item->parent() == groupBeans || item->parent() == groupERMs ) && column == 0 ) {
+    if ( ( item->parent() == ui->treeWidget->groupBeans || item->parent() == ui->treeWidget->groupERMs ) && column == 0 ) {
         qtbeamitem* bwi = static_cast<qtbeamitem*>(item);
         if ( bwi->open( this ) ) {
             item->setText(0, QString::fromStdString( bwi->bm->source->name ) );
@@ -157,7 +125,7 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         }
     }
 
-    if ( item->parent() == groupCircles && column == 0 ) {
+    if ( item->parent() == ui->treeWidget->groupCircles && column == 0 ) {
         qtcircleitem* pwi = static_cast<qtcircleitem*>(item);
         if ( pwi->open( this ) ) {
             item->setText(0, QString::fromStdString(pwi->center->name) );
@@ -183,6 +151,12 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
     */
 }
 
+void qtkamal::on_actionAbout_triggered()
+{
+    aboutDialog *ad = new aboutDialog();
+    ad->exec();
+}
+
 void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
 {
     QMenu ctxMenu;
@@ -197,7 +171,7 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
         clearOldAction->setIcon(QIcon(":/icon/res/clear.png"));
         clearOldAction->setStatusTip(tr("Limpa todas as referências obsoletas"));
 
-        connect(clearOldAction, SIGNAL(triggered()), this, SLOT(clearOldHandler()));
+        connect(clearOldAction, SIGNAL(triggered()), ui->treeWidget, SLOT(clearOldHandler()));
         ctxMenu.addAction(clearOldAction);
         ctxMenu.exec(globalPos);
         return;
@@ -220,24 +194,10 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
 void qtkamal::deleteItemHandler()
 {
     QTreeWidgetItem* item = ui->treeWidget->currentItem();
-    qtpointitem* pwi = static_cast<qtpointitem*>( item );
-    map->remove( pwi );
+    map->remove( item );
     int i = ui->treeWidget->indexOfTopLevelItem( item );
     ui->treeWidget->takeTopLevelItem(i);
     delete ui->treeWidget->currentItem();
-}
-
-void qtkamal::clearOldHandler()
-{
-    QTreeWidgetItemIterator it( ui->treeWidget );
-    while (*it) {
-        QTreeWidgetItemIterator child ( it );
-        while (*child) {
-            if ((*child)->isDisabled()) delete *child;
-            child++;
-        }
-        it++;
-    }
 }
 
 void qtkamal::args(QStringList args)
@@ -247,10 +207,4 @@ void qtkamal::args(QStringList args)
             map->readfile( arg );
         }
     }
-}
-
-void qtkamal::on_actionAbout_triggered()
-{
-    aboutDialog *ad = new aboutDialog();
-    ad->exec();
 }
