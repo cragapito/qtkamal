@@ -14,6 +14,7 @@ public:
 
     Coordinate* pc;
     QDomElement element;
+    QString     style;
 
     int open(QWidget *parent);
     void setText( int column, const QString & text ); // Overrided

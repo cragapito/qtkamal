@@ -11,13 +11,12 @@ class styleFold : public QObject
     Q_OBJECT
 
 private:
-    QMap<QString, QIcon*>               iconStyle;
-    QMap<QString, QString>              mappedStyle;
-    QMap<QString, QUrl>                 mappedUrl;
-
     QMap<QTreeWidgetItem*, QString>     pending;
 
 public:
+    QMap<QString, QUrl>                 mappedUrl;
+    QMap<QString, QIcon*>               iconStyle;
+    QMap<QString, QString>              mappedStyle;
     QMap<QString, QString>              mappedLineColor;
     QMap<QString, QString>              mappedLineWidth;
     QMap<QString, QString>              mappedPolyColor;
@@ -26,7 +25,7 @@ public:
     void setIconStyle(const QString style, QTreeWidgetItem *wt);
     void addStyle(QString style, QUrl url);
     void addMappedStyle(QString from, QString to);
-    QMap<QString, QUrl> getListUrl();
+    bool isInternalStyle(QString style);
 
 public slots:
     void solvePendingIcons();

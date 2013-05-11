@@ -67,9 +67,13 @@ void styleFold::addMappedStyle(QString from, QString to)
                  + to.toStdString() << std::endl;
 }
 
-QMap<QString, QUrl> styleFold::getListUrl()
+bool styleFold::isInternalStyle(QString style)
 {
-     return mappedUrl;
+    // As cores de linha só foram definidas para estilos internos
+    foreach ( QString sty, mappedLineColor.keys() ) {
+        if ( sty == style ) return true;
+    }
+    return false;
 }
 
 void styleFold::solvePendingIcons()

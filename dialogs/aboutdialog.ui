@@ -111,6 +111,9 @@
        <height>141</height>
       </rect>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="html">
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -141,6 +144,9 @@ p, li { white-space: pre-wrap; }
        <width>361</width>
        <height>201</height>
       </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="autoFillBackground">
       <bool>false</bool>
@@ -179,6 +185,9 @@ p, li { white-space: pre-wrap; }
        <height>201</height>
       </rect>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="html">
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -200,6 +209,13 @@ p, li { white-space: pre-wrap; }
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>textBrowser_2</tabstop>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>textBrowser_3</tabstop>
+ </tabstops>
  <resources>
   <include location="../res.qrc"/>
  </resources>

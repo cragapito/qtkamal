@@ -18,6 +18,7 @@ public:
     double      azimute;
     double      abertura;
     int         tipoSelect;
+    QString     style;
     QString     perimeter;
     QDomElement element;
 

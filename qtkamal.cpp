@@ -55,6 +55,7 @@ void qtkamal::on_actionPnt_triggered()
         ui->treeWidget->groupPoints->setExpanded( true );
         ui->treeWidget->groupPoints->addChild( pd->pi );
         if ( pd->pi->element.isNull() ) {
+            pd->pi->style = "sn_place";
             sty->setIconStyle( "sn_place", pd->pi );
             ui->treeWidget->map->update( pd->pi );
         }
@@ -70,6 +71,7 @@ void qtkamal::on_actionMan_triggered()
         ui->treeWidget->groupBeans->setExpanded( true );
         ui->treeWidget->groupBeans->addChild( bd->bi );
         bd->bi->beamType = bd->bi->MAN;
+        bd->bi->style = "sn_man";
         sty->setIconStyle( "sn_man", bd->bi );
         ui->treeWidget->map->update( bd->bi );
     }
@@ -84,6 +86,7 @@ void qtkamal::on_actionEst_triggered()
         ui->treeWidget->groupERMs->setExpanded( true );
         ui->treeWidget->groupERMs->addChild( bd->bi );
         bd->bi->beamType = bd->bi->ERM;
+        bd->bi->style = "sn_erm";
         sty->setIconStyle( "sn_erm", bd->bi );
         ui->treeWidget->map->update( bd->bi );
     }
@@ -97,6 +100,7 @@ void qtkamal::on_actionCirc_triggered()
     if (result == QDialog::Accepted) {
         ui->treeWidget->groupCircles->setExpanded( true );
         ui->treeWidget->groupCircles->addChild( cd->ci );
+        cd->ci->style = "sn_cir";
         sty->setIconStyle( "sn_cir", cd->ci );
         ui->treeWidget->map->update( cd->ci );
     }
@@ -155,7 +159,8 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
 
     QTreeWidgetItem *item = ui->treeWidget->itemAt( pos );
 
-    if (!item || !item->parent()) { // Nenhum item selecionado ou item de grupo
+    // Nenhum item selecionado ou item de grupo ou obsoleto
+    if (!item || !item->parent() || item->isDisabled()) {
         clearOldAction = new QAction(tr("limpa obsoletos"), this);
         clearOldAction->setIcon(QIcon(":/icon/res/clear.png"));
         clearOldAction->setStatusTip(tr("Limpa todas as referências obsoletas"));

@@ -16,6 +16,7 @@ public:
     Beam*       bm;
     double      alcance;
     QDomElement element;
+    QString     style;
 
     enum        TYPE { MAN, ERM };
     TYPE        beamType;

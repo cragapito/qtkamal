@@ -42,6 +42,7 @@ public:
     void update (qtbeamitem *item);
     void update (qtpointitem *item);
     void update (qtcircleitem *item);
+    void update (QString style, QString modelStyle);
 
     void remove (QTreeWidgetItem *item);
 };

@@ -105,7 +105,10 @@
     <string>Adiciona Ponto de referência</string>
    </property>
    <property name="statusTip">
-    <string>Adiciona Ponto</string>
+    <string>(P) Adiciona Ponto</string>
+   </property>
+   <property name="shortcut">
+    <string>P</string>
    </property>
   </action>
   <action name="actionMan">
@@ -124,7 +127,10 @@
     <string>Adiciona medição realizada manualmente com antena e analisador de espectro.</string>
    </property>
    <property name="statusTip">
-    <string>Adiciona Feixe Manual</string>
+    <string>(M) Adiciona Feixe Manual</string>
+   </property>
+   <property name="shortcut">
+    <string>M</string>
    </property>
   </action>
   <action name="actionEst">
@@ -143,7 +149,10 @@
     <string>Adiciona medição realizada a partir de uma estação de radiomonitoragem.</string>
    </property>
    <property name="statusTip">
-    <string>Adiciona medição de estação</string>
+    <string>(E) Adiciona medição de estação</string>
+   </property>
+   <property name="shortcut">
+    <string>E</string>
    </property>
   </action>
   <action name="actionCirc">
@@ -162,7 +171,10 @@
     <string>Cria um círculo de raio determinado ou uma secção de círculo.</string>
    </property>
    <property name="statusTip">
-    <string>Adiciona círculo ou secção de área</string>
+    <string>(C) Adiciona círculo ou secção de área</string>
+   </property>
+   <property name="shortcut">
+    <string>C</string>
    </property>
   </action>
   <action name="actionGetEarth">
@@ -180,7 +192,10 @@
     <string>Importa arquivo Keyhole Markup Language</string>
    </property>
    <property name="statusTip">
-    <string>Importa arquivo KML</string>
+    <string>(O) Importa arquivo KML</string>
+   </property>
+   <property name="shortcut">
+    <string>O</string>
    </property>
   </action>
   <action name="actionTrTarget">
@@ -198,7 +213,10 @@
     <string>Calcula provável localização da estação transmissora.</string>
    </property>
    <property name="statusTip">
-    <string>Triangula Alvo</string>
+    <string>(T) Triangula Alvo</string>
+   </property>
+   <property name="shortcut">
+    <string>T</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -216,7 +234,10 @@
     <string>Informações sobre o programa.</string>
    </property>
    <property name="statusTip">
-    <string>Sobre ...</string>
+    <string>(A) Sobre ...</string>
+   </property>
+   <property name="shortcut">
+    <string>A</string>
    </property>
   </action>
  </widget>

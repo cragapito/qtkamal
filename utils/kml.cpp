@@ -74,7 +74,14 @@ bool kml::readfile(QString name)
         xmlGet.descend();
         xmlGet.findAndDescend("Pair");
         xmlGet.find("styleUrl");
-        sty->addMappedStyle( style, xmlGet.getString().remove(0,1) );
+        if ( xmlGet.getString().contains("#") ) {
+            /*
+             * Se o estilo estiver definido em outro local ele
+             * estará definido antes do caracter #
+             */
+            sty->addMappedStyle( style, xmlGet.getString().split("#").at(1) );
+        }
+
         xmlGet.rise();
         xmlGet.rise();
     }
@@ -116,8 +123,15 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
     xmlGet.descend();
     if (xmlGet.find("name")) {
         placeName = xmlGet.getString();
-        xmlGet.findAndDescend("styleUrl");
-        style = xmlGet.getString().remove(0,1); // Remove o # da styleUrl
+        xmlGet.findNextAndDescend("styleUrl");
+
+        if ( xmlGet.getString().contains("#") ) {
+            /*
+             * Se o estilo estiver definido em outro arquivo (ou url),
+             * o endereço estará antes do caracter #
+             */
+            style = xmlGet.getString().split("#").at(1);
+        }
         xmlGet.rise();
 
         // Point
@@ -133,7 +147,13 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
                     pi->element = e;
                 }
 
-                sty->setIconStyle(style, pi);
+                pi->style = style;
+
+                ( pi->style.isEmpty() )?
+                    pi->style = "sn_place":
+                    pi->style = style;
+
+                sty->setIconStyle( pi->style, pi);
                 wtree->groupPoints->addChild( pi );
             }
             xmlGet.rise();
@@ -165,6 +185,7 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
                         bi->bm->proj( bi->alcance );
                     }
 
+                    bi->style = style;
                     sty->setIconStyle(style, bi);
                     if ( bi->beamType == bi->MAN ) {
                         wtree->groupBeans->addChild( bi );
@@ -241,7 +262,6 @@ bool kml::save()
 
 void kml::newFile()
 {
-    QMap<QString, QUrl> styleUrlList = sty->getListUrl();
     QString style;
 
     QXmlPut xmlPut("kml");
@@ -254,12 +274,12 @@ void kml::newFile()
     xmlPut.putString("name", QString( QFileInfo(filename).fileName() ) );
     wtree->setHeaderLabel(   QString( QFileInfo(filename).fileName() ) );
 
-    foreach ( style, styleUrlList.keys() ) {
+    foreach ( style, sty->mappedUrl.keys() ) {
         xmlPut.descend("Style");
         xmlPut.setAttributeString("id", style);
         xmlPut.descend("IconStyle");
         xmlPut.descend("Icon");
-        xmlPut.putString("href", styleUrlList[style].toString());
+        xmlPut.putString("href", sty->mappedUrl[style].toString());
         xmlPut.rise();
         xmlPut.putInt("scale", 1);
         xmlPut.rise();
@@ -328,6 +348,19 @@ void kml::update(qtbeamitem *item)
     tagname.removeChild( tagname.childNodes().at(0) );
     tagname.appendChild( newname );
 
+    QDomElement tagstyle = item->element.firstChildElement("styleUrl");
+    QDomText newstyle;
+    if ( sty->isInternalStyle( item->style ) || item->style.isEmpty() ) {
+        if ( item->beamType == item->MAN )
+            newstyle = doc->createTextNode("#sn_man");
+        if ( item->beamType == item->ERM )
+            newstyle = doc->createTextNode("#sn_erm");
+    } else {
+        newstyle = doc->createTextNode( QString ("#") + item->style );
+    }
+    tagstyle.removeChild( tagstyle.childNodes().at(0) );
+    tagstyle.appendChild( newstyle );
+
     QDomElement multi = item->element.firstChildElement("MultiGeometry");
 
     multi.setAttribute("tipo",    QString::number( item->beamType) );
@@ -392,6 +425,11 @@ void kml::update(qtpointitem *item)
                 QString::fromStdString( item->pc->name ) );
     tagname.removeChild( tagname.childNodes().at(0) );
     tagname.appendChild( newname );
+
+    QDomElement tagstyle = item->element.firstChildElement("styleUrl");
+    QDomText newstyle = doc->createTextNode( "#" + item->style );
+    tagstyle.removeChild( tagstyle.childNodes().at(0) );
+    tagstyle.appendChild( newstyle );
 
     QDomElement coord = item->element.firstChildElement("Point");
     coord = coord.firstChildElement("coordinates");
@@ -458,6 +496,66 @@ void kml::update(qtcircleitem *item)
     QDomText newcoord = doc->createTextNode( item->perimeter );
     coord.removeChild( coord.childNodes().at(0) );
     coord.appendChild( newcoord );
+
+    this->save();
+}
+
+void kml::update(QString style, QString modelStyle)
+{
+    QXmlGet xmlGet = QXmlGet( *doc );
+    QDomElement e = QDomElement();
+
+    if (xmlGet.find("Document")) {
+        xmlGet.descend();
+        xmlGet = xmlGet.restricted();
+    }
+
+    if ( sty->mappedStyle[style].contains( style )) {
+        style = sty->mappedStyle[style];
+    }
+
+    while ( xmlGet.findNext("Style"))  {
+        QString styleTest = xmlGet.getAttributeString("id");
+        if ( styleTest == style )  {
+            styleTest = style;
+            e = xmlGet.element();
+        }
+    }
+
+    QXmlPut xmlPut = QXmlPut(xmlGet);
+
+    if ( e.isNull() ) {
+        xmlPut.descend("Style");
+        xmlPut.setAttributeString("id", style);
+        xmlPut.descend("IconStyle");
+        xmlPut.descend("Icon");
+        xmlPut.putString("href", sty->mappedUrl[style].toString());
+        xmlPut.rise();
+        xmlPut.putInt("scale", 1);
+        xmlPut.rise();
+    } else {
+        xmlGet.goTo( e );
+        xmlGet.findAndDescend("Style");
+        xmlPut = QXmlPut(xmlGet);
+    }
+
+    if ( sty->mappedLineColor.contains(modelStyle)) {
+        if ( ! xmlGet.findNextAndDescend("LineStyle") ) {
+            xmlPut.descend("LineStyle");
+            xmlPut.putString( "color", sty->mappedLineColor[modelStyle]);
+            xmlPut.putString( "width", sty->mappedLineWidth[modelStyle]);
+            xmlPut.rise();
+        }
+    }
+    if ( sty->mappedPolyColor.contains(modelStyle)) {
+        if ( ! xmlGet.findNextAndDescend("PolyStyle") ) {
+            xmlPut.descend("PolyStyle");
+            xmlPut.putString( "color", sty->mappedPolyColor[modelStyle]);
+            xmlPut.rise();
+        }
+    }
+
+    *doc = xmlPut.document();
 
     this->save();
 }
