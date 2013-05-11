@@ -7,7 +7,7 @@ qtcircleitem::qtcircleitem(QTreeWidget *parent) :
 {
     center = new Coordinate();
     this->setFlags(Qt::ItemIsSelectable  | Qt::ItemIsUserCheckable
-                   | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+                 | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
 }
 
 qtcircleitem::~qtcircleitem()

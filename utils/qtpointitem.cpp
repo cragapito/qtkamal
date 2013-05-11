@@ -1,5 +1,5 @@
 #include "utils/qtpointitem.h"
-#include "dialogs/point.h"
+#include "dialogs/pointdialog.h"
 
 qtpointitem::qtpointitem(QTreeWidget *parent) :
     QTreeWidgetItem(parent)
@@ -16,7 +16,7 @@ qtpointitem::~qtpointitem()
 
 int qtpointitem::open(QWidget *parent)
 {
-    point *dialog = new point( parent, this->pc, this->icon(0));
+    pointDialog *dialog = new pointDialog( parent, this->pc, this->icon(0));
     return dialog->exec();
 }
 

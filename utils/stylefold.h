@@ -3,6 +3,7 @@
 
 #include <QMap>
 #include <QTreeWidgetItem>
+
 #include "networkicon.h"
 
 class styleFold : public QObject

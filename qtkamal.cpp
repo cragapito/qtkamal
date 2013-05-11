@@ -1,9 +1,8 @@
 #include "qtkamal.h"
-#include "utils/kml.h"
 #include "ui_qtkamal.h"
 
-#include "dialogs/point.h"
 #include "dialogs/beamdialog.h"
+#include "dialogs/pointdialog.h"
 #include "dialogs/aboutdialog.h"
 #include "dialogs/circledialog.h"
 
@@ -17,7 +16,7 @@ qtkamal::qtkamal(QWidget *parent) :
 {
     ui->setupUi(this);
     sty = new styleFold();
-    map = new kml( this, ui->treeWidget );
+    ui->treeWidget->map = new kml( this, ui->treeWidget, sty );
     ui->treeWidget->SetStyleFold( sty );
 }
 
@@ -31,7 +30,7 @@ void qtkamal::dropEvent(QDropEvent *ev)
     QList<QUrl> urls = ev->mimeData()->urls();
     foreach(QUrl url, urls)
     {    
-        map->readfile( url.toLocalFile() );
+        ui->treeWidget->map->readfile( url.toLocalFile() );
     }
 }
 
@@ -49,7 +48,7 @@ void qtkamal::dragEnterEvent(QDragEnterEvent *ev)
 
 void qtkamal::on_actionPnt_triggered()
 {
-    point *pd = new point();
+    pointDialog *pd = new pointDialog();
     int result = pd->exec();
 
     if (result == QDialog::Accepted) {
@@ -57,7 +56,7 @@ void qtkamal::on_actionPnt_triggered()
         ui->treeWidget->groupPoints->addChild( pd->pi );
         if ( pd->pi->element.isNull() ) {
             sty->setIconStyle( "sn_place", pd->pi );
-            map->update( pd->pi );
+            ui->treeWidget->map->update( pd->pi );
         }
     }
 }
@@ -72,7 +71,7 @@ void qtkamal::on_actionMan_triggered()
         ui->treeWidget->groupBeans->addChild( bd->bi );
         bd->bi->beamType = bd->bi->MAN;
         sty->setIconStyle( "sn_man", bd->bi );
-        map->update( bd->bi );
+        ui->treeWidget->map->update( bd->bi );
     }
 }
 
@@ -86,7 +85,7 @@ void qtkamal::on_actionEst_triggered()
         ui->treeWidget->groupERMs->addChild( bd->bi );
         bd->bi->beamType = bd->bi->ERM;
         sty->setIconStyle( "sn_erm", bd->bi );
-        map->update( bd->bi );
+        ui->treeWidget->map->update( bd->bi );
     }
 }
 
@@ -99,13 +98,13 @@ void qtkamal::on_actionCirc_triggered()
         ui->treeWidget->groupCircles->setExpanded( true );
         ui->treeWidget->groupCircles->addChild( cd->ci );
         sty->setIconStyle( "sn_cir", cd->ci );
-        map->update( cd->ci );
+        ui->treeWidget->map->update( cd->ci );
     }
 }
 
 void qtkamal::on_actionGetEarth_triggered()
 {
-    map->readfile();
+    ui->treeWidget->map->readfile();
 }
 
 void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -114,7 +113,7 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         qtpointitem* pwi = static_cast<qtpointitem*>(item);
         if ( pwi->open( this ) ) {
             item->setText(0, QString::fromStdString(pwi->pc->name) );
-            map->update( pwi );
+            ui->treeWidget->map->update( pwi );
         }
     }
 
@@ -122,7 +121,7 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         qtbeamitem* bwi = static_cast<qtbeamitem*>(item);
         if ( bwi->open( this ) ) {
             item->setText(0, QString::fromStdString( bwi->bm->source->name ) );
-            map->update( bwi );
+            ui->treeWidget->map->update( bwi );
         }
     }
 
@@ -131,7 +130,7 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         if ( pwi->open( this ) ) {
             item->setText(0, QString::fromStdString(pwi->center->name) );
             pwi->calc();
-            map->update( pwi );
+            ui->treeWidget->map->update( pwi );
         }
     }
 
@@ -139,17 +138,6 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
     //if ( (groupERMs->childCount() + groupBeans->childCount() ) >=2 ) {
     //    ui->actionTrTarget->setEnabled( true );
     //}delete_icon
-
-    /* Após implementar mapa
-    QTreeWidgetItemIterator it(ui->treeWidget);
-    while (*it) {
-        if ( (*it)->childCount() > 0 ) {
-            ui->actionGetEarth->setEnabled( true );
-            break;
-        }
-        ++it;
-    }
-    */
 }
 
 void qtkamal::on_actionAbout_triggered()
@@ -167,8 +155,8 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
 
     QTreeWidgetItem *item = ui->treeWidget->itemAt( pos );
 
-    if (!item) { // Nenhum item selecionado
-        clearOldAction = new QAction(tr("limpa"), this);
+    if (!item || !item->parent()) { // Nenhum item selecionado ou item de grupo
+        clearOldAction = new QAction(tr("limpa obsoletos"), this);
         clearOldAction->setIcon(QIcon(":/icon/res/clear.png"));
         clearOldAction->setStatusTip(tr("Limpa todas as referências obsoletas"));
 
@@ -195,17 +183,14 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
 void qtkamal::deleteItemHandler()
 {
     QTreeWidgetItem* item = ui->treeWidget->currentItem();
-    map->remove( item );
-    int i = ui->treeWidget->indexOfTopLevelItem( item );
-    ui->treeWidget->takeTopLevelItem(i);
-    delete ui->treeWidget->currentItem();
+    ui->treeWidget->removeChild( item );
 }
 
 void qtkamal::args(QStringList args)
 {
     foreach(QString arg, args) {
         if ( arg.contains(".kml",Qt::CaseInsensitive) ) {
-            map->readfile( arg );
+            ui->treeWidget->map->readfile( arg );
         }
     }
 }

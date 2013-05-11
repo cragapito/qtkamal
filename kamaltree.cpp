@@ -42,7 +42,7 @@ kamalTree::kamalTree(QWidget *parent) :
     groupERMs->setFlags   ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
                           | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
     groupCircles->setFlags( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                            | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
+                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
 }
 
 void kamalTree::SetStyleFold(styleFold *sf)
@@ -50,13 +50,23 @@ void kamalTree::SetStyleFold(styleFold *sf)
     this->sty = sf;
 }
 
+void kamalTree::removeChild(QTreeWidgetItem *child)
+{
+    map->remove( child );
+    delete child;
+}
+
 void kamalTree::dropEvent(QDropEvent *event)
 {
     QTreeWidgetItem *item = currentItem();
 
-    QTreeWidget::dropEvent(event);
-
     QString group;
+
+    if ( ! itemAt(event->pos()) ) {
+        qDebug() << "Falha ao executar a ação";
+        event->ignore();
+        return;
+    }
 
     if ( itemAt(event->pos())->parent() ) {
         group = itemAt(event->pos())->parent()->text(0);
@@ -64,13 +74,37 @@ void kamalTree::dropEvent(QDropEvent *event)
         group = itemAt(event->pos())->text(0);
     }
 
+    QTreeWidget::dropEvent(event);
+
     if ( group == "Pontos" && dynamic_cast<qtbeamitem*>(item))
         toPoint( dynamic_cast<qtbeamitem*>(item) );
 
     if ( group == "Pontos" && dynamic_cast<qtcircleitem*>(item))
         toPoint( dynamic_cast<qtcircleitem*>(item) );
 
-    // TODO: Implementar o resto
+    if ( group == "Feixes Manuais" && dynamic_cast<qtpointitem*>(item))
+        toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN );
+
+    if ( group == "Feixes de Estação" && dynamic_cast<qtpointitem*>(item))
+        toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM );
+
+    if ( group == "Feixes Manuais" && dynamic_cast<qtcircleitem*>(item))
+        toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::MAN );
+
+    if ( group == "Feixes de Estação" && dynamic_cast<qtcircleitem*>(item))
+        toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM );
+
+    if ( group == "Feixes Manuais" && dynamic_cast<qtbeamitem*>(item))
+        toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::MAN  );
+
+    if ( group == "Feixes de Estação" && dynamic_cast<qtbeamitem*>(item))
+        toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM );
+
+    if ( group == "Área" && dynamic_cast<qtpointitem*>(item))
+        toCircle( dynamic_cast<qtpointitem*>(item) );
+
+    if ( group == "Área" && dynamic_cast<qtbeamitem*>(item))
+        toCircle( dynamic_cast<qtbeamitem*>(item) );
 }
 
 void kamalTree::clearOldHandler()
@@ -97,10 +131,9 @@ void kamalTree::toPoint(qtbeamitem *bi)
     sty->setIconStyle( "sn_place", pi );
 
     bi->parent()->addChild( pi );
-    // TODO: Mapa fora do alcance
-    //map->update( pi );
-    //map->remove( bi );
-    delete bi;
+    map->update( pi );
+    this->removeChild( bi );
+    groupPoints->setExpanded( true );
 }
 
 void kamalTree::toPoint(qtcircleitem *ci)
@@ -114,7 +147,114 @@ void kamalTree::toPoint(qtcircleitem *ci)
     sty->setIconStyle( "sn_place", pi );
 
     ci->parent()->addChild( pi );
-    //map->update( pi );
-    //map->remove( ci );
-    delete ci;
+    map->update( pi );
+    this->removeChild( ci );
+    groupPoints->setExpanded( true );
+}
+
+void kamalTree::toBeam(qtpointitem *pi, qtbeamitem::TYPE type)
+{
+    qtbeamitem *bi = new qtbeamitem();
+
+    bi->bm->source->x = pi->pc->x;
+    bi->bm->source->y = pi->pc->y;
+    bi->bm->source->name = pi->pc->name;
+    bi->bm->daz = 0;
+    bi->alcance = 40;
+    bi->bm->proj( bi->alcance );
+    bi->setText(0, pi->text(0) );
+    ( type == qtbeamitem::MAN )?
+        sty->setIconStyle( "sn_man", bi ):
+        sty->setIconStyle( "sn_erm", bi );
+
+    pi->parent()->addChild( bi );
+    map->update( bi );
+    this->removeChild( pi );
+    ( type == qtbeamitem::MAN )?
+        groupBeans->setExpanded(true):
+        groupERMs->setExpanded(true);
+}
+
+void kamalTree::toBeam(qtbeamitem *bii, qtbeamitem::TYPE type)
+{
+    qtbeamitem *bi = new qtbeamitem();
+
+    bi->alcance = bii->alcance;
+    bi->beamType = type;
+    bi->bm->source->x = bii->bm->source->x;
+    bi->bm->source->y = bii->bm->source->y;
+    bi->bm->source->name = bii->bm->source->name;
+    bi->bm->proj( bii->alcance );
+    bi->setText(0, bii->text(0));
+
+    ( type == qtbeamitem::MAN )?
+        sty->setIconStyle( "sn_man", bi ):
+        sty->setIconStyle( "sn_erm", bi );
+
+    bii->parent()->addChild( bi );
+    map->update( bi );
+    this->removeChild( bii );
+    ( type == qtbeamitem::MAN )?
+        groupBeans->setExpanded(true):
+        groupERMs->setExpanded(true);
+}
+
+void kamalTree::toBeam(qtcircleitem *ci, qtbeamitem::TYPE type)
+{
+    qtbeamitem *bi = new qtbeamitem();
+
+    bi->bm->source->x = ci->center->x;
+    bi->bm->source->y = ci->center->y;
+    bi->bm->source->name = ci->center->name;
+    bi->bm->daz = ci->azimute;
+    bi->bm->proj( ci->radius );
+    bi->setText(0, ci->text(0) );
+    ( type == qtbeamitem::MAN )?
+        sty->setIconStyle( "sn_man", bi ):
+        sty->setIconStyle( "sn_erm", bi );
+
+    ci->parent()->addChild( bi );
+    map->update( bi );
+    this->removeChild( ci );
+    ( type == qtbeamitem::MAN )?
+        groupBeans->setExpanded(true):
+        groupERMs->setExpanded(true);
+}
+
+void kamalTree::toCircle(qtpointitem *pi)
+{
+    qtcircleitem *ci = new qtcircleitem();
+
+    ci->center->x = pi->pc->x;
+    ci->center->y = pi->pc->y;
+    ci->center->name = pi->pc->name;
+    ci->radius = 100;
+    ci->points = 100;
+    ci->tipoSelect = 0;
+    ci->setText(0, pi->text(0) );
+    sty->setIconStyle( "sn_cir", ci );
+
+    pi->parent()->addChild( ci );
+    map->update( ci );
+    this->removeChild( pi );
+    groupCircles->setExpanded( true );
+}
+
+void kamalTree::toCircle(qtbeamitem *bi)
+{
+    qtcircleitem *ci = new qtcircleitem();
+
+    ci->center->x = bi->bm->source->x;
+    ci->center->y = bi->bm->source->y;
+    ci->center->name = bi->bm->source->name;
+    ci->azimute = bi->bm->daz;
+    ci->radius = bi->alcance;
+    ci->tipoSelect = 1;
+    ci->setText(0, bi->text(0) );
+    sty->setIconStyle( "sn_cir", ci );
+
+    bi->parent()->addChild( ci );
+    map->update( ci );
+    this->removeChild( bi );
+    groupCircles->setExpanded(true);
 }

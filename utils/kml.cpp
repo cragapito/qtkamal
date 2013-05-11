@@ -6,14 +6,13 @@
 #include <QFileInfo>
 #include <QFileDialog>
 
-kml::kml(QWidget *parent, kamalTree *wt)
+kml::kml(QWidget *parent, kamalTree *wt, styleFold *styFold)
 {
-    this->parent = parent;
-    wtree = wt;
-    // TODO: Desacoplar qtkamal
-    main = static_cast<qtkamal*>(parent);
-    doc = new QDomDocument;
-    filename="";
+    this->sty       = styFold;
+    this->doc       = new QDomDocument;
+    this->wtree     = wt;
+    this->parent    = parent;
+    this->filename  = "";
 }
 
 bool kml::readfile()
@@ -64,7 +63,7 @@ bool kml::readfile(QString name)
         xmlGet.findAndDescend("IconStyle");
         xmlGet.findAndDescend("Icon");
         xmlGet.find("href");
-        main->sty->addStyle(style, QUrl(xmlGet.getString()));
+        sty->addStyle(style, QUrl(xmlGet.getString()));
         xmlGet.rise();
         xmlGet.rise();
         xmlGet.rise();
@@ -75,7 +74,7 @@ bool kml::readfile(QString name)
         xmlGet.descend();
         xmlGet.findAndDescend("Pair");
         xmlGet.find("styleUrl");
-        main->sty->addMappedStyle( style, xmlGet.getString().remove(0,1) );
+        sty->addMappedStyle( style, xmlGet.getString().remove(0,1) );
         xmlGet.rise();
         xmlGet.rise();
     }
@@ -134,7 +133,7 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
                     pi->element = e;
                 }
 
-                main->sty->setIconStyle(style, pi);
+                sty->setIconStyle(style, pi);
                 wtree->groupPoints->addChild( pi );
             }
             xmlGet.rise();
@@ -166,7 +165,7 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
                         bi->bm->proj( bi->alcance );
                     }
 
-                    main->sty->setIconStyle(style, bi);
+                    sty->setIconStyle(style, bi);
                     if ( bi->beamType == bi->MAN ) {
                         wtree->groupBeans->addChild( bi );
                         wtree->groupBeans->setExpanded( true );
@@ -206,7 +205,7 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
             }
 
             wtree->groupCircles->addChild( ci );
-            main->sty->setIconStyle(style, ci);
+            sty->setIconStyle(style, ci);
             wtree->groupCircles->setExpanded( true );
         }
     }
@@ -242,7 +241,7 @@ bool kml::save()
 
 void kml::newFile()
 {
-    QMap<QString, QUrl> styleUrlList = main->sty->getListUrl();
+    QMap<QString, QUrl> styleUrlList = sty->getListUrl();
     QString style;
 
     QXmlPut xmlPut("kml");
@@ -264,15 +263,15 @@ void kml::newFile()
         xmlPut.rise();
         xmlPut.putInt("scale", 1);
         xmlPut.rise();
-        if ( main->sty->mappedLineColor.contains(style)) {
+        if ( sty->mappedLineColor.contains(style)) {
             xmlPut.descend("LineStyle");
-            xmlPut.putString( "color", main->sty->mappedLineColor[style]);
-            xmlPut.putString( "width", main->sty->mappedLineWidth[style]);
+            xmlPut.putString( "color", sty->mappedLineColor[style]);
+            xmlPut.putString( "width", sty->mappedLineWidth[style]);
             xmlPut.rise();
         }
-        if ( main->sty->mappedPolyColor.contains(style)) {
+        if ( sty->mappedPolyColor.contains(style)) {
             xmlPut.descend("PolyStyle");
-            xmlPut.putString( "color", main->sty->mappedPolyColor[style]);
+            xmlPut.putString( "color", sty->mappedPolyColor[style]);
             xmlPut.rise();
         }
         xmlPut.rise();

@@ -17,7 +17,6 @@ SOURCES += main.cpp\
     src/Geo/Coordinate.cpp \
     src/Geo/Beam.cpp \
     qtkamal.cpp \
-    dialogs/point.cpp \
     gbcoordinates.cpp \
     utils/qtpointitem.cpp \
     utils/kml.cpp \
@@ -27,9 +26,11 @@ SOURCES += main.cpp\
     dialogs/beamdialog.cpp \
     dialogs/circledialog.cpp \
     dialogs/aboutdialog.cpp \
+    dialogs/pointdialog.cpp \
     utils/qtbeamitem.cpp \
     utils/qtcircleitem.cpp \
     kamaltree.cpp
+
 
 HEADERS  += \
     src/base/Straight.h \
@@ -38,8 +39,6 @@ HEADERS  += \
     src/Geo/Beam.h \
     qtkamal.h \
     utils/qtpointitem.h \
-    dialog/point.h \
-    dialogs/point.h \
     gbcoordinates.h \
     utils/kml.h \
     utils/qxmlputget.h \
@@ -48,17 +47,19 @@ HEADERS  += \
     dialogs/beamdialog.h \
     dialogs/circledialog.h \
     dialogs/aboutdialog.h \
+    dialogs/pointdialog.h \
     utils/qtbeamitem.h \
     utils/qtcircleitem.h \
     kamaltree.h
 
+
 FORMS    += \
     qtkamal.ui \
-    dialogs/point.ui \
     gbcoordinates.ui \
     dialogs/beamdialog.ui \
     dialogs/circledialog.ui \
-    dialogs/aboutdialog.ui
+    dialogs/aboutdialog.ui \
+    dialogs/pointdialog.ui
 
 RESOURCES += \
     res.qrc

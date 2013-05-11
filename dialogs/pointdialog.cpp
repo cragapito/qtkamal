@@ -1,18 +1,18 @@
-#include "point.h"
-#include "ui_point.h"
+#include "pointdialog.h"
+#include "ui_pointdialog.h"
 
-point::point(QWidget *parent) :
+pointDialog::pointDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::point)
+    ui(new Ui::pointDialog)
 {   
     pi = new qtpointitem();
     ui->setupUi(this);
     ui->piname->setFocus();
 }
 
-point::point(QWidget *parent, Coordinate *pc, QIcon icon ) :
+pointDialog::pointDialog(QWidget *parent, Coordinate *pc, QIcon icon ) :
     QDialog(parent),
-    ui(new Ui::point)
+    ui(new Ui::pointDialog)
 {
     pi = new qtpointitem();
     pi->pc = pc;
@@ -24,12 +24,12 @@ point::point(QWidget *parent, Coordinate *pc, QIcon icon ) :
     ui->gbwidget->EditCoordinates( pc );
 }
 
-point::~point()
+pointDialog::~pointDialog()
 {
     delete ui;
 }
 
-void point::on_buttonBox_accepted()
+void pointDialog::on_buttonBox_accepted()
 {
     pi->pc = ui->gbwidget->returnCoord();
     pi->setText(0, QString::fromStdString(
@@ -37,7 +37,7 @@ void point::on_buttonBox_accepted()
     this->accept();
 }
 
-void point::on_buttonBox_rejected()
+void pointDialog::on_buttonBox_rejected()
 {
     this->reject();
 }

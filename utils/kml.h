@@ -1,9 +1,12 @@
 #ifndef KMLPARSER_H
 #define KMLPARSER_H
 
-#include "qtkamal.h"
 #include "kamaltree.h"
+#include "utils/stylefold.h"
 #include "utils/qxmlputget.h"
+#include "utils/qtbeamitem.h"
+#include "utils/qtpointitem.h"
+#include "utils/qtcircleitem.h"
 
 #include <QFile>
 #include <QtXml>
@@ -12,13 +15,15 @@
 #include <QTreeWidget>
 #include <QMessageBox>
 
+class kamalTree;
+
 class kml
 {
 private:
     QString         filename;
 
     QDomDocument    *doc;
-    qtkamal         *main;
+    styleFold       *sty;
     kamalTree       *wtree;
     QWidget         *parent;
 
@@ -26,7 +31,7 @@ private:
     void parsePlaceMark(QDomElement e , QXmlGet xmlGet);
 
 public:
-    kml(QWidget *parent, kamalTree *wt);
+    kml(QWidget *parent, kamalTree *wt, styleFold *styFold);
 
     bool readfile();
     bool readfile(const QString name);

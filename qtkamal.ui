@@ -37,10 +37,10 @@
        <bool>true</bool>
       </property>
       <property name="dragEnabled">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="dragDropOverwriteMode">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="dragDropMode">
        <enum>QAbstractItemView::DragDrop</enum>

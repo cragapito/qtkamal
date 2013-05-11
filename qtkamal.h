@@ -6,8 +6,6 @@
 
 #include "utils/stylefold.h"
 
-class kml;
-
 namespace Ui {
 class qtkamal;
 }
@@ -25,7 +23,6 @@ public:
     ~qtkamal();
 
     styleFold       *sty;
-    kml             *map;
 
     void args(QStringList args);
 
