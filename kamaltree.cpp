@@ -75,75 +75,106 @@ void kamalTree::dropEvent(QDropEvent *event)
     }
 
     // TODO: Falha ao copiar item
-    QTreeWidget::dropEvent(event);
+    if ( event->proposedAction() == Qt::MoveAction )
+        QTreeWidget::dropEvent(event);
 
     if ( group == "Pontos" && dynamic_cast<qtbeamitem*>(item)) {
-        toPoint( dynamic_cast<qtbeamitem*>(item) );
-        if ( event->proposedAction() == Qt::MoveAction )
+        if ( event->proposedAction() == Qt::MoveAction ) {
+            toPoint( dynamic_cast<qtbeamitem*>(item), item->parent() );
             this->removeChild( item );
+        } else {
+            toPoint( dynamic_cast<qtbeamitem*>(item), groupPoints );
+        }
         return;
     }
 
     if ( group == "Pontos" && dynamic_cast<qtcircleitem*>(item)) {
-        toPoint( dynamic_cast<qtcircleitem*>(item) );
-        if ( event->proposedAction() == Qt::MoveAction )
+        if ( event->proposedAction() == Qt::MoveAction ) {
+            toPoint( dynamic_cast<qtcircleitem*>(item), item->parent() );
             this->removeChild( item );
+        } else {
+            toPoint( dynamic_cast<qtcircleitem*>(item), groupPoints );
+        }
         return;
     }
 
     if ( group == "Feixes Manuais" && dynamic_cast<qtpointitem*>(item)) {
-        toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN );
-        if ( event->proposedAction() == Qt::MoveAction )
+        if ( event->proposedAction() == Qt::MoveAction ) {
+            toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN, item->parent() );
             this->removeChild( item );
+        } else {
+            toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN, groupBeans );
+        }
         return;
     }
 
     if ( group == "Feixes de Estação" && dynamic_cast<qtpointitem*>(item)) {
-        toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM );
-        if ( event->proposedAction() == Qt::MoveAction )
+        if ( event->proposedAction() == Qt::MoveAction ) {
+            toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM, item->parent() );
             this->removeChild( item );
+        } else {
+            toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM, groupERMs );
+        }
         return;
     }
 
     if ( group == "Feixes Manuais" && dynamic_cast<qtcircleitem*>(item)) {
-        toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::MAN );
-        if ( event->proposedAction() == Qt::MoveAction )
+        if ( event->proposedAction() == Qt::MoveAction ) {
+            toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::MAN, item->parent() );
             this->removeChild( item );
+        } else {
+            toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::MAN, groupBeans );
+        }
         return;
     }
 
     if ( group == "Feixes de Estação" && dynamic_cast<qtcircleitem*>(item)) {
-        toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM );
-        if ( event->proposedAction() == Qt::MoveAction )
+        if ( event->proposedAction() == Qt::MoveAction ) {
+            toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM, item->parent() );
             this->removeChild( item );
+        } else {
+            toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM, groupERMs );
+        }
         return;
     }
 
     if ( group == "Feixes Manuais" && dynamic_cast<qtbeamitem*>(item)) {
-        toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::MAN  );
-        if ( event->proposedAction() == Qt::MoveAction )
+        if ( event->proposedAction() == Qt::MoveAction ) {
+            toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::MAN, item->parent() );
             this->removeChild( item );
+        } else {
+            toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::MAN, groupBeans );
+        }
         return;
     }
 
     if ( group == "Feixes de Estação" && dynamic_cast<qtbeamitem*>(item)) {
-        toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM );
-        if ( event->proposedAction() == Qt::MoveAction )
+        if ( event->proposedAction() == Qt::MoveAction ) {
+            toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM, item->parent() );
             this->removeChild( item );
+        } else {
+            toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM, groupERMs );
+        }
         return;
     }
 
     if ( group == "Área" && dynamic_cast<qtpointitem*>(item)) {
-        toCircle( dynamic_cast<qtpointitem*>(item) );
-        if ( event->proposedAction() == Qt::MoveAction )
+        if ( event->proposedAction() == Qt::MoveAction ) {
+            toCircle( dynamic_cast<qtpointitem*>(item), item->parent() );
             this->removeChild( item );
+        } else {
+            toCircle( dynamic_cast<qtpointitem*>(item), groupCircles );
+        }
         return;
     }
 
     if ( group == "Área" && dynamic_cast<qtbeamitem*>(item)) {
-        toCircle( dynamic_cast<qtbeamitem*>(item) );
-        if ( event->proposedAction() == Qt::MoveAction )
+        if ( event->proposedAction() == Qt::MoveAction ) {
+            toCircle( dynamic_cast<qtbeamitem*>(item), item->parent() );
             this->removeChild( item );
+        } else {
+            toCircle( dynamic_cast<qtbeamitem*>(item), groupCircles );
+        }
         return;
     }
 }
@@ -161,7 +192,7 @@ void kamalTree::clearOldHandler()
     }
 }
 
-void kamalTree::toPoint(qtbeamitem *bi)
+void kamalTree::toPoint(qtbeamitem *bi, QTreeWidgetItem *where)
 {
     qtpointitem *pi = new qtpointitem();
 
@@ -175,12 +206,12 @@ void kamalTree::toPoint(qtbeamitem *bi)
         sty->setIconStyle( "sn_place", pi ):
         sty->setIconStyle(bi->style, pi);
 
-    bi->parent()->addChild( pi );
+    where->addChild( pi );
     map->update( pi );
     groupPoints->setExpanded( true );
 }
 
-void kamalTree::toPoint(qtcircleitem *ci)
+void kamalTree::toPoint(qtcircleitem *ci, QTreeWidgetItem *where)
 {
     qtpointitem *pi = new qtpointitem();
 
@@ -191,12 +222,12 @@ void kamalTree::toPoint(qtcircleitem *ci)
     pi->style = "sn_place";
     sty->setIconStyle( pi->style, pi );
 
-    ci->parent()->addChild( pi );
+    where->addChild( pi );
     map->update( pi );
     groupPoints->setExpanded( true );
 }
 
-void kamalTree::toBeam(qtpointitem *pi, qtbeamitem::TYPE type)
+void kamalTree::toBeam(qtpointitem *pi, qtbeamitem::TYPE type, QTreeWidgetItem *where)
 {
     qtbeamitem *bi = new qtbeamitem();
 
@@ -221,23 +252,25 @@ void kamalTree::toBeam(qtpointitem *pi, qtbeamitem::TYPE type)
         sty->setIconStyle( bi->style, bi );
     }
 
-    pi->parent()->addChild( bi );
+    where->addChild( bi );
     map->update( bi );
     ( type == qtbeamitem::MAN )?
         groupBeans->setExpanded(true):
         groupERMs->setExpanded(true);
 }
 
-void kamalTree::toBeam(qtbeamitem *bii, qtbeamitem::TYPE type)
+void kamalTree::toBeam(qtbeamitem *bii, qtbeamitem::TYPE type, QTreeWidgetItem *where)
 {
     qtbeamitem *bi = new qtbeamitem();
 
     bi->alcance = bii->alcance;
     bi->beamType = type;
+    bi->bm->daz = bii->bm->daz;
     bi->bm->source->x = bii->bm->source->x;
     bi->bm->source->y = bii->bm->source->y;
     bi->bm->source->name = bii->bm->source->name;
-    bi->bm->proj( bii->alcance );
+
+    bi->bm->proj( bi->alcance );
     bi->setText(0, bii->text(0));
 
     if ( sty->isInternalStyle( bii->style ) || bii->style.isEmpty() ) {
@@ -252,14 +285,14 @@ void kamalTree::toBeam(qtbeamitem *bii, qtbeamitem::TYPE type)
         map->update(bii->style, "sn_man"):
         map->update(bii->style, "sn_erm");
 
-    bii->parent()->addChild( bi );
+    where->addChild( bi );
     map->update( bi );
     ( type == qtbeamitem::MAN )?
         groupBeans->setExpanded(true):
         groupERMs->setExpanded(true);
 }
 
-void kamalTree::toBeam(qtcircleitem *ci, qtbeamitem::TYPE type)
+void kamalTree::toBeam(qtcircleitem *ci, qtbeamitem::TYPE type, QTreeWidgetItem *where)
 {
     qtbeamitem *bi = new qtbeamitem();
 
@@ -281,14 +314,14 @@ void kamalTree::toBeam(qtcircleitem *ci, qtbeamitem::TYPE type)
 
     if ( ! ci->style.isEmpty() )
         bi->style = ci->style;
-    ci->parent()->addChild( bi );
+    where->addChild( bi );
     map->update( bi );
     ( type == qtbeamitem::MAN )?
         groupBeans->setExpanded(true):
         groupERMs->setExpanded(true);
 }
 
-void kamalTree::toCircle(qtpointitem *pi)
+void kamalTree::toCircle(qtpointitem *pi, QTreeWidgetItem *where)
 {
     qtcircleitem *ci = new qtcircleitem();
 
@@ -305,14 +338,14 @@ void kamalTree::toCircle(qtpointitem *pi)
     ci->style = pi->style;
     sty->setIconStyle( "sn_cir", ci );
 
-    pi->parent()->addChild( ci );
+    where->addChild( ci );
     map->update(ci->style, "sn_cir");
     map->update("sn_cir", "sn_cir");
     map->update( ci );
     groupCircles->setExpanded( true );
 }
 
-void kamalTree::toCircle(qtbeamitem *bi)
+void kamalTree::toCircle(qtbeamitem *bi, QTreeWidgetItem *where)
 {
     qtcircleitem *ci = new qtcircleitem();
 
@@ -329,7 +362,7 @@ void kamalTree::toCircle(qtbeamitem *bi)
     sty->setIconStyle( "sn_cir", ci );
     map->update(ci->style, "sn_cir");
 
-    bi->parent()->addChild( ci );
+    where->addChild( ci );
     map->update( ci );
     groupCircles->setExpanded(true);
 }

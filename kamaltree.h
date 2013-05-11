@@ -19,15 +19,15 @@ private:
 
     styleFold       *sty;
 
-    void toPoint(qtbeamitem   *bi);
-    void toPoint(qtcircleitem *ci);
+    void toPoint(qtbeamitem   *bi, QTreeWidgetItem *where);
+    void toPoint(qtcircleitem *ci, QTreeWidgetItem *where);
 
-    void toBeam(qtpointitem   *pi, qtbeamitem::TYPE type);
-    void toBeam(qtbeamitem    *bii, qtbeamitem::TYPE type);
-    void toBeam(qtcircleitem  *ci, qtbeamitem::TYPE type);
+    void toBeam(qtpointitem   *pi, qtbeamitem::TYPE type, QTreeWidgetItem *where);
+    void toBeam(qtbeamitem    *bii, qtbeamitem::TYPE type, QTreeWidgetItem *where);
+    void toBeam(qtcircleitem  *ci, qtbeamitem::TYPE type, QTreeWidgetItem *where);
 
-    void toCircle(qtpointitem *pi);
-    void toCircle(qtbeamitem  *bi);
+    void toCircle(qtpointitem *pi, QTreeWidgetItem *where);
+    void toCircle(qtbeamitem  *bi, QTreeWidgetItem *where);
 
 public:
     explicit kamalTree(QWidget *parent = 0);
