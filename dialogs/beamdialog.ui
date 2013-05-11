@@ -100,6 +100,12 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::TabFocus</enum>
+   </property>
+   <property name="wrapping">
+    <bool>false</bool>
+   </property>
    <property name="suffix">
     <string>° NV</string>
    </property>
@@ -224,6 +230,22 @@
    <signal>editDone()</signal>
    <receiver>azimute</receiver>
    <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>102</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>55</x>
+     <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gbwidget</sender>
+   <signal>editDone()</signal>
+   <receiver>azimute</receiver>
+   <slot>selectAll()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>164</x>

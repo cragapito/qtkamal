@@ -84,7 +84,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::TabFocus</enum>
+    <enum>Qt::NoFocus</enum>
    </property>
   </widget>
   <widget class="QLabel" name="iconPreview">

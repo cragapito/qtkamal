@@ -106,7 +106,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::TabFocus</enum>
+    <enum>Qt::NoFocus</enum>
    </property>
   </widget>
   <widget class="QStackedWidget" name="cirSect">
@@ -435,6 +435,22 @@
     </hint>
     <hint type="destinationlabel">
      <x>165</x>
+     <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gbwidget</sender>
+   <signal>editDone()</signal>
+   <receiver>raio</receiver>
+   <slot>selectAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>102</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>65</x>
      <y>181</y>
     </hint>
    </hints>

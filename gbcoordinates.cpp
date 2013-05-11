@@ -8,7 +8,6 @@ gbcoordinates::gbcoordinates(QWidget *parent) :
 {
     gbc = NULL;
     ui->setupUi(this);
-    setFocusProxy( ui->latgr );
 }
 
 gbcoordinates::~gbcoordinates()
@@ -63,30 +62,35 @@ void gbcoordinates::EditCoordinates(Coordinate *c)
 void gbcoordinates::on_latgr_textChanged(const QString &arg1) {
     if ( arg1.size() >= 2 ) {
         ui->latmin->setFocus();
+        ui->latmin->selectAll();
     }
 }
 
 void gbcoordinates::on_latmin_textChanged(const QString &arg1) {
     if ( arg1.size() >= 2 ) {
         ui->latseg->setFocus();
+        ui->latseg->selectAll();
     }
 }
 
 void gbcoordinates::on_latseg_textChanged(const QString &arg1) {
     if ( arg1.size() >= 4 ) {
         ui->longr->setFocus();
+        ui->longr->selectAll();
     }
 }
 
 void gbcoordinates::on_longr_textChanged(const QString &arg1) {
     if ( arg1.size() >= 2 ) {
         ui->lonmin->setFocus();
+        ui->lonmin->selectAll();
     }
 }
 
 void gbcoordinates::on_lonmin_textChanged(const QString &arg1) {
     if ( arg1.size() >= 2 ) {
         ui->lonseg->setFocus();
+        ui->lonseg->selectAll();
     }
 }
 

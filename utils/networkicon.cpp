@@ -13,16 +13,15 @@ NetworkIcon::NetworkIcon(QIcon *newni)
 
 void NetworkIcon::request(QUrl url)
 {
-    nam->get(QNetworkRequest(url));
+    if ( ! url.isEmpty() )
+        nam->get(QNetworkRequest(url));
 }
 
 void NetworkIcon::finishedSlot(QNetworkReply *reply )
 {
-    if (reply->error() == QNetworkReply::TimeoutError )
-        std::cerr << "Timeout when bringing icon.";
-
-    if (reply->error() == QNetworkReply::NoError)
-        {
+    if (reply->error() != QNetworkReply::NoError ) {
+        std::cerr << "Error bringing icon: " << reply->errorString().toStdString();
+    } else {
         QImageReader imageReader(reply);
         QImage pic = imageReader.read();
         QIcon i = QIcon(QPixmap::fromImage(pic));
