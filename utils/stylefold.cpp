@@ -69,11 +69,12 @@ void styleFold::addMappedStyle(QString from, QString to)
 
 bool styleFold::isInternalStyle(QString style)
 {
+    /*
+     * As cores de linha só foram definidas para estilos internos
+     * exceto para sn_place
+     */
     if ( style == "sn_place" ) return true;
 
-    /* As cores de linha só foram definidas para estilos internos
-     * menos para sn_place
-     */
     foreach ( QString sty, mappedLineColor.keys() ) {
         if ( sty == style ) return true;
     }

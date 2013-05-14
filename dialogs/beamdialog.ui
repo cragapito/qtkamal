@@ -101,7 +101,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::TabFocus</enum>
+    <enum>Qt::WheelFocus</enum>
    </property>
    <property name="wrapping">
     <bool>false</bool>
@@ -148,7 +148,7 @@
     <double>3000.000000000000000</double>
    </property>
    <property name="value">
-    <double>100.000000000000000</double>
+    <double>5.000000000000000</double>
    </property>
   </widget>
   <widget class="QLabel" name="iconPreview">

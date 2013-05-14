@@ -502,6 +502,9 @@ void kml::update(qtcircleitem *item)
 
 void kml::update(QString style, QString modelStyle)
 {
+    qDebug() << "Atualização de estilos temporariamente bloqueada.";
+    return;
+
     QXmlGet xmlGet = QXmlGet( *doc );
     QDomElement e = QDomElement();
 
@@ -539,7 +542,7 @@ void kml::update(QString style, QString modelStyle)
         xmlPut = QXmlPut(xmlGet);
     }
 
-    if ( sty->mappedLineColor.contains(modelStyle)) {
+    if ( sty->mappedLineColor.contains(modelStyle) ) {
         if ( ! xmlGet.findNextAndDescend("LineStyle") ) {
             xmlPut.descend("LineStyle");
             xmlPut.putString( "color", sty->mappedLineColor[modelStyle]);
@@ -547,7 +550,7 @@ void kml::update(QString style, QString modelStyle)
             xmlPut.rise();
         }
     }
-    if ( sty->mappedPolyColor.contains(modelStyle)) {
+    if ( sty->mappedPolyColor.contains(modelStyle) ) {
         if ( ! xmlGet.findNextAndDescend("PolyStyle") ) {
             xmlPut.descend("PolyStyle");
             xmlPut.putString( "color", sty->mappedPolyColor[modelStyle]);
