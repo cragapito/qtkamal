@@ -48,6 +48,8 @@ protected:
 public slots:
     void clearOldHandler();
 
+signals:
+    void beamMoved();
 };
 
 #endif // KAMALTREE_H

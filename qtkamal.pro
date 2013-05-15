@@ -8,8 +8,20 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+DEFINES += WITH_TRIANG
+
+#IF DEFINED(WITHOUT_TRIANG)
+    #UNDEF WITH_TRIANG
+#ENDIF
+
 TARGET = qtkamal
 TEMPLATE = app
+
+#IF DEFINED(WITH_TRIANG)
+DEFINES += MIN_TRIANG_ANGLE=10
+INCLUDEPATH += /usr/local/include
+LIBS += -L /usr/local/lib -lgsl -lgslcblas
+#ENDIF
 
 SOURCES += main.cpp\
     src/base/Point.cpp \
@@ -29,7 +41,8 @@ SOURCES += main.cpp\
     dialogs/pointdialog.cpp \
     utils/qtbeamitem.cpp \
     utils/qtcircleitem.cpp \
-    kamaltree.cpp
+    kamaltree.cpp \
+    src/Calc/LinearSolver.cpp
 
 
 HEADERS  += \
@@ -50,7 +63,8 @@ HEADERS  += \
     dialogs/pointdialog.h \
     utils/qtbeamitem.h \
     utils/qtcircleitem.h \
-    kamaltree.h
+    kamaltree.h \
+    src/Calc/LinearSolver.h
 
 
 FORMS    += \

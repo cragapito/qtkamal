@@ -82,8 +82,10 @@ void kamalTree::dropEvent(QDropEvent *event)
         if ( event->proposedAction() == Qt::MoveAction ) {
             toPoint( dynamic_cast<qtbeamitem*>(item), item->parent() );
             this->removeChild( item );
+            emit beamMoved();
         } else {
             toPoint( dynamic_cast<qtbeamitem*>(item), groupPoints );
+            emit beamMoved();
         }
         return;
     }
@@ -101,9 +103,11 @@ void kamalTree::dropEvent(QDropEvent *event)
     if ( group == "Feixes Manuais" && dynamic_cast<qtpointitem*>(item)) {
         if ( event->proposedAction() == Qt::MoveAction ) {
             toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN, item->parent() );
-            this->removeChild( item );
+            this->removeChild( item );    
+            emit beamMoved();
         } else {
             toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN, groupBeans );
+            emit beamMoved();
         }
         return;
     }
@@ -112,8 +116,10 @@ void kamalTree::dropEvent(QDropEvent *event)
         if ( event->proposedAction() == Qt::MoveAction ) {
             toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM, item->parent() );
             this->removeChild( item );
+            emit beamMoved();
         } else {
             toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM, groupERMs );
+            emit beamMoved();
         }
         return;
     }
@@ -122,8 +128,10 @@ void kamalTree::dropEvent(QDropEvent *event)
         if ( event->proposedAction() == Qt::MoveAction ) {
             toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::MAN, item->parent() );
             this->removeChild( item );
+            emit beamMoved();
         } else {
             toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::MAN, groupBeans );
+            emit beamMoved();
         }
         return;
     }
@@ -132,8 +140,10 @@ void kamalTree::dropEvent(QDropEvent *event)
         if ( event->proposedAction() == Qt::MoveAction ) {
             toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM, item->parent() );
             this->removeChild( item );
+            emit beamMoved();
         } else {
             toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM, groupERMs );
+            emit beamMoved();
         }
         return;
     }
@@ -142,8 +152,10 @@ void kamalTree::dropEvent(QDropEvent *event)
         if ( event->proposedAction() == Qt::MoveAction ) {
             toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::MAN, item->parent() );
             this->removeChild( item );
+            emit beamMoved();
         } else {
             toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::MAN, groupBeans );
+            emit beamMoved();
         }
         return;
     }
@@ -152,8 +164,10 @@ void kamalTree::dropEvent(QDropEvent *event)
         if ( event->proposedAction() == Qt::MoveAction ) {
             toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM, item->parent() );
             this->removeChild( item );
+            emit beamMoved();
         } else {
             toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM, groupERMs );
+            emit beamMoved();
         }
         return;
     }
@@ -172,8 +186,10 @@ void kamalTree::dropEvent(QDropEvent *event)
         if ( event->proposedAction() == Qt::MoveAction ) {
             toCircle( dynamic_cast<qtbeamitem*>(item), item->parent() );
             this->removeChild( item );
+            emit beamMoved();
         } else {
             toCircle( dynamic_cast<qtbeamitem*>(item), groupCircles );
+            emit beamMoved();
         }
         return;
     }
@@ -210,7 +226,7 @@ void kamalTree::toPoint(qtbeamitem *bi, QTreeWidgetItem *where)
 
     where->addChild( pi );
     map->update( pi );
-    groupPoints->setExpanded( true );
+    groupPoints->setExpanded( true );   
 }
 
 void kamalTree::toPoint(qtcircleitem *ci, QTreeWidgetItem *where)

@@ -18,6 +18,12 @@ qtkamal::qtkamal(QWidget *parent) :
     sty = new styleFold();
     ui->treeWidget->map = new kml( this, ui->treeWidget, sty );
     ui->treeWidget->SetStyleFold( sty );
+
+#ifdef WITH_TRIANG
+    vbeans = new std::vector<Beam*>();
+    connect(this          , SIGNAL(beamMoved()), this, SLOT(checkTargetFunction()));
+    connect(ui->treeWidget, SIGNAL(beamMoved()), this, SLOT(checkTargetFunction()));
+#endif
 }
 
 qtkamal::~qtkamal()
@@ -74,6 +80,7 @@ void qtkamal::on_actionMan_triggered()
         bd->bi->style = "sn_man";
         sty->setIconStyle( "sn_man", bd->bi );
         ui->treeWidget->map->update( bd->bi );
+        emit beamMoved();
     }
 }
 
@@ -89,6 +96,7 @@ void qtkamal::on_actionEst_triggered()
         bd->bi->style = "sn_erm";
         sty->setIconStyle( "sn_erm", bd->bi );
         ui->treeWidget->map->update( bd->bi );
+        emit beamMoved();
     }
 }
 
@@ -109,6 +117,7 @@ void qtkamal::on_actionCirc_triggered()
 void qtkamal::on_actionGetEarth_triggered()
 {
     ui->treeWidget->map->readfile();
+    emit beamMoved();
 }
 
 void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -126,6 +135,7 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         if ( bwi->open( this ) ) {
             item->setText(0, QString::fromStdString( bwi->bm->source->name ) );
             ui->treeWidget->map->update( bwi );
+            emit beamMoved();
         }
     }
 
@@ -135,13 +145,9 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
             item->setText(0, QString::fromStdString(pwi->center->name) );
             pwi->calc();
             ui->treeWidget->map->update( pwi );
+            emit beamMoved();
         }
     }
-
-    // Após implementar Triangulação
-    //if ( (groupERMs->childCount() + groupBeans->childCount() ) >=2 ) {
-    //    ui->actionTrTarget->setEnabled( true );
-    //}delete_icon
 }
 
 void qtkamal::on_actionAbout_triggered()
@@ -191,6 +197,45 @@ void qtkamal::deleteItemHandler()
     ui->treeWidget->removeChild( item );
 }
 
+void qtkamal::checkTargetFunction()
+{
+#ifdef WITH_TRIANG
+    if ( ( ui->treeWidget->groupBeans->childCount()
+           + ui->treeWidget->groupERMs->childCount() ) >=2 ) {
+        ui->actionTrTarget->setEnabled( true );
+
+        QTreeWidgetItemIterator it( ui->treeWidget );
+
+        vbeans->clear();
+
+        while ( *it ) {
+            if (   (*it)->parent() == ui->treeWidget->groupBeans
+                || (*it)->parent() == ui->treeWidget->groupERMs   ) {
+                vbeans->push_back( dynamic_cast<qtbeamitem*>(*it)->bm );
+            }
+            it++;
+        }
+
+        Beam b = *vbeans->at(0);
+        double ref = b.daz;
+
+        for ( unsigned int i = 1 ; i < vbeans->size() ; i++ ) {
+            b = *vbeans->at(i);
+
+            // Libera se a diferença dos angulos for significativa
+            if ( ( b.daz - ref ) >= MIN_TRIANG_ANGLE ||
+                 ( b.daz - ref ) <= -MIN_TRIANG_ANGLE ) {
+                ui->actionTrTarget->setEnabled( true );
+                return;
+            }
+        }
+    }
+
+    ui->actionTrTarget->setEnabled( false );
+
+#endif
+}
+
 void qtkamal::args(QStringList args)
 {
     foreach(QString arg, args) {
@@ -198,4 +243,52 @@ void qtkamal::args(QStringList args)
             ui->treeWidget->map->readfile( arg );
         }
     }
+}
+
+void qtkamal::on_actionTrTarget_triggered()
+{
+#ifdef WITH_TRIANG
+
+    ui->actionTrTarget->setEnabled( false );
+
+    vector<Straight*> *vs = new vector<Straight*>();
+
+    for ( unsigned int i = 0 ; i < vbeans->size() ; i++ ) {
+        vs->push_back( dynamic_cast<Straight*>(vbeans->at(i)) );
+    }
+
+    LinearSolver *ls = new LinearSolver( *vs );
+    qtpointitem *pi = new qtpointitem();
+
+    Point *c = ls->solve();
+
+    std::cout << ls->getResidual();
+
+    pi->pc->x = c->x;
+    pi->pc->y = c->y;
+
+    pi->setText(0, QString( "Localização Estimada" ));
+    pi->style = "sn_place";
+    sty->setIconStyle( "sn_place", pi );
+
+    ui->treeWidget->groupPoints->addChild( pi );
+    ui->treeWidget->groupPoints->setExpanded( true );
+    ui->treeWidget->map->update( pi );
+
+    /*
+     * O Ponteiro c ficará inacessível!
+     *
+     * (permanecerá alocado e sua referência perdida após sair
+     * deste escopo, mas não há risco de vazamento)
+     *
+     * Por alguma razão chamadas sucessivas a esta função
+     * geram falha de segmentação no core do Qt, mesmo com
+     * o destrutor de Point virtual (commit revertido).
+     *
+     */
+    // delete c;
+    delete ls;
+    delete vs;
+
+#endif
 }

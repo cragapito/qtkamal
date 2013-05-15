@@ -1,9 +1,15 @@
 #ifndef qtkamal_H
 #define qtkamal_H
 
+#ifdef WITH_TRIANG
+    #include <vector>
+    #include <src/Calc/LinearSolver.h>
+#endif
+
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 
+#include "src/Geo/Beam.h"
 #include "utils/stylefold.h"
 
 namespace Ui {
@@ -22,7 +28,11 @@ public:
     explicit qtkamal(QWidget *parent = 0);
     ~qtkamal();
 
-    styleFold       *sty;
+    styleFold               *sty;
+
+    #ifdef WITH_TRIANG
+        std::vector<Beam*>      *vbeans;
+    #endif
 
     void args(QStringList args);
 
@@ -42,6 +52,14 @@ private slots:
     void on_treeWidget_customContextMenuRequested(const QPoint &pos);
 
     void deleteItemHandler();
+
+    void on_actionTrTarget_triggered();
+
+public slots:
+    void checkTargetFunction();
+
+signals:
+    void beamMoved();
 
 private:
     Ui::qtkamal *ui;
