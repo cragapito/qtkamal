@@ -7,7 +7,6 @@
 #include "dialogs/circledialog.h"
 
 #include <QUrl>
-#include <QList>
 #include <QDropEvent>
 
 qtkamal::qtkamal(QWidget *parent) :
@@ -19,8 +18,9 @@ qtkamal::qtkamal(QWidget *parent) :
     ui->treeWidget->map = new kml( this, ui->treeWidget, sty );
     ui->treeWidget->SetStyleFold( sty );
 
+// TODO: Verificar Preprocessamento nas definições do projeto (.pro)
 #ifdef WITH_TRIANG
-    vbeans = new std::vector<Beam*>();
+    vbeans = new QList<qtbeamitem*>();
     connect(this          , SIGNAL(beamMoved()), this, SLOT(checkTargetFunction()));
     connect(ui->treeWidget, SIGNAL(beamMoved()), this, SLOT(checkTargetFunction()));
 #endif
@@ -206,25 +206,23 @@ void qtkamal::checkTargetFunction()
 
         QTreeWidgetItemIterator it( ui->treeWidget );
 
-        vbeans->clear();
-
         while ( *it ) {
             if (   (*it)->parent() == ui->treeWidget->groupBeans
                 || (*it)->parent() == ui->treeWidget->groupERMs   ) {
-                vbeans->push_back( dynamic_cast<qtbeamitem*>(*it)->bm );
+                vbeans->push_back( dynamic_cast<qtbeamitem*>(*it) );
             }
             it++;
         }
 
-        Beam b = *vbeans->at(0);
-        double ref = b.daz;
+        qtbeamitem b = *vbeans->at(0);
+        double ref = b.bm->daz;
 
-        for ( unsigned int i = 1 ; i < vbeans->size() ; i++ ) {
+        for ( int i = 1 ; i < vbeans->size() ; i++ ) {
             b = *vbeans->at(i);
 
             // Libera se a diferença dos angulos for significativa
-            if ( ( b.daz - ref ) >= MIN_TRIANG_ANGLE ||
-                 ( b.daz - ref ) <= -MIN_TRIANG_ANGLE ) {
+            if ( ( b.bm->daz - ref ) >=  MIN_TRIANG_ANGLE ||
+                 ( b.bm->daz - ref ) <= -MIN_TRIANG_ANGLE ) {
                 ui->actionTrTarget->setEnabled( true );
                 return;
             }
@@ -249,12 +247,15 @@ void qtkamal::on_actionTrTarget_triggered()
 {
 #ifdef WITH_TRIANG
 
+    // TODO: Localizar perda de ponteiros
+
     ui->actionTrTarget->setEnabled( false );
 
     vector<Straight*> *vs = new vector<Straight*>();
 
-    for ( unsigned int i = 0 ; i < vbeans->size() ; i++ ) {
-        vs->push_back( dynamic_cast<Straight*>(vbeans->at(i)) );
+    for ( int i = 0 ; i < vbeans->size() ; i++ ) {
+        qtbeamitem *b = vbeans->at(i);
+        vs->push_back( dynamic_cast<Straight*>( b->bm ) );
     }
 
     LinearSolver *ls = new LinearSolver( *vs );
@@ -271,22 +272,25 @@ void qtkamal::on_actionTrTarget_triggered()
     pi->style = "sn_place";
     sty->setIconStyle( "sn_place", pi );
 
+    for ( int i = 0 ; i < vbeans->size() ; i++ ) {
+        qtbeamitem *b = vbeans->at(i);
+        /*
+         *
+         * Novo alcance 10% maior que a distância entre os pontos
+         * para forçar o cruzamento dos feixes
+         *
+         */
+        double a = *pi->pc - *b->bm->source;
+        b->alcance = a;
+        b->bm->proj( a );
+        ui->treeWidget->map->update( b );
+    }
+
     ui->treeWidget->groupPoints->addChild( pi );
     ui->treeWidget->groupPoints->setExpanded( true );
     ui->treeWidget->map->update( pi );
 
-    /*
-     * O Ponteiro c ficará inacessível!
-     *
-     * (permanecerá alocado e sua referência perdida após sair
-     * deste escopo, mas não há risco de vazamento)
-     *
-     * Por alguma razão chamadas sucessivas a esta função
-     * geram falha de segmentação no core do Qt, mesmo com
-     * o destrutor de Point virtual (commit revertido).
-     *
-     */
-    // delete c;
+    delete c;
     delete ls;
     delete vs;
 

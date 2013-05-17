@@ -2,10 +2,11 @@
 #define qtkamal_H
 
 #ifdef WITH_TRIANG
-    #include <vector>
+    #include <utils/qtbeamitem.h>
     #include <src/Calc/LinearSolver.h>
 #endif
 
+#include <QList>
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 
@@ -31,7 +32,7 @@ public:
     styleFold               *sty;
 
     #ifdef WITH_TRIANG
-        std::vector<Beam*>      *vbeans;
+        QList<qtbeamitem*>      *vbeans;
     #endif
 
     void args(QStringList args);

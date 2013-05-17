@@ -257,13 +257,13 @@ bool kml::save()
         return false;
     }
 
+    addStylesToFile();
+
     return true;
 }
 
 void kml::newFile()
 {
-    QString style;
-
     QXmlPut xmlPut("kml");
     xmlPut.setAttributeString("xmlns","http://www.opengis.net/kml/2.2");
     xmlPut.setAttributeString("xmlns:gx","http://www.google.com/kml/ext/2.2");
@@ -274,7 +274,32 @@ void kml::newFile()
     xmlPut.putString("name", QString( QFileInfo(filename).fileName() ) );
     wtree->setHeaderLabel(   QString( QFileInfo(filename).fileName() ) );
 
-    foreach ( style, sty->mappedUrl.keys() ) {
+    addStylesToFile();
+
+    *doc = xmlPut.document();
+
+    this->save();
+}
+
+void kml::addStylesToFile()
+{
+    QXmlGet xmlGet = QXmlGet( *doc );
+
+    if (xmlGet.find("Document")) {
+        xmlGet.descend();
+        xmlGet = xmlGet.restricted();
+    }
+
+    while ( xmlGet.findNext("Style") )  {
+        QString styleTest = xmlGet.getAttributeString("id");
+        if ( sty->isInternalStyle( styleTest ) ) {
+            return; // Já contém os estilos internos
+        }
+    }
+
+    QXmlPut xmlPut = QXmlPut(xmlGet);
+
+    foreach ( QString style, sty->mappedUrl.keys() ) {
         xmlPut.descend("Style");
         xmlPut.setAttributeString("id", style);
         xmlPut.descend("IconStyle");
@@ -296,10 +321,6 @@ void kml::newFile()
         }
         xmlPut.rise();
     }
-
-    *doc = xmlPut.document();
-
-    this->save();
 }
 
 void kml::update(qtbeamitem *item)
@@ -502,8 +523,11 @@ void kml::update(qtcircleitem *item)
 
 void kml::update(QString style, QString modelStyle)
 {
-    qDebug() << "Atualização de estilos temporariamente bloqueada.";
-    return;
+
+//#ifndef STYLE_UPDATE
+//    qDebug() << "Método para atualização de estilos bloqueado.";
+//    return;
+//#endif
 
     QXmlGet xmlGet = QXmlGet( *doc );
     QDomElement e = QDomElement();
@@ -539,23 +563,45 @@ void kml::update(QString style, QString modelStyle)
     } else {
         xmlGet.goTo( e );
         xmlGet.findAndDescend("Style");
-        xmlPut = QXmlPut(xmlGet);
+        e = xmlGet.element();
     }
 
     if ( sty->mappedLineColor.contains(modelStyle) ) {
-        if ( ! xmlGet.findNextAndDescend("LineStyle") ) {
-            xmlPut.descend("LineStyle");
-            xmlPut.putString( "color", sty->mappedLineColor[modelStyle]);
-            xmlPut.putString( "width", sty->mappedLineWidth[modelStyle]);
-            xmlPut.rise();
+
+        QDomElement lineStyle;
+
+        if ( ! xmlGet.findNext("LineStyle") ) {
+            lineStyle = doc->createElement("LineStyle");
+            e.appendChild( lineStyle );
+        } else {
+            lineStyle = e.firstChildElement("LineStyle");
+            lineStyle.removeChild( lineStyle.firstChild() );
+            lineStyle.removeChild( lineStyle.firstChild() );
         }
+
+        QDomElement ecolor = doc->createElement("color");
+        QDomElement ewidth = doc->createElement("width");
+        QDomText newcolor = doc->createTextNode( sty->mappedLineColor[modelStyle] );
+        QDomText newwidth = doc->createTextNode( sty->mappedLineWidth[modelStyle] );
+        ecolor.appendChild( newcolor );
+        ewidth.appendChild( newwidth );
     }
+
     if ( sty->mappedPolyColor.contains(modelStyle) ) {
-        if ( ! xmlGet.findNextAndDescend("PolyStyle") ) {
-            xmlPut.descend("PolyStyle");
-            xmlPut.putString( "color", sty->mappedPolyColor[modelStyle]);
-            xmlPut.rise();
+
+        QDomElement polyStyle;
+
+        if ( ! xmlGet.findNext("PolyStyle") ) {
+            polyStyle = doc->createElement("PolyStyle");
+            e.appendChild( polyStyle );
+        } else {
+            polyStyle = e.firstChildElement("PolyStyle");
+            polyStyle.removeChild( polyStyle.firstChild() );
         }
+
+        QDomElement pcolor = doc->createElement("color");
+        QDomText newpolycolor = doc->createTextNode( sty->mappedLineColor[modelStyle] );
+        pcolor.appendChild( newpolycolor );
     }
 
     *doc = xmlPut.document();

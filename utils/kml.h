@@ -38,6 +38,7 @@ public:
     bool save();
 
     void newFile();
+    void addStylesToFile();
 
     void update (qtbeamitem *item);
     void update (qtpointitem *item);

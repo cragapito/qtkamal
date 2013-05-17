@@ -218,9 +218,11 @@ void kamalTree::toPoint(qtbeamitem *bi, QTreeWidgetItem *where)
     pi->setText(0, bi->text(0) );
 
     pi->style = "sn_place";
-    //( sty->isInternalStyle( bi->style ) || bi->style.isEmpty() )?
-    //    sty->setIconStyle( "sn_place", pi ):
-    //    sty->setIconStyle(bi->style, pi);
+    /*
+    ( sty->isInternalStyle( bi->style ) || bi->style.isEmpty() )?
+        sty->setIconStyle( "sn_place", pi ):
+        sty->setIconStyle(bi->style, pi);
+    */
 
     sty->setIconStyle( "sn_place", pi );
 
@@ -347,8 +349,10 @@ void kamalTree::toBeam(qtcircleitem *ci, qtbeamitem::TYPE type, QTreeWidgetItem 
         bi->style = "sn_man":
         bi->style = "sn_erm";
 
-    //if ( ! ci->style.isEmpty() )
-    //    bi->style = ci->style;
+    /*
+    if ( ! ci->style.isEmpty() )
+        bi->style = ci->style;
+    */
 
     where->addChild( bi );
     map->update( bi );
@@ -372,6 +376,7 @@ void kamalTree::toCircle(qtpointitem *pi, QTreeWidgetItem *where)
     ci->calc();
     ci->setText(0, pi->text(0) );
     ci->style = "sn_cir";
+    //ci->style = pi->style;
     sty->setIconStyle( "sn_cir", ci );
 
     where->addChild( ci );
@@ -394,6 +399,8 @@ void kamalTree::toCircle(qtbeamitem *bi, QTreeWidgetItem *where)
     ci->calc();
     ci->setText(0, bi->text(0) );
     ci->style = "sn_cir";
+    //ci->style = bi->style;
+
     sty->setIconStyle( "sn_cir", ci );
 
     where->addChild( ci );
