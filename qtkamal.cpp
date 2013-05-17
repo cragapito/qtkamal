@@ -208,6 +208,8 @@ void qtkamal::checkTargetFunction()
 
         QTreeWidgetItemIterator it( ui->treeWidget );
 
+        vbeans->clear();
+
         while ( *it ) {
             if (   (*it)->parent() == ui->treeWidget->groupBeans
                 || (*it)->parent() == ui->treeWidget->groupERMs   ) {
@@ -216,15 +218,15 @@ void qtkamal::checkTargetFunction()
             it++;
         }
 
-        qtbeamitem b = *vbeans->at(0);
-        double ref = b.bm->daz;
+        qtbeamitem *b = vbeans->at(0);
+        double ref = b->bm->daz;
 
         for ( int i = 1 ; i < vbeans->size() ; i++ ) {
-            b = *vbeans->at(i);
+            b = vbeans->at(i);
 
             // Libera se a diferença dos angulos for significativa
-            if ( ( b.bm->daz - ref ) >=  MIN_TRIANG_ANGLE ||
-                 ( b.bm->daz - ref ) <= -MIN_TRIANG_ANGLE ) {
+            if ( ( b->bm->daz - ref ) >=  MIN_TRIANG_ANGLE ||
+                 ( b->bm->daz - ref ) <= -MIN_TRIANG_ANGLE ) {
                 ui->actionTrTarget->setEnabled( true );
                 return;
             }
@@ -249,23 +251,25 @@ void qtkamal::on_actionTrTarget_triggered()
 {
 #ifdef WITH_TRIANG
 
-    // TODO: Localizar perda de ponteiros
-
     ui->actionTrTarget->setEnabled( false );
 
     vector<Straight*> *vs = new vector<Straight*>();
 
     for ( int i = 0 ; i < vbeans->size() ; i++ ) {
-        qtbeamitem *b = vbeans->at(i);
+        qtbeamitem *bo = vbeans->at(i);
+        qtbeamitem *b = bo; // Deep copy
         vs->push_back( dynamic_cast<Straight*>( b->bm ) );
     }
 
     LinearSolver *ls = new LinearSolver( *vs );
     qtpointitem *pi = new qtpointitem();
 
+    std::cout << "Calculando cruzamento de " << vbeans->size() << " retas." << std::endl;
     Point *c = ls->solve();
 
-    std::cout << ls->getResidual();
+    std::cout << "Localização estimada em " << (Coordinate*)c << std::endl;
+
+    std::cout << ls->getResidual() << std::endl;;
 
     pi->pc->x = c->x;
     pi->pc->y = c->y;
@@ -274,14 +278,17 @@ void qtkamal::on_actionTrTarget_triggered()
     pi->style = "sn_place";
     sty->setIconStyle( "sn_place", pi );
 
+    /*
+     *
+     * Novo alcance 10% maior que a distância entre os pontos
+     * para forçar o cruzamento dos feixes
+     *
+     */
+
+
+
     for ( int i = 0 ; i < vbeans->size() ; i++ ) {
         qtbeamitem *b = vbeans->at(i);
-        /*
-         *
-         * Novo alcance 10% maior que a distância entre os pontos
-         * para forçar o cruzamento dos feixes
-         *
-         */
         double a = *pi->pc - *b->bm->source;
         b->alcance = a;
         b->bm->proj( a );

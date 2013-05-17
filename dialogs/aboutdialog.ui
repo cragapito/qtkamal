@@ -99,7 +99,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Qt-kamal - Protótipo</string>
+      <string>Qt-kamal</string>
      </property>
     </widget>
     <widget class="QTextBrowser" name="textBrowser_2">
@@ -121,14 +121,27 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ferramenta auxiliar para Radiodeterminação.&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Este software tem por objetivo auxiliar na radiodeterminação, não substitui os métodos convencionais ou qualquer sistema existente, não existem quaisquer garantias, expressas ou implícitas, de qualquer natureza, em especial sobre a precisão e o uso que se possa ser feito das informações calculadas ou geradas por ele.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Escrito por Cleyton Ricardo Agapito.&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Dúvidas, críticas e sugestões para &lt;a href=&quot;maito:cragapito@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;cragapito@gmail.com&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Este software tem por objetivo auxiliar na radiodeterminação, não substitui os métodos convencionais ou qualquer sistema existente, não existem quaisquer garantias, expressas ou implícitas, de qualquer natureza, em especial sobre a precisão e o uso que se possa ser feito das informações calculadas ou geradas por ele.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Dúvidas, críticas e sugestões para &lt;a href=&quot;maito:cragapito@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;cragapito@gmail.com&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="openExternalLinks">
       <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>40</y>
+       <width>271</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Versão 0.41.45</string>
      </property>
     </widget>
    </widget>
@@ -199,11 +212,11 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Arquivos KML podem ser arrastados para a interface, para o executável ou serem indicados na linha de comando, o formato KMZ não é suportado nesta versão por não existir até o momento uma biblioteca multiplataforma que o descomprima.&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;As alterações no arquivo são as mínimas possíveis, ele deve ser capaz de reconhecer ícones, estilos e cores acrescentadas ou alteradas por um browser terrestre como o GoogleEarth®.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;As alterações no arquivo são as mínimas possíveis, ele deve ser capaz de reconhecer ícones de &lt;span style=&quot; font-weight:600;&quot;&gt;pontos&lt;/span&gt; acrescentadas ou alteradas por um browser terrestre como o GoogleEarth®. Os itens podem ser promovidos e demovidos, ou seja, arrastados para outro grupo, neste caso serão redefinidos para estilos pré-formatados, podem ser copiados segurando-se a tecla &amp;lt;Ctrl&amp;gt; &lt;span style=&quot; font-weight:600;&quot;&gt;antes&lt;/span&gt; de serem arrastados, verificações posteriores sobre a situação da tecla não serão realizadas.&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Os itens de área não são suportados diretamente pela padronização KML até o momento, os itens são aproximados para polígonos e podem conter erros de posicionamento. A definição do polígono é calculada a cada alteração utilizando atributos extras gerados pelo programa, a falta destes atributos impede o carregamento do item e as alterações externas na definição do poligono serão sobreescritas a cada alteração.&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;As fórmulas utilizadas baseiam-se na aproximacao esférica da terra com raio de 6.378,137 km (padrão WGS-84) ignorando efeitos elipsoidais, erro típico na ordem de 0,3%.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;As fórmulas utilizadas baseiam-se na aproximacao esférica da terra com raio de 6.378,137 km (padrão WGS-84) ignorando efeitos elipsoidais, erro típico do método na ordem de 0,3%.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>
