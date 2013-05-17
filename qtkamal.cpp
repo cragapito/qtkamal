@@ -18,8 +18,10 @@ qtkamal::qtkamal(QWidget *parent) :
     ui->treeWidget->map = new kml( this, ui->treeWidget, sty );
     ui->treeWidget->SetStyleFold( sty );
 
-// TODO: Verificar Preprocessamento nas definições do projeto (.pro)
 #ifdef WITH_TRIANG
+    #ifndef MIN_TRIANG_ANGLE
+        #define MIN_TRIANG_ANGLE 10
+    #endif
     vbeans = new QList<qtbeamitem*>();
     connect(this          , SIGNAL(beamMoved()), this, SLOT(checkTargetFunction()));
     connect(ui->treeWidget, SIGNAL(beamMoved()), this, SLOT(checkTargetFunction()));

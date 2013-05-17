@@ -11,12 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qtkamal
 TEMPLATE = app
 
-#IF DEFINED (WITH_TRIANG)
-DEFINES += MIN_TRIANG_ANGLE=10
-INCLUDEPATH += /usr/local/include
-LIBS += -L /usr/local/lib -lgsl -lgslcblas
-#ENDIF
-
 SOURCES += main.cpp\
     src/base/Point.cpp \
     src/base/Straight.cpp \
@@ -35,11 +29,7 @@ SOURCES += main.cpp\
     dialogs/pointdialog.cpp \
     utils/qtbeamitem.cpp \
     utils/qtcircleitem.cpp \
-    kamaltree.cpp \
-#IF DEFINED(WITH_TRIANG)
-    src/Calc/LinearSolver.cpp
-#ENDIF
-
+    kamaltree.cpp
 
 HEADERS  += \
     src/base/Straight.h \
@@ -59,10 +49,7 @@ HEADERS  += \
     dialogs/pointdialog.h \
     utils/qtbeamitem.h \
     utils/qtcircleitem.h \
-    kamaltree.h \
-#IF DEFINED(WITH_TRIANG)
-    src/Calc/LinearSolver.h
-#ENDIF
+    kamaltree.h
 
 FORMS    += \
     qtkamal.ui \
@@ -74,6 +61,14 @@ FORMS    += \
 
 RESOURCES += \
     res.qrc
+
+!contains(DEFINES, WITHOUT_TRIANG) {
+    INCLUDEPATH += /usr/local/include
+    LIBS += -L /usr/local/lib -lgsl -lgslcblas
+    DEFINES+=WITH_TRIANG
+    HEADERS += src/Calc/LinearSolver.h
+    SOURCES += src/Calc/LinearSolver.cpp
+}
 
 QT += xml \
     network
