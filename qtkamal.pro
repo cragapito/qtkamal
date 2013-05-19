@@ -65,5 +65,27 @@ RESOURCES += \
     SOURCES += src/Calc/LinearSolver.cpp
 }
 
+contains(DEFINES, win32) {
+    CONFIG += static
+    CONFIG += staticlib
+    CONFIG += create_prl
+    CONFIG += link_prl
+    QMAKE_CFLAGS_RELEASE = -Os -momit-leaf-frame-pointer
+    DEFINES += QT_STATIC_BUILD
+    LIBS = -static
+    LFLAGS = -static -static-libgcc
+    LIBS += -L /usr/local/mingw32/lib/gsl/lib\
+    -Xlinker -Bstatic -Wl /usr/local/mingw32/lib/gsl/lib/libgsl.a\
+    -Xlinker -Bstatic -Wl /usr/local/mingw32/lib/gsl/lib/libgslcblas.a\
+    -Xlinker -Bstatic -Wl /usr/local/qt4win32/lib/libQtCore4.a\
+    -Xlinker -Bstatic -Wl /usr/local/qt4win32/lib/libQtGui4.a\
+    -Xlinker -Bstatic -Wl /usr/local/qt4win32/lib/libQtNetwork4.a\
+    -Xlinker -Bstatic -Wl /usr/local/qt4win32/lib/libQtXml4.a
+    RC_FILE += qtkamal.rc
+    QMAKE_LFLAGS += -static -static-libgcc
+}
+
 QT += xml \
     network
+
+OTHER_FILES +=
