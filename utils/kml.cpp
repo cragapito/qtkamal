@@ -401,11 +401,11 @@ void kml::update(qtbeamitem *item)
     coord = coord.firstChildElement("coordinates");
     QDomText newcoord = doc->createTextNode(
                   QString::number( item->bm->source->y, 'g', 12     )
-                + ", "
+                + ","
                 + QString::number( item->bm->source->x, 'g', 12     )
                 + ",0 "
                 + QString::number( item->bm->scope->y, 'g', 12      )
-                + ", "
+                + ","
                 + QString::number( item->bm->scope->x, 'g', 12      )
                 + ",0 "                                             );
     coord.removeChild( coord.childNodes().at(0) );
