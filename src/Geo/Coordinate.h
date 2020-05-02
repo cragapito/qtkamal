@@ -23,6 +23,7 @@ public:
 	double dist ( const Coordinate &c );
 	double operator- ( const Coordinate& c );
 	friend std::ostream& operator<< ( std::ostream& o, const Coordinate *p );
+    virtual ~Coordinate() {};
 };
 
 #endif /* COORDINATE_H_ */

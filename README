@@ -14,3 +14,9 @@ export QMAKESPEC=/usr/local/share/qt4/mkspecs/freebsd-g++
 qmake-qt4 -project
 qmake-qt4
 make
+
+---
+
+O raio do ponto movido à círculo está em ./kamaltree.cpp linha 373. Ficaria melhor em um arquivo de configuração.
+
+Estudar uma forma de mover todos os pontos para círculos de raio predefinido, o evento é definido no mesmo arquivo, linhas de 175 à 196.

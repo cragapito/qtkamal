@@ -370,7 +370,7 @@ void kamalTree::toCircle(qtpointitem *pi, QTreeWidgetItem *where)
     ci->center->name = pi->pc->name;
     ci->abertura = 10;
     ci->azimute = 45;
-    ci->radius = 5.0;
+    ci->radius = 0.3; /* Colocar em um arquivo ini. */
     ci->points = 100;
     ci->tipoSelect = 0;
     ci->calc();

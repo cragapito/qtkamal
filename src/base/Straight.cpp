@@ -2,7 +2,7 @@
 
 void Straight::define(const Point &pt, const double ang_rad){
 	/*
-	 * Equação geral da reta:  y - y0 = m(x - x0)
+	 * EquaÃ§Ã£o geral da reta:  y - y0 = m(x - x0)
 	 *
 	 * sendo tan(a) = sen(a)/cos(a) podemos reescrever:
 	 * sen(a).(x - x0) = cos(a).(y - y0)
@@ -32,7 +32,7 @@ void Straight::define(const Point &A, const Point &B){
 	double m = (B.y - A.y) / (B.x - A.x);
 	double ang_rad = atan(m);
 	define( A, ang_rad);
-	// Verifica se a reta calculada para A passa pelo ponto B também
+	// Verifica se a reta calculada para A passa pelo ponto B tambÃ©m
 	assert( fabs ( this->a * B.x + this->b * B.y + this->c ) < 0.000001 );
 }
 

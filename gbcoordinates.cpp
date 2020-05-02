@@ -58,7 +58,7 @@ void gbcoordinates::EditCoordinates(Coordinate *c)
                  ui->comboLon->setCurrentIndex( 1 );
 }
 
-// Movimentação do Foco
+// MovimentaÃ§Ã£o do Foco
 void gbcoordinates::on_latgr_textChanged(const QString &arg1) {
     if ( arg1.size() >= 2 ) {
         ui->latmin->setFocus();

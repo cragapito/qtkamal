@@ -4,7 +4,7 @@
 #include "../Geo/Coordinate.h"
 #include "../base/Straight.h"
 
-// earth definido em Coordinate (p/ calc. dist‚ncia)
+// earth definido em Coordinate (p/ calc. dist√¢ncia)
 
 class Beam : public Straight {
 private:
@@ -42,7 +42,7 @@ public:
 	double raioKm;
 	double points;
 	/* A reta da classe base possui coeficiente angular indefinido
-	 * ent„o n„o h· necessidade de ajustar os par‚metros dela.
+	 * ent√£o n√£o h√° necessidade de ajustar os par√¢metros dela.
 	 */
 	virtual void sync_base() {};
 	CirBeam ( Coordinate &source ) : Beam ( source ){
