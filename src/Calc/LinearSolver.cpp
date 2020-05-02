@@ -6,7 +6,7 @@ LinearSolver::LinearSolver( const vector<Straight*> &v ) {
 	if ( v.size() < 2 ) return;
 
 	sto		= v.size() ;
-	m		= gsl_matrix_alloc ( sto ,2 );	// Matriz de incógnitas
+	m		= gsl_matrix_alloc ( sto ,2 );	// Matriz de incÃ³gnitas
 	b		= gsl_vector_alloc ( sto    );	// Matriz de independentes
 
 	for ( unsigned int i = 0 ; i < sto ; i++ ) {
@@ -42,7 +42,7 @@ string LinearSolver::getIncognitas(void){
 	ostringstream o;
 	o.precision(2);
 
-	o << endl << "Incógnitas: " << endl;
+	o << endl << "IncÃ³gnitas: " << endl;
 	for(unsigned int i = 0; i < sto; i++){
 		for (int j = 0 ; j < 2 ; j++)
 			o << gsl_matrix_get(m, i, j) << endl;

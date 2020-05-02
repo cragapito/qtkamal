@@ -27,8 +27,8 @@ kamalTree::kamalTree(QWidget *parent) :
 
     groupPoints->setText    (0, tr("Pontos"             ));
     groupBeans->setText     (0, tr("Feixes Manuais"     ));
-    groupERMs->setText      (0, tr("Feixes de EstaÁ„o"  ));
-    groupCircles->setText   (0, tr("¡rea"               ));
+    groupERMs->setText      (0, tr("Feixes de Esta√ß√£o"  ));
+    groupCircles->setText   (0, tr("√Årea"               ));
 
     // disable dropping of leaves as top level items
     invisibleRootItem()->setFlags(    Qt::ItemIsSelectable
@@ -64,7 +64,7 @@ void kamalTree::dropEvent(QDropEvent *event)
     QString group;
 
     if ( ! itemAt(event->pos()) ) {
-        qDebug() << "Falha ao executar a aÁ„o";
+        qDebug() << "Falha ao executar a a√ß√£o";
         event->ignore();
         return;
     }
@@ -112,7 +112,7 @@ void kamalTree::dropEvent(QDropEvent *event)
         return;
     }
 
-    if ( group == "Feixes de EstaÁ„o" && dynamic_cast<qtpointitem*>(item)) {
+    if ( group == "Feixes de Esta√ß√£o" && dynamic_cast<qtpointitem*>(item)) {
         if ( event->proposedAction() == Qt::MoveAction ) {
             toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM, item->parent() );
             this->removeChild( item );
@@ -136,7 +136,7 @@ void kamalTree::dropEvent(QDropEvent *event)
         return;
     }
 
-    if ( group == "Feixes de EstaÁ„o" && dynamic_cast<qtcircleitem*>(item)) {
+    if ( group == "Feixes de Esta√ß√£o" && dynamic_cast<qtcircleitem*>(item)) {
         if ( event->proposedAction() == Qt::MoveAction ) {
             toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM, item->parent() );
             this->removeChild( item );
@@ -160,7 +160,7 @@ void kamalTree::dropEvent(QDropEvent *event)
         return;
     }
 
-    if ( group == "Feixes de EstaÁ„o" && dynamic_cast<qtbeamitem*>(item)) {
+    if ( group == "Feixes de Esta√ß√£o" && dynamic_cast<qtbeamitem*>(item)) {
         if ( event->proposedAction() == Qt::MoveAction ) {
             toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM, item->parent() );
             this->removeChild( item );
@@ -172,7 +172,7 @@ void kamalTree::dropEvent(QDropEvent *event)
         return;
     }
 
-    if ( group == "¡rea" && dynamic_cast<qtpointitem*>(item)) {
+    if ( group == "√Årea" && dynamic_cast<qtpointitem*>(item)) {
         if ( event->proposedAction() == Qt::MoveAction ) {
             toCircle( dynamic_cast<qtpointitem*>(item), item->parent() );
             this->removeChild( item );
@@ -182,7 +182,7 @@ void kamalTree::dropEvent(QDropEvent *event)
         return;
     }
 
-    if ( group == "¡rea" && dynamic_cast<qtbeamitem*>(item)) {
+    if ( group == "√Årea" && dynamic_cast<qtbeamitem*>(item)) {
         if ( event->proposedAction() == Qt::MoveAction ) {
             toCircle( dynamic_cast<qtbeamitem*>(item), item->parent() );
             this->removeChild( item );

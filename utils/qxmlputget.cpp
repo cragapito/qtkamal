@@ -636,7 +636,7 @@ void QXmlPut::putImage(const QString &tagName, const QImage &value, QString form
   QByteArray data;
   QBuffer buff(&data);
   buff.open(QBuffer::ReadWrite);
-  if (!value.save(&buff, format.toAscii().constData()))
+  if (!value.save(&buff, format.toUtf8().constData()))
   {
     qDebug() << FUNCNAME << "Couldn't write image to buffer with format" << format;
     return;
@@ -1812,9 +1812,9 @@ QByteArray QXmlGet::getByteArray(const QByteArray &defaultValue) const
   bool compressed = getAttributeInt("compression", 0) > 0;
   if (!node.isNull() && node.isCDATASection())
   {
-    QByteArray data(node.toCDATASection().data().toAscii());
+    QByteArray data(node.toCDATASection().data().toUtf8());
     QString newLine = "\n";
-    data.replace(newLine.toAscii(), "");
+    data.replace(newLine.toUtf8(), "");
     data = QByteArray::fromBase64(data);
     if (compressed)
       data = qUncompress(data);
@@ -1836,7 +1836,7 @@ QImage QXmlGet::getImage(const QImage &defaultValue) const
   QBuffer buff(&data);
   buff.open(QBuffer::ReadOnly);
   QImage result;
-  if (!result.load(&buff, format.toAscii().constData()))
+  if (!result.load(&buff, format.toUtf8().constData()))
     return defaultValue;
   buff.close();
   return result;

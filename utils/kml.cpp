@@ -41,7 +41,7 @@ bool kml::readfile(QString name)
 
     if ( !xmlGet.load(name) ){
         QMessageBox::critical( parent, "Erro",
-                               "Arquivo não suportado ou corrompido");
+                               "Arquivo nÃ£o suportado ou corrompido");
         return false;
     }
 
@@ -77,7 +77,7 @@ bool kml::readfile(QString name)
         if ( xmlGet.getString().contains("#") ) {
             /*
              * Se o estilo estiver definido em outro local ele
-             * estará definido antes do caracter #
+             * estarÃ¡ definido antes do caracter #
              */
             sty->addMappedStyle( style, xmlGet.getString().split("#").at(1) );
         }
@@ -128,7 +128,7 @@ void kml::parsePlaceMark( QDomElement e, QXmlGet xmlGet )
         if ( xmlGet.getString().contains("#") ) {
             /*
              * Se o estilo estiver definido em outro arquivo (ou url),
-             * o endereço estará antes do caracter #
+             * o endereÃ§o estarÃ¡ antes do caracter #
              */
             style = xmlGet.getString().split("#").at(1);
         }
@@ -253,7 +253,7 @@ bool kml::save()
     if (! xmlPut.save( arq )) {
         QMessageBox::critical( parent,
             "Erro",
-            "Não é possível gravar arquivo" + QString(filename) );
+            "NÃ£o Ã© possÃ­vel gravar arquivo" + QString(filename) );
         return false;
     }
 
@@ -293,7 +293,7 @@ void kml::addStylesToFile()
     while ( xmlGet.findNext("Style") )  {
         QString styleTest = xmlGet.getAttributeString("id");
         if ( sty->isInternalStyle( styleTest ) ) {
-            return; // Já contém os estilos internos
+            return; // JÃ¡ contÃ©m os estilos internos
         }
     }
 
@@ -332,7 +332,7 @@ void kml::update(qtbeamitem *item)
         item->setDisabled( false );
     }
 
-    // Cria estrutura vazia caso não exista nenhuma e atribui ao item.
+    // Cria estrutura vazia caso nÃ£o exista nenhuma e atribui ao item.
     if ( item->element.isNull() ) {
         QDomNode docref = doc->firstChildElement("kml").firstChildElement("Document");
         QDomElement placemark = doc->createElement("Placemark");
@@ -423,7 +423,7 @@ void kml::update(qtpointitem *item)
         item->setDisabled( false );
     }
 
-    // Cria estrutura vazia caso não exista nenhuma e atribui ao item.
+    // Cria estrutura vazia caso nÃ£o exista nenhuma e atribui ao item.
     if ( item->element.isNull() ) {
         QDomNode docref = doc->firstChildElement("kml").firstChildElement("Document");
         QDomElement placemark = doc->createElement("Placemark");
@@ -473,7 +473,7 @@ void kml::update(qtcircleitem *item)
         item->setDisabled( false );
     }
 
-    // Cria estrutura vazia caso não exista nenhuma e atribui ao item.
+    // Cria estrutura vazia caso nÃ£o exista nenhuma e atribui ao item.
     if ( item->element.isNull() ) {
         QDomNode docref = doc->firstChildElement("kml").firstChildElement("Document");
         QDomElement place = doc->createElement("Placemark");
@@ -525,7 +525,7 @@ void kml::update(QString style, QString modelStyle)
 {
 
 //#ifndef STYLE_UPDATE
-//    qDebug() << "Método para atualização de estilos bloqueado.";
+//    qDebug() << "MÃ©todo para atualizaÃ§Ã£o de estilos bloqueado.";
 //    return;
 //#endif
 

@@ -56,13 +56,13 @@ std::ostream& operator<< ( std::ostream& o, const Coordinate *s ) {
 	int min = (int) intpart;
 
 	o.precision(2);
-	o << gr << "° " << min << "' " << std::fixed << seg << "\" ";
+	o << gr << "Â° " << min << "' " << std::fixed << seg << "\" ";
 
 	fractpart = modf(s->y, &intpart);
 	gr = (int) intpart;
 	seg = modf((fabs(fractpart) * 60.0), &intpart) * 60.0;
 	min = (int) intpart;
-	o << gr << "° " << min << "' " << std::fixed << seg << "\"";
+	o << gr << "Â° " << min << "' " << std::fixed << seg << "\"";
 
 	return o;
 }

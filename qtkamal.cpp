@@ -171,7 +171,7 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
     if (!item || !item->parent() || item->isDisabled()) {
         clearOldAction = new QAction(tr("limpa obsoletos"), this);
         clearOldAction->setIcon(QIcon(":/icon/res/clear.png"));
-        clearOldAction->setStatusTip(tr("Limpa todas as referÍncias obsoletas"));
+        clearOldAction->setStatusTip(tr("Limpa todas as refer√™ncias obsoletas"));
 
         connect(clearOldAction, SIGNAL(triggered()), ui->treeWidget, SLOT(clearOldHandler()));
         ctxMenu.addAction(clearOldAction);
@@ -179,7 +179,7 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos)
         return;
     }
 
-    // Se o item n„o estiver na raiz
+    // Se o item n√£o estiver na raiz
     if ( item->parent() ) {
         deleteItemAction = new QAction(tr("delete"), this);
         deleteItemAction->setIcon(QIcon(":/icon/res/delete_icon.png"));
@@ -224,7 +224,7 @@ void qtkamal::checkTargetFunction()
         for ( int i = 1 ; i < vbeans->size() ; i++ ) {
             b = vbeans->at(i);
 
-            // Libera se a diferenÁa dos angulos for significativa
+            // Libera se a diferen√ßa dos angulos for significativa
             if ( ( b->bm->daz - ref ) >=  MIN_TRIANG_ANGLE ||
                  ( b->bm->daz - ref ) <= -MIN_TRIANG_ANGLE ) {
                 ui->actionTrTarget->setEnabled( true );
@@ -267,21 +267,21 @@ void qtkamal::on_actionTrTarget_triggered()
     std::cout << "Calculando cruzamento de " << vbeans->size() << " retas." << std::endl;
     Point *c = ls->solve();
 
-    std::cout << "LocalizaÁ„o estimada em " << (Coordinate*)c << std::endl;
+    std::cout << "Localiza√ß√£o estimada em " << (Coordinate*)c << std::endl;
 
     std::cout << ls->getResidual() << std::endl;;
 
     pi->pc->x = c->x;
     pi->pc->y = c->y;
 
-    pi->setText(0, QString( "LocalizaÁ„o Estimada" ));
+    pi->setText(0, QString( "Localiza√ß√£o Estimada" ));
     pi->style = "sn_place";
     sty->setIconStyle( "sn_place", pi );
 
     /*
      *
-     * Novo alcance 10% maior que a dist‚ncia entre os pontos
-     * para forÁar o cruzamento dos feixes
+     * Novo alcance 10% maior que a dist√¢ncia entre os pontos
+     * para for√ßar o cruzamento dos feixes
      *
      */
 

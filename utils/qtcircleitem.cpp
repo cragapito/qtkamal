@@ -17,7 +17,7 @@ qtcircleitem::~qtcircleitem()
 
 int qtcircleitem::open(QWidget *parent)
 {
-    circleDialog *cd = new circleDialog(parent, this); // passa parâmetros para contrutor
+    circleDialog *cd = new circleDialog(parent, this); // passa parÃ¢metros para contrutor
     return cd->exec();
 }
 
