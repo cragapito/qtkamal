@@ -1,6 +1,10 @@
 #ifndef qtkamal_H
 #define qtkamal_H
 
+#ifndef WITH_TRIANG
+    #define WITH_TRIANG
+#endif
+
 #ifdef WITH_TRIANG
     #include <utils/qtbeamitem.h>
     #include <src/Calc/LinearSolver.h>

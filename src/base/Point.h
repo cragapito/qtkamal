@@ -12,6 +12,7 @@ public:
 	Point( double x = 0 , double y = 0 );
 	virtual double operator- ( const Point &b );
 	friend std::ostream& operator<< ( std::ostream& o, const Point *p );
+    virtual ~Point() {};
 };
 
 #endif /* POINT_H_ */
