@@ -5,6 +5,7 @@
 QT += widgets
 QT += webkit
 QT += xml
+QT += core
 
 TEMPLATE = app
 TARGET = qt5kamal
@@ -19,6 +20,7 @@ HEADERS += gbcoordinates.h \
            dialogs/beamdialog.h \
            dialogs/circledialog.h \
            dialogs/pointdialog.h \
+           utils/config.h \
            utils/kml.h \
            utils/networkicon.h \
            utils/qtbeamitem.h \
@@ -45,6 +47,7 @@ SOURCES += gbcoordinates.cpp \
            dialogs/beamdialog.cpp \
            dialogs/circledialog.cpp \
            dialogs/pointdialog.cpp \
+           utils/config.cpp \
            utils/kml.cpp \
            utils/networkicon.cpp \
            utils/qtbeamitem.cpp \

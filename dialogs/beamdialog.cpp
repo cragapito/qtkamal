@@ -6,7 +6,12 @@ beamDialog::beamDialog(QWidget *parent) :
     ui(new Ui::beamDialog)
 {
     bi = new qtbeamitem();
+    cnf = new config();
     ui->setupUi(this);
+
+    ui->azimute->setValue( cnf->beam_azimute    );
+    ui->alcance->setValue( cnf->beam_reach      );
+
     ui->beamname->setFocus();
 }
 
@@ -14,6 +19,7 @@ beamDialog::beamDialog(QWidget *parent, qtbeamitem *bi) :
     QDialog(parent),
     ui(new Ui::beamDialog)
 {
+    cnf = NULL;
     this->bi = bi;
     ui->setupUi(this);
 
@@ -30,6 +36,12 @@ beamDialog::~beamDialog()
 
 void beamDialog::on_buttonBox_accepted()
 {
+    if ( cnf != NULL ) {
+        cnf->beam_azimute   = ui->azimute->value();
+        cnf->beam_reach     = ui->alcance->value();
+        cnf->save();
+    }
+
     bi->bm->source = ui->gbwidget->returnCoord();
     bi->bm->source->name = ui->beamname->text().toStdString();
     bi->bm->daz = ui->azimute->value();

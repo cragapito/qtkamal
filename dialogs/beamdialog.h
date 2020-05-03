@@ -3,6 +3,7 @@
 
 #include <QDialog>
 
+#include "utils/config.h"
 #include "utils/qtbeamitem.h"
 
 namespace Ui {
@@ -19,6 +20,9 @@ public:
     ~beamDialog();
 
     qtbeamitem *bi;
+
+private:
+    config *cnf;
     
 private slots:
     void on_buttonBox_accepted();
