@@ -59,4 +59,5 @@ SOURCES += gbcoordinates.cpp \
            src/Geo/Coordinate.cpp
 RESOURCES += res.qrc
 
+INCLUDEPATH += /usr/local/include
 unix|win32: LIBS += -lgsl -lgslcblas
