@@ -13,9 +13,9 @@ circleDialog::circleDialog(QWidget *parent) :
 
     ui->raio->setValue      ( cnf->circ_radius      );
     ui->pontos->setValue    ( cnf->circ_points      );
-    ui->azimute->setValue   ( cnf->circ_azimute     );
     ui->alcance->setValue   ( cnf->circ_radius      );
     ui->abertura->setValue  ( cnf->circ_abertura    );
+    ui->azimute->setValue   ( cnf->beam_azimute     );
 
     ui->circname->setFocus();
 }
@@ -48,9 +48,13 @@ void circleDialog::on_buttonBox_accepted()
     if ( cnf != NULL ) {
         cnf->circ_radius    = ui->raio->value();
         cnf->circ_points    = ui->pontos->value();
-        cnf->circ_azimute   = ui->azimute->value();
         cnf->circ_radius    = ui->alcance->value();
         cnf->circ_abertura  = ui->abertura->value();
+
+        if ( ci->tipoSelect == 1 ) {
+                    cnf->beam_azimute   = ui->azimute->value();
+        }
+
         cnf->save();
     }
 

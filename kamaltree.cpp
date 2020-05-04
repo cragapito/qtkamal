@@ -372,9 +372,9 @@ void kamalTree::toCircle(qtpointitem *pi, QTreeWidgetItem *where)
     ci->center->y       = pi->pc->y;
     ci->center->name    = pi->pc->name;
     ci->abertura        = cnf->circ_abertura;
-    ci->azimute         = cnf->circ_azimute;
     ci->radius          = cnf->circ_radius;
     ci->points          = cnf->circ_points;
+    ci->azimute         = cnf->beam_azimute;
     ci->tipoSelect      = 0;
     ci->calc();
     ci->setText(0, pi->text(0) );
