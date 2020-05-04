@@ -1,5 +1,6 @@
 #include "kamaltree.h"
 
+#include "utils/config.h"
 #include "utils/qtbeamitem.h"
 #include "utils/qtpointitem.h"
 #include "utils/qtcircleitem.h"
@@ -103,7 +104,7 @@ void kamalTree::dropEvent(QDropEvent *event)
     if ( group == "Feixes Manuais" && dynamic_cast<qtpointitem*>(item)) {
         if ( event->proposedAction() == Qt::MoveAction ) {
             toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN, item->parent() );
-            this->removeChild( item );    
+            this->removeChild( item );
             emit beamMoved();
         } else {
             toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN, groupBeans );
@@ -228,7 +229,7 @@ void kamalTree::toPoint(qtbeamitem *bi, QTreeWidgetItem *where)
 
     where->addChild( pi );
     map->update( pi );
-    groupPoints->setExpanded( true );   
+    groupPoints->setExpanded( true );
 }
 
 void kamalTree::toPoint(qtcircleitem *ci, QTreeWidgetItem *where)
@@ -250,13 +251,14 @@ void kamalTree::toPoint(qtcircleitem *ci, QTreeWidgetItem *where)
 void kamalTree::toBeam(qtpointitem *pi, qtbeamitem::TYPE type, QTreeWidgetItem *where)
 {
     qtbeamitem *bi = new qtbeamitem();
+    config *cnf = new config();
 
-    bi->bm->source->x = pi->pc->x;
-    bi->bm->source->y = pi->pc->y;
-    bi->bm->source->name = pi->pc->name;
-    bi->bm->daz = 45;
-    bi->alcance = 5;
-    bi->beamType = type;
+    bi->bm->source->x       = pi->pc->x;
+    bi->bm->source->y       = pi->pc->y;
+    bi->bm->source->name    = pi->pc->name;
+    bi->bm->daz             = cnf->beam_azimuth;
+    bi->alcance             = cnf->beam_reach;
+    bi->beamType            = type;
     bi->bm->proj( bi->alcance );
     bi->setText(0, pi->text(0) );
 
@@ -293,12 +295,12 @@ void kamalTree::toBeam(qtbeamitem *bii, qtbeamitem::TYPE type, QTreeWidgetItem *
 {
     qtbeamitem *bi = new qtbeamitem();
 
-    bi->alcance = bii->alcance;
-    bi->beamType = type;
-    bi->bm->daz = bii->bm->daz;
-    bi->bm->source->x = bii->bm->source->x;
-    bi->bm->source->y = bii->bm->source->y;
-    bi->bm->source->name = bii->bm->source->name;
+    bi->alcance             = bii->alcance;
+    bi->beamType            = type;
+    bi->bm->daz             = bii->bm->daz;
+    bi->bm->source->x       = bii->bm->source->x;
+    bi->bm->source->y       = bii->bm->source->y;
+    bi->bm->source->name    = bii->bm->source->name;
 
     bi->bm->proj( bi->alcance );
     bi->setText(0, bii->text(0));
@@ -332,12 +334,12 @@ void kamalTree::toBeam(qtcircleitem *ci, qtbeamitem::TYPE type, QTreeWidgetItem 
 {
     qtbeamitem *bi = new qtbeamitem();
 
-    bi->alcance = ci->radius;
-    bi->beamType = type;
-    bi->bm->source->x = ci->center->x;
-    bi->bm->source->y = ci->center->y;
-    bi->bm->source->name = ci->center->name;
-    bi->bm->daz = ci->azimute;
+    bi->alcance             = ci->radius;
+    bi->beamType            = type;
+    bi->bm->source->x       = ci->center->x;
+    bi->bm->source->y       = ci->center->y;
+    bi->bm->source->name    = ci->center->name;
+    bi->bm->daz             = ci->azimute;
     bi->bm->proj( ci->radius );
 
     bi->setText(0, ci->text(0) );
@@ -364,15 +366,16 @@ void kamalTree::toBeam(qtcircleitem *ci, qtbeamitem::TYPE type, QTreeWidgetItem 
 void kamalTree::toCircle(qtpointitem *pi, QTreeWidgetItem *where)
 {
     qtcircleitem *ci = new qtcircleitem();
+    config *cnf = new config();
 
-    ci->center->x = pi->pc->x;
-    ci->center->y = pi->pc->y;
-    ci->center->name = pi->pc->name;
-    ci->abertura = 10;
-    ci->azimute = 45;
-    ci->radius = 0.3; /* Colocar em um arquivo ini. */
-    ci->points = 100;
-    ci->tipoSelect = 0;
+    ci->center->x       = pi->pc->x;
+    ci->center->y       = pi->pc->y;
+    ci->center->name    = pi->pc->name;
+    ci->abertura        = cnf->circ_opening;
+    ci->radius          = cnf->circ_radius;
+    ci->points          = cnf->circ_points;
+    ci->azimute         = cnf->beam_azimuth;
+    ci->tipoSelect      = 0;
     ci->calc();
     ci->setText(0, pi->text(0) );
     ci->style = "sn_cir";
@@ -387,15 +390,16 @@ void kamalTree::toCircle(qtpointitem *pi, QTreeWidgetItem *where)
 void kamalTree::toCircle(qtbeamitem *bi, QTreeWidgetItem *where)
 {
     qtcircleitem *ci = new qtcircleitem();
+    config *cnf = new config();
 
-    ci->center->x = bi->bm->source->x;
-    ci->center->y = bi->bm->source->y;
-    ci->center->name = bi->bm->source->name;
-    ci->azimute = bi->bm->daz;
-    ci->radius = bi->alcance;
-    ci->abertura = 10;
-    ci->points = 100;
-    ci->tipoSelect = 1;
+    ci->center->x       = bi->bm->source->x;
+    ci->center->y       = bi->bm->source->y;
+    ci->center->name    = bi->bm->source->name;
+    ci->azimute         = bi->bm->daz;
+    ci->radius          = bi->alcance;
+    ci->abertura        = cnf->circ_opening;
+    ci->points          = cnf->circ_points;
+    ci->tipoSelect      = 1;
     ci->calc();
     ci->setText(0, bi->text(0) );
     ci->style = "sn_cir";

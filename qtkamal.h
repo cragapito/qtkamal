@@ -1,7 +1,7 @@
 #ifndef qtkamal_H
 #define qtkamal_H
 
-#ifndef WITH_TRIANG
+#ifndef WITHOUT_TRIANG
     #define WITH_TRIANG
 #endif
 

@@ -4,6 +4,7 @@
 #include <QDialog>
 
 #include "utils/qtcircleitem.h"
+#include "utils/config.h"
 
 namespace Ui {
 class circleDialog;
@@ -19,11 +20,13 @@ public:
     ~circleDialog();
 
     qtcircleitem *ci;
+
+private:
+    config *cnf;
     
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
-
     void on_comboType_currentIndexChanged(int index);
 
 private:
