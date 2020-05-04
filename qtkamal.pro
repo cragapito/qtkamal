@@ -8,7 +8,7 @@ QT += xml
 QT += core
 
 TEMPLATE = app
-TARGET = qt5kamal
+TARGET = qtkamal
 DEPENDPATH += . dialogs utils src/base src/Calc src/Geo
 INCLUDEPATH += . src/Geo src/base utils src/Calc dialogs
 

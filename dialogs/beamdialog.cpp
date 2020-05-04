@@ -9,7 +9,7 @@ beamDialog::beamDialog(QWidget *parent) :
     cnf = new config();
     ui->setupUi(this);
 
-    ui->azimute->setValue( cnf->beam_azimute    );
+    ui->azimute->setValue( cnf->beam_azimuth    );
     ui->alcance->setValue( cnf->beam_reach      );
 
     ui->beamname->setFocus();
@@ -37,7 +37,7 @@ beamDialog::~beamDialog()
 void beamDialog::on_buttonBox_accepted()
 {
     if ( cnf != NULL ) {
-        cnf->beam_azimute   = ui->azimute->value();
+        cnf->beam_azimuth   = ui->azimute->value();
         cnf->beam_reach     = ui->alcance->value();
         cnf->save();
     }

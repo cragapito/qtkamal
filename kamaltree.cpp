@@ -256,7 +256,7 @@ void kamalTree::toBeam(qtpointitem *pi, qtbeamitem::TYPE type, QTreeWidgetItem *
     bi->bm->source->x       = pi->pc->x;
     bi->bm->source->y       = pi->pc->y;
     bi->bm->source->name    = pi->pc->name;
-    bi->bm->daz             = cnf->beam_azimute;
+    bi->bm->daz             = cnf->beam_azimuth;
     bi->alcance             = cnf->beam_reach;
     bi->beamType            = type;
     bi->bm->proj( bi->alcance );
@@ -371,10 +371,10 @@ void kamalTree::toCircle(qtpointitem *pi, QTreeWidgetItem *where)
     ci->center->x       = pi->pc->x;
     ci->center->y       = pi->pc->y;
     ci->center->name    = pi->pc->name;
-    ci->abertura        = cnf->circ_abertura;
+    ci->abertura        = cnf->circ_opening;
     ci->radius          = cnf->circ_radius;
     ci->points          = cnf->circ_points;
-    ci->azimute         = cnf->beam_azimute;
+    ci->azimute         = cnf->beam_azimuth;
     ci->tipoSelect      = 0;
     ci->calc();
     ci->setText(0, pi->text(0) );
@@ -397,7 +397,7 @@ void kamalTree::toCircle(qtbeamitem *bi, QTreeWidgetItem *where)
     ci->center->name    = bi->bm->source->name;
     ci->azimute         = bi->bm->daz;
     ci->radius          = bi->alcance;
-    ci->abertura        = cnf->circ_abertura;
+    ci->abertura        = cnf->circ_opening;
     ci->points          = cnf->circ_points;
     ci->tipoSelect      = 1;
     ci->calc();
