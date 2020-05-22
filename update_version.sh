@@ -1,8 +1,10 @@
 #!/usr/local/bin/bash
 
-base="0.5"
+base="0.6"
 
-ver="$base.`svnversion`"
+ver="$base svn `svnversion -n`"
+
+ver=${ver/[M|S]/}
 
 sed -i -e "s/Versão .*/Versão $ver\<\/string>/" dialogs/aboutdialog.ui
 
