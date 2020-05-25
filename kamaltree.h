@@ -49,7 +49,7 @@ public slots:
     void clearOldHandler();
 
 signals:
-    void beamMoved();
+    void itemMoved();
 };
 
 #endif // KAMALTREE_H

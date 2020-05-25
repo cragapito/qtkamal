@@ -64,7 +64,7 @@ public slots:
     void checkTargetFunction();
 
 signals:
-    void beamMoved();
+    void itemMoved();
 
 private:
     Ui::qtkamal *ui;
