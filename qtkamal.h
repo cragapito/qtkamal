@@ -59,6 +59,7 @@ private slots:
     void deleteItemHandler();
 
     void on_actionTrTarget_triggered();
+    void on_actionToCircle_triggered();
 
 public slots:
     void checkTargetFunction();

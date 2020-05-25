@@ -199,14 +199,22 @@ void qtkamal::deleteItemHandler()
     ui->treeWidget->removeChild( item );
 }
 
+void qtkamal::on_actionToCircle_triggered()
+{
+    while ( ui->treeWidget->groupPoints->childCount() > 0 ) {
+        ui->treeWidget->toCircle( dynamic_cast<qtpointitem*>(ui->treeWidget->groupPoints->child(0)), ui->treeWidget->groupCircles );
+        ui->treeWidget->removeChild( ui->treeWidget->groupPoints->child(0) );
+    }
+    emit itemMoved();
+}
+
 void qtkamal::checkTargetFunction()
 {
 
-if ( ui->treeWidget->groupPoints->childCount() > 0 ) {
-    ui->actionactionToCircle->setEnabled( true );
-} else {
-    ui->actionactionToCircle->setEnabled( false );
-}
+// Habilita menu ponto para círculo se hover algum ponto na árvore
+( ui->treeWidget->groupPoints->childCount() > 0 )?
+    ui->actionToCircle->setEnabled( true  ):
+    ui->actionToCircle->setEnabled( false );
 
 #ifdef WITH_TRIANG
     if ( ( ui->treeWidget->groupBeans->childCount()
@@ -241,7 +249,6 @@ if ( ui->treeWidget->groupPoints->childCount() > 0 ) {
     }
 
     ui->actionTrTarget->setEnabled( false );
-
 #endif
 }
 
@@ -292,8 +299,6 @@ void qtkamal::on_actionTrTarget_triggered()
      *
      */
 
-
-
     for ( int i = 0 ; i < vbeans->size() ; i++ ) {
         qtbeamitem *b = vbeans->at(i);
         double a = *pi->pc - *b->bm->source;
@@ -309,6 +314,5 @@ void qtkamal::on_actionTrTarget_triggered()
     delete c;
     delete ls;
     delete vs;
-
 #endif
 }

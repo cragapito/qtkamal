@@ -73,7 +73,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>26</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
@@ -92,7 +92,7 @@
    <addaction name="actionEst"/>
    <addaction name="actionCirc"/>
    <addaction name="actionGetEarth"/>
-   <addaction name="actionactionToCircle"/>
+   <addaction name="actionToCircle"/>
    <addaction name="actionTrTarget"/>
    <addaction name="actionAbout"/>
   </widget>
@@ -244,7 +244,7 @@
     <string>A</string>
    </property>
   </action>
-  <action name="actionactionToCircle">
+  <action name="actionToCircle">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -256,7 +256,7 @@
     <string>actionToCircle</string>
    </property>
    <property name="toolTip">
-    <string>Promove pontos à círculos</string>
+    <string>Converte pontos em círculos</string>
    </property>
    <property name="shortcut">
     <string>P</string>

@@ -16,17 +16,15 @@ class kamalTree : public QTreeWidget
     Q_OBJECT
 
 private:
-
     styleFold       *sty;
 
     void toPoint(qtbeamitem   *bi, QTreeWidgetItem *where);
     void toPoint(qtcircleitem *ci, QTreeWidgetItem *where);
 
-    void toBeam(qtpointitem   *pi, qtbeamitem::TYPE type, QTreeWidgetItem *where);
+    void toBeam(qtpointitem   *pi,  qtbeamitem::TYPE type, QTreeWidgetItem *where);
     void toBeam(qtbeamitem    *bii, qtbeamitem::TYPE type, QTreeWidgetItem *where);
-    void toBeam(qtcircleitem  *ci, qtbeamitem::TYPE type, QTreeWidgetItem *where);
+    void toBeam(qtcircleitem  *ci,  qtbeamitem::TYPE type, QTreeWidgetItem *where);
 
-    void toCircle(qtpointitem *pi, QTreeWidgetItem *where);
     void toCircle(qtbeamitem  *bi, QTreeWidgetItem *where);
 
 public:
@@ -41,6 +39,8 @@ public:
 
     void SetStyleFold(styleFold *sf);
     void removeChild (QTreeWidgetItem *child);
+
+    void toCircle(qtpointitem *pi, QTreeWidgetItem *where);
     
 protected:
     void dropEvent (QDropEvent *event);
