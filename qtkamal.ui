@@ -6,14 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>603</width>
+    <height>359</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>200</width>
-    <height>200</height>
+    <height>324</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>200</width>
+    <height>324</height>
    </size>
   </property>
   <property name="acceptDrops">
@@ -72,8 +78,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
-     <height>27</height>
+     <width>603</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>
@@ -92,6 +98,7 @@
    <addaction name="actionEst"/>
    <addaction name="actionCirc"/>
    <addaction name="actionGetEarth"/>
+   <addaction name="actionToCircle"/>
    <addaction name="actionTrTarget"/>
    <addaction name="actionAbout"/>
   </widget>
@@ -241,6 +248,24 @@
    </property>
    <property name="shortcut">
     <string>A</string>
+   </property>
+  </action>
+  <action name="actionToCircle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icon/res/to_circle.png</normaloff>:/icon/res/to_circle.png</iconset>
+   </property>
+   <property name="text">
+    <string>actionToCircle</string>
+   </property>
+   <property name="toolTip">
+    <string>Converte pontos em círculos</string>
+   </property>
+   <property name="shortcut">
+    <string>P</string>
    </property>
   </action>
  </widget>

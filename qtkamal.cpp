@@ -23,8 +23,8 @@ qtkamal::qtkamal(QWidget *parent) :
         #define MIN_TRIANG_ANGLE 10
     #endif
     vbeans = new QList<qtbeamitem*>();
-    connect(this          , SIGNAL(beamMoved()), this, SLOT(checkTargetFunction()));
-    connect(ui->treeWidget, SIGNAL(beamMoved()), this, SLOT(checkTargetFunction()));
+    connect(this          , SIGNAL(itemMoved()), this, SLOT(checkTargetFunction()));
+    connect(ui->treeWidget, SIGNAL(itemMoved()), this, SLOT(checkTargetFunction()));
 #endif
 }
 
@@ -82,7 +82,7 @@ void qtkamal::on_actionMan_triggered()
         bd->bi->style = "sn_man";
         sty->setIconStyle( "sn_man", bd->bi );
         ui->treeWidget->map->update( bd->bi );
-        emit beamMoved();
+        emit itemMoved();
     }
 }
 
@@ -98,7 +98,7 @@ void qtkamal::on_actionEst_triggered()
         bd->bi->style = "sn_erm";
         sty->setIconStyle( "sn_erm", bd->bi );
         ui->treeWidget->map->update( bd->bi );
-        emit beamMoved();
+        emit itemMoved();
     }
 }
 
@@ -119,7 +119,7 @@ void qtkamal::on_actionCirc_triggered()
 void qtkamal::on_actionGetEarth_triggered()
 {
     ui->treeWidget->map->readfile();
-    emit beamMoved();
+    emit itemMoved();
 }
 
 void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -137,7 +137,7 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
         if ( bwi->open( this ) ) {
             item->setText(0, QString::fromStdString( bwi->bm->source->name ) );
             ui->treeWidget->map->update( bwi );
-            emit beamMoved();
+            emit itemMoved();
         }
     }
 
@@ -147,7 +147,7 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
             item->setText(0, QString::fromStdString(pwi->center->name) );
             pwi->calc();
             ui->treeWidget->map->update( pwi );
-            emit beamMoved();
+            emit itemMoved();
         }
     }
 }
@@ -199,8 +199,23 @@ void qtkamal::deleteItemHandler()
     ui->treeWidget->removeChild( item );
 }
 
+void qtkamal::on_actionToCircle_triggered()
+{
+    while ( ui->treeWidget->groupPoints->childCount() > 0 ) {
+        ui->treeWidget->toCircle( dynamic_cast<qtpointitem*>(ui->treeWidget->groupPoints->child(0)), ui->treeWidget->groupCircles );
+        ui->treeWidget->removeChild( ui->treeWidget->groupPoints->child(0) );
+    }
+    emit itemMoved();
+}
+
 void qtkamal::checkTargetFunction()
 {
+
+// Habilita menu ponto para círculo se hover algum ponto na árvore
+( ui->treeWidget->groupPoints->childCount() > 0 )?
+    ui->actionToCircle->setEnabled( true  ):
+    ui->actionToCircle->setEnabled( false );
+
 #ifdef WITH_TRIANG
     if ( ( ui->treeWidget->groupBeans->childCount()
            + ui->treeWidget->groupERMs->childCount() ) >=2 ) {
@@ -234,7 +249,6 @@ void qtkamal::checkTargetFunction()
     }
 
     ui->actionTrTarget->setEnabled( false );
-
 #endif
 }
 
@@ -285,8 +299,6 @@ void qtkamal::on_actionTrTarget_triggered()
      *
      */
 
-
-
     for ( int i = 0 ; i < vbeans->size() ; i++ ) {
         qtbeamitem *b = vbeans->at(i);
         double a = *pi->pc - *b->bm->source;
@@ -302,6 +314,5 @@ void qtkamal::on_actionTrTarget_triggered()
     delete c;
     delete ls;
     delete vs;
-
 #endif
 }
