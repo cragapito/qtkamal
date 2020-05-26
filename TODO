@@ -1,7 +1,8 @@
-- Comando para transformar os pontos em círculos [Concluído]
-- Botões para registrar padrões no arquivo INI
-- Adicionar parâmetros fixos no arquivo de configuração como cor do fundo e transparência
 - Tratar KMZ
+- Botões para registrar padrões no arquivo INI (Ou tela de configuração):
+- Adicionar parâmetros fixos no arquivo de configuração como cor do fundo e transparência
 - Revisar diretiva WITH_TRIANG 
 - Passar MIN_TRIANG_ANGLE para o arquivo INI
 - Calcular área de incerteza
+- Verificar falha na cópia de itens com Ctrl
+- Verificar perda do texto delete quando chamado no menu de contexto
