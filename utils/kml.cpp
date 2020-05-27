@@ -240,11 +240,6 @@ bool kml::save() {
   QString arq;
   QXmlPut xmlPut = QXmlPut(QXmlGet(*doc));
 
-  if ( zfilename != NULL ) {
-      // BUG: Está convertendo um dos pontos em círculo sozinho
-      kmltmp2kmz();
-  }
-
   // FIXME: Não está preparado para criar novos arquivos kmz
   if (filename.isEmpty()) {
     filename =
@@ -254,7 +249,6 @@ bool kml::save() {
 
   arq = filename;
 
-  // FIXME: Adiciona .kml sozinho
   (filename.endsWith(".kml")) ? filename.remove(filename.length() - 4, 4)
                               : arq.append(".kml");
 
@@ -265,6 +259,10 @@ bool kml::save() {
   }
 
   addStylesToFile();
+
+  if ( zfilename != NULL ) {
+      kmltmp2kmz();
+  }
 
   return true;
 }
@@ -631,6 +629,7 @@ void kml::kmz2kmltmp() {
 
 void kml::kmltmp2kmz() {
   JlCompress::compressDir( zfilename, dirtmp.path() + "/");
+  qDebug() << "Writting " << zfilename;
 }
 
 void kml::remove(QTreeWidgetItem *item) {
