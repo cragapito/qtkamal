@@ -29,7 +29,9 @@ qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
 #endif
 }
 
-qtkamal::~qtkamal() { delete ui; }
+qtkamal::~qtkamal() {
+    delete ui;
+}
 
 void qtkamal::dropEvent(QDropEvent *ev) {
   QList<QUrl> urls = ev->mimeData()->urls();

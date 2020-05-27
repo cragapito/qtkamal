@@ -40,8 +40,9 @@ public:
     void SetStyleFold(styleFold *sf);
     void removeChild (QTreeWidgetItem *child);
 
-    void toCircle(qtpointitem *pi, QTreeWidgetItem *where);
-    
+    void toCircle(qtpointitem *pi, QTreeWidgetItem *where); // Escopo público para utilização em actionToCircle
+
+    ~kamalTree();
 protected:
     void dropEvent (QDropEvent *event);
 

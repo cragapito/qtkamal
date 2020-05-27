@@ -52,6 +52,8 @@ public:
   void kmltmp2kmz();
 
   void remove(QTreeWidgetItem *item);
+
+  ~kml();
 };
 
 #endif // KMLPARSER_H

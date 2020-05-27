@@ -619,8 +619,6 @@ void kml::kmz2kmltmp() {
 
   if (dirtmp.isValid()) {
         filename = dirtmp.path() + "/doc.kml";
-        // WARNING: Autodestruição do temporário não está funcionando
-        dirtmp.setAutoRemove(true);
     } else {
         QMessageBox::critical(parent, "Erro",
                           "Falha ao criar pasta de trabalho temporária.");
@@ -657,4 +655,9 @@ void kml::remove(QTreeWidgetItem *item) {
   e.parentNode().removeChild(e);
 
   this->save();
+}
+
+kml::~kml()
+{
+    dirtmp.remove();
 }

@@ -415,3 +415,8 @@ void kamalTree::toCircle(qtbeamitem *bi, QTreeWidgetItem *where)
     map->update( ci );
     groupCircles->setExpanded(true);
 }
+
+kamalTree::~kamalTree()
+{
+    map->~kml();
+}
