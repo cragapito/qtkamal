@@ -2,6 +2,7 @@
 #include "ui_gbcoordinates.h"
 #include "src/Geo/Coordinate.h"
 
+// TODO: Aceitar entradas em decimal
 gbcoordinates::gbcoordinates(QWidget *parent) :
     QGroupBox(parent),
     ui(new Ui::gbcoordinates)

@@ -9,6 +9,7 @@
 #include <QDropEvent>
 #include <QUrl>
 
+// TODO: Passar o mouse para ocupado quando em opearções críticas
 qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
   ui->setupUi(this);
   sty = new styleFold();
@@ -30,7 +31,6 @@ qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
 
 qtkamal::~qtkamal() { delete ui; }
 
-// FIXME: Verificar falha na cópia de itens com Ctrl
 void qtkamal::dropEvent(QDropEvent *ev) {
   QList<QUrl> urls = ev->mimeData()->urls();
   foreach (QUrl url, urls) { ui->treeWidget->map->readfile(url.toLocalFile()); }

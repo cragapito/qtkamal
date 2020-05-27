@@ -3,8 +3,8 @@
 #include "utils/networkicon.h"
 
 #include <QDomText>
-#include <QFileDialog>
 #include <QFileInfo>
+#include <QFileDialog>
 #include <QTemporaryFile>
 
 #include <QDebug>
@@ -25,6 +25,8 @@ bool kml::readfile() {
   QString ext = filename.right(1);
   if (ext.toUpper() == 'Z') {
       kmz2kmltmp();
+  } else {
+      zfilename = NULL;
   }
 
   if (!filename.isEmpty()) {
@@ -240,19 +242,21 @@ bool kml::save() {
   QString arq;
   QXmlPut xmlPut = QXmlPut(QXmlGet(*doc));
 
-  // FIXME: Não está preparado para criar novos arquivos kmz
   if (filename.isEmpty()) {
-    filename =
-        QFileDialog::getSaveFileName(parent, QObject::tr("Salvar arquivo"), "",
-                                     QObject::tr("Files (*.kml)"));
+    filename = QFileDialog::getSaveFileName(parent, QObject::tr("Salvar arquivo"), "",
+                                     QObject::tr("Files (*.kml *.kmz)"));
   }
 
-  arq = filename;
+  if ( filename.right(4).chopped(1).toUpper() != ".KM" ){
+    filename.append(".kmz"); // TODO: Formato padrão de saída configurável
+  }
 
-  (filename.endsWith(".kml")) ? filename.remove(filename.length() - 4, 4)
-                              : arq.append(".kml");
+  QString ext = filename.right(1);
+  if (ext.toUpper() == 'Z') {
+      kmz2kmltmp();
+  }
 
-  if (!xmlPut.save(arq)) {
+  if (!xmlPut.save( filename )) {
     QMessageBox::critical(parent, "Erro",
                           "Não é possível gravar arquivo" + QString(filename));
     return false;
@@ -276,6 +280,7 @@ void kml::newFile() {
   xmlPut.descend("Document");
   if (filename.isEmpty())
     this->save();
+  // FIXME: Trazer nome do zfilename se disponível
   xmlPut.putString("name", QString(QFileInfo(filename).fileName()));
   wtree->setHeaderLabel(QString(QFileInfo(filename).fileName()));
 
@@ -614,13 +619,15 @@ void kml::kmz2kmltmp() {
 
   if (dirtmp.isValid()) {
         filename = dirtmp.path() + "/doc.kml";
-        dirtmp.setAutoRemove(true); // WARNING: Autodestruição do temporário não está funcionando
+        // WARNING: Autodestruição do temporário não está funcionando
+        dirtmp.setAutoRemove(true);
     } else {
         QMessageBox::critical(parent, "Erro",
                           "Falha ao criar pasta de trabalho temporária.");
   }
   QuaZip zip(this->filename);
 
+  // FIXME: Abrindo kmz o nome do arquivo na janela fica doc.kml
   qDebug() << "Original file " << zfilename;
   qDebug() << "Workin on " << filename;
 
