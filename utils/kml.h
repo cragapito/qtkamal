@@ -1,4 +1,4 @@
-#ifndef KMLPARSER_H
+﻿#ifndef KMLPARSER_H
 #define KMLPARSER_H
 
 #include "kamaltree.h"
@@ -15,7 +15,7 @@
 #include <QtXml>
 #include <iostream>
 
-#include <zlib.h>
+#include <quazip5/JlCompress.h>
 
 class kamalTree;
 
@@ -23,7 +23,7 @@ class kml {
 private:
   QString filename;
   QString zfilename;
-  QTemporaryFile tmp;
+  QTemporaryDir dirtmp;
 
   QDomDocument *doc;
   styleFold *sty;
@@ -48,8 +48,8 @@ public:
   void update(qtcircleitem *item);
   void update(QString style, QString modelStyle);
 
-  void kmltmp2kmz();
   void kmz2kmltmp();
+  void kmltmp2kmz();
 
   void remove(QTreeWidgetItem *item);
 };

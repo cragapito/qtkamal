@@ -63,4 +63,4 @@ SOURCES += gbcoordinates.cpp \
 RESOURCES += res.qrc
 
 INCLUDEPATH += /usr/local/include
-unix|win32: LIBS += -lgsl -lgslcblas
+unix|win32: LIBS += -lgsl -lgslcblas -lquazip5

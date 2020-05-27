@@ -7,6 +7,8 @@
 #include <QFileInfo>
 #include <QTemporaryFile>
 
+#include <QDebug>
+
 kml::kml(QWidget *parent, kamalTree *wt, styleFold *styFold) {
   this->sty = styFold;
   this->doc = new QDomDocument;
@@ -17,25 +19,12 @@ kml::kml(QWidget *parent, kamalTree *wt, styleFold *styFold) {
 }
 
 bool kml::readfile() {
-  filename =
-      QFileDialog::getOpenFileName(parent, QObject::tr("Abrir arquivo"), "",
+  filename = QFileDialog::getOpenFileName(parent, QObject::tr("Abrir arquivo"), "",
                                    QObject::tr("Files (*.kml *.kmz)"));
 
-  // FIXME: Tratar kmz
   QString ext = filename.right(1);
   if (ext.toUpper() == 'Z') {
-    zfilename = filename;
-    qDebug() << "Original file " << zfilename;
-    QMessageBox::critical(parent, "Erro", "Debuging temp");
-
-    if (tmp.open()) {
-      filename = tmp.fileName();
-      qDebug() << "Working on " << filename;
       kmz2kmltmp();
-    } else {
-      QMessageBox::critical(parent, "Erro",
-                            "Falha ao abrir o arquivo de trabalho temporário");
-    }
   }
 
   if (!filename.isEmpty()) {
@@ -251,6 +240,12 @@ bool kml::save() {
   QString arq;
   QXmlPut xmlPut = QXmlPut(QXmlGet(*doc));
 
+  if ( zfilename != NULL ) {
+      // BUG: Está convertendo um dos pontos em círculo sozinho
+      kmltmp2kmz();
+  }
+
+  // FIXME: Não está preparado para criar novos arquivos kmz
   if (filename.isEmpty()) {
     filename =
         QFileDialog::getSaveFileName(parent, QObject::tr("Salvar arquivo"), "",
@@ -259,6 +254,7 @@ bool kml::save() {
 
   arq = filename;
 
+  // FIXME: Adiciona .kml sozinho
   (filename.endsWith(".kml")) ? filename.remove(filename.length() - 4, 4)
                               : arq.append(".kml");
 
@@ -615,16 +611,26 @@ void kml::update(QString style, QString modelStyle) {
   this->save();
 }
 
-void kml::kmltmp2kmz() {}
-
 void kml::kmz2kmltmp() {
-  QFile infile(this->zfilename);
-  QFile outfile(this->filename);
-  infile.open(QIODevice::ReadOnly);
-  outfile.open(QIODevice::WriteOnly);
-  // BUG: Z_DATA_ERROR: Input data is corrupted
-  QByteArray uncompressedData = qUncompress(infile.readAll().data());
-  outfile.write(uncompressedData);
+  this->zfilename = this->filename;
+
+  if (dirtmp.isValid()) {
+        filename = dirtmp.path() + "/doc.kml";
+        dirtmp.setAutoRemove(true); // WARNING: Autodestruição do temporário não está funcionando
+    } else {
+        QMessageBox::critical(parent, "Erro",
+                          "Falha ao criar pasta de trabalho temporária.");
+  }
+  QuaZip zip(this->filename);
+
+  qDebug() << "Original file " << zfilename;
+  qDebug() << "Workin on " << filename;
+
+  JlCompress::extractDir( zfilename, dirtmp.path() );
+}
+
+void kml::kmltmp2kmz() {
+  JlCompress::compressDir( zfilename, dirtmp.path() + "/");
 }
 
 void kml::remove(QTreeWidgetItem *item) {
