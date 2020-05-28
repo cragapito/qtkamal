@@ -2,6 +2,8 @@
 #define CONFIGDIALOG_H
 
 #include <QDialog>
+#include <QAbstractButton>
+
 #include "utils/config.h"
 
 namespace Ui {
@@ -20,7 +22,7 @@ private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
 
-    void on_reset_accepted();
+    void on_reset_clicked();
 
 private:
     Ui::configDialog *ui;

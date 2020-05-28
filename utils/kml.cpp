@@ -268,11 +268,12 @@ bool kml::save() {
   doc->firstChildElement("kml").firstChildElement("Document").firstChildElement("name").firstChild().setNodeValue( fname );
   wtree->setHeaderLabel(fname);
 
-  // WARNING: Fechar aplicação após falha crírica
   if (!xmlPut.save( filename )) {
+    QApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor(); // Sem a segunda chamada o cursor permanece ocupado.
     QMessageBox::critical(parent, "Erro",
-                          "Não é possível gravar arquivo" + QString(filename));
-    return false;
+                          "Não foi possível gravar arquivo" + QString(filename));
+    QApplication::quit();
   }
 
   if ( zfilename != NULL ) {
@@ -627,12 +628,13 @@ void kml::update(QString style, QString modelStyle) {
 void kml::kmz2kmltmp() {
   this->zfilename = this->filename;
 
-  // WARNING: Fechar aplicação após falha crítica
   if (dirtmp.isValid()) {
-        filename = dirtmp.path() + "/doc.kml";
-    } else {
-        QMessageBox::critical(parent, "Erro",
+    filename = dirtmp.path() + "/doc.kml";
+  } else {
+    QApplication::restoreOverrideCursor();
+    QMessageBox::critical(parent, "Erro",
                           "Falha ao criar pasta de trabalho temporária.");
+    QApplication::quit();
   }
   QuaZip zip(this->filename);
 

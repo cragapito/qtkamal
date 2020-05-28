@@ -1,8 +1,8 @@
 #!/usr/local/bin/bash
 
-base="0.6"
+base="0.7"
 
-ver="$base svn `svnversion -n`"
+ver="$base.`svnversion -n`"
 
 ver=${ver/[M|S]/}
 

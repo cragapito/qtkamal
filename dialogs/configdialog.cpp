@@ -41,9 +41,8 @@ void configDialog::on_buttonBox_rejected()
     this->reject();
 }
 
-// FIXME: Reset não está funcionando
-void configDialog::on_reset_accepted()
+void configDialog::on_reset_clicked()
 {
     cnf->reset();
-    this->update();
+    this->close();
 }

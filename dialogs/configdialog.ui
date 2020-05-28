@@ -87,7 +87,7 @@
        <string>Utilizar coordenadas em decimal invés de GMS.</string>
       </property>
       <property name="text">
-       <string>Utilizar coordenadas decimal</string>
+       <string>Utilizar coordenadas decimais</string>
       </property>
      </widget>
     </widget>
@@ -286,7 +286,7 @@
      <widget class="QLabel" name="label_17">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>280</x>
         <y>30</y>
         <width>81</width>
         <height>21</height>
@@ -299,7 +299,7 @@
      <widget class="QSpinBox" name="gproj">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>340</x>
         <y>30</y>
         <width>62</width>
         <height>24</height>
@@ -318,7 +318,7 @@
      <widget class="QLabel" name="label_18">
       <property name="geometry">
        <rect>
-        <x>310</x>
+        <x>410</x>
         <y>30</y>
         <width>59</width>
         <height>21</height>

@@ -1,7 +1,5 @@
 #include "config.h"
 #include <QDebug>
-#include <QDir>
-#include <QFile>
 
 using namespace std;
 
@@ -48,5 +46,6 @@ void config::save() {
 
 void config::reset() {
   QSettings settings("qtkamal.ini", QSettings::IniFormat);
-  settings.clear();
+  settings.remove("");
+  settings.sync();
 }
