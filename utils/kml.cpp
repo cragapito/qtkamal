@@ -5,9 +5,8 @@
 #include <QDomText>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QApplication>
 #include <QTemporaryFile>
-
-#include <QDebug>
 
 kml::kml(QWidget *parent, kamalTree *wt, styleFold *styFold) {
   this->sty = styFold;
@@ -22,6 +21,7 @@ bool kml::readfile() {
   filename = QFileDialog::getOpenFileName(parent, QObject::tr("Abrir arquivo"), "",
                                    QObject::tr("Files (*.kml *.kmz)"));
 
+  QApplication::setOverrideCursor(Qt::WaitCursor);
   QString ext = filename.right(1);
   if (ext.toUpper() == 'Z') {
       kmz2kmltmp();
@@ -31,8 +31,10 @@ bool kml::readfile() {
 
   if (!filename.isEmpty()) {
     this->readfile(filename);
+    QApplication::restoreOverrideCursor();
     return true;
   }
+  QApplication::restoreOverrideCursor();
   return false;
 }
 
@@ -238,8 +240,9 @@ void kml::parsePlaceMark(QDomElement e, QXmlGet xmlGet) {
   xmlGet.rise();
 }
 
-// FIXME: busy cursor quando gravando
 bool kml::save() {
+  // Mantém o cursor em Wait quando em operação crítica
+  QApplication::setOverrideCursor(Qt::WaitCursor);
   QXmlPut xmlPut = QXmlPut(QXmlGet(*doc));
 
   if (filename.isEmpty()) {
@@ -275,6 +278,7 @@ bool kml::save() {
       kmltmp2kmz();
   }
 
+  QApplication::restoreOverrideCursor();
   return true;
 }
 

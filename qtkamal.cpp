@@ -6,8 +6,9 @@
 #include "dialogs/circledialog.h"
 #include "dialogs/pointdialog.h"
 
-#include <QDropEvent>
 #include <QUrl>
+#include <QDropEvent>
+#include <QApplication>
 
 qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
   ui->setupUi(this);
@@ -111,8 +112,7 @@ void qtkamal::on_actionGetEarth_triggered() {
   emit itemMoved();
 }
 
-void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item,
-                                              int column) {
+void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column) {
   if (item->parent() == ui->treeWidget->groupPoints && column == 0) {
     qtpointitem *pwi = static_cast<qtpointitem *>(item);
     if (pwi->open(this)) {
@@ -191,6 +191,7 @@ void qtkamal::deleteItemHandler() {
 }
 
 void qtkamal::on_actionToCircle_triggered() {
+  QApplication::setOverrideCursor(Qt::WaitCursor);
   while (ui->treeWidget->groupPoints->childCount() > 0) {
     ui->treeWidget->toCircle(
         dynamic_cast<qtpointitem *>(ui->treeWidget->groupPoints->child(0)),
@@ -198,10 +199,11 @@ void qtkamal::on_actionToCircle_triggered() {
     ui->treeWidget->removeChild(ui->treeWidget->groupPoints->child(0));
   }
   emit itemMoved();
+  QApplication::restoreOverrideCursor();
 }
 
 void qtkamal::checkTargetFunction() {
-
+  QApplication::setOverrideCursor(Qt::WaitCursor);
   // Habilita menu ponto para círculo se hover algum ponto na árvore
   (ui->treeWidget->groupPoints->childCount() > 0)
       ? ui->actionToCircle->setEnabled(true)
@@ -242,6 +244,7 @@ void qtkamal::checkTargetFunction() {
 
   ui->actionTrTarget->setEnabled(false);
 #endif
+  QApplication::restoreOverrideCursor();
 }
 
 void qtkamal::args(QStringList args) {
@@ -253,6 +256,7 @@ void qtkamal::args(QStringList args) {
 }
 
 void qtkamal::on_actionTrTarget_triggered() {
+  QApplication::setOverrideCursor(Qt::WaitCursor);
 // TODO: tratar WITH_TRIANG
 #ifdef WITH_TRIANG
 
@@ -308,4 +312,5 @@ void qtkamal::on_actionTrTarget_triggered() {
   delete ls;
   delete vs;
 #endif
+  QApplication::restoreOverrideCursor();
 }
