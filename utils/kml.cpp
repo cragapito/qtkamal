@@ -50,7 +50,8 @@ bool kml::readfile(QString name) {
   QXmlGet xmlGet = QXmlGet();
 
   if (!xmlGet.load(name)) {
-    QMessageBox::critical(parent, "Erro",
+    QApplication::restoreOverrideCursor();
+    QMessageBox::warning(parent, "Aviso",
                           "Arquivo não suportado ou corrompido");
     return false;
   }
