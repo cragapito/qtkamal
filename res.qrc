@@ -20,5 +20,7 @@
         <file>res/about.png</file>
         <file>res/clear.png</file>
         <file>res/bussola.png</file>
+        <file>res/to_circle.png</file>
+        <file>res/gear.png</file>
     </qresource>
 </RCC>
