@@ -237,6 +237,7 @@ void qtkamal::checkTargetFunction() {
       if ((b->bm->daz - ref) >= MIN_TRIANG_ANGLE ||
           (b->bm->daz - ref) <= -MIN_TRIANG_ANGLE) {
         ui->actionTrTarget->setEnabled(true);
+        QApplication::restoreOverrideCursor();
         return;
       }
     }
