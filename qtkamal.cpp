@@ -5,6 +5,7 @@
 #include "dialogs/beamdialog.h"
 #include "dialogs/circledialog.h"
 #include "dialogs/pointdialog.h"
+#include "dialogs/configdialog.h"
 
 #include <QUrl>
 #include <QDropEvent>
@@ -143,6 +144,12 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
   }
 }
 
+void qtkamal::on_actionConfig_triggered()
+{
+    configDialog *cf = new configDialog();
+    cf->exec();
+}
+
 void qtkamal::on_actionAbout_triggered() {
   aboutDialog *ad = new aboutDialog();
   ad->exec();
@@ -169,7 +176,7 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos) {
     return;
   }
 
-  // FIXME: Perda do texto delete quando chamado no menu de contexto
+  // WARNING: Perda do texto delete quando chamado no menu de contexto
   // Se o item não estiver na raiz
   if (item->parent()) {
     deleteItemAction = new QAction(tr("delete"), this);
@@ -315,3 +322,5 @@ void qtkamal::on_actionTrTarget_triggered() {
 #endif
   QApplication::restoreOverrideCursor();
 }
+
+

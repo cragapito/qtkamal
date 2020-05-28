@@ -1,7 +1,7 @@
 #include "config.h"
 #include <QDebug>
 #include <QDir>
-#include <QSettings>
+#include <QFile>
 
 using namespace std;
 
@@ -44,4 +44,9 @@ void config::save() {
   settings.sync();
 
   qDebug() << "Arquivo de configurações salvo em " << settings.fileName();
+}
+
+void config::reset() {
+  QSettings settings("qtkamal.ini", QSettings::IniFormat);
+  settings.clear();
 }

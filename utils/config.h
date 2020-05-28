@@ -1,6 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <QSettings>
+
 // TODO: Implementar tela de configuração
 // TODO: Trazer estilos para a configuração
 class config {
@@ -15,6 +17,7 @@ public:
 
   config();
   void save();
+  void reset();
 };
 
 #endif // CONFIG_H

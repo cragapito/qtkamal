@@ -21,6 +21,7 @@ pointDialog::pointDialog(QWidget *parent, Coordinate *pc, QIcon icon ) :
     ui->piname->setText( QString::fromStdString( pc->name ) );
     QPixmap pixmap( icon.pixmap(40, QIcon::Normal, QIcon::On) );
     ui->iconPreview->setPixmap( pixmap );
+    // FIXME: Alterar widget para gbdeccoordinates se configurado
     ui->gbwidget->EditCoordinates( pc );
 }
 

@@ -53,6 +53,7 @@ private slots:
   void on_actionEst_triggered();
   void on_actionCirc_triggered();
   void on_actionGetEarth_triggered();
+  void on_actionConfig_triggered();
   void on_actionAbout_triggered();
 
   void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
