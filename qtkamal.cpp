@@ -17,17 +17,10 @@ qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
   ui->treeWidget->map = new kml(this, ui->treeWidget, sty);
   ui->treeWidget->SetStyleFold(sty);
 
-// TODO: tratar WITH_TRIANG
-#ifdef WITH_TRIANG
-  // TODO: MIN_TRIANG_ANGLE para a configuração
-#ifndef MIN_TRIANG_ANGLE
-#define MIN_TRIANG_ANGLE 10
-#endif
   vbeans = new QList<qtbeamitem *>();
   connect(this, SIGNAL(itemMoved()), this, SLOT(checkTargetFunction()));
   connect(ui->treeWidget, SIGNAL(itemMoved()), this,
           SLOT(checkTargetFunction()));
-#endif
 }
 
 qtkamal::~qtkamal() {
@@ -216,8 +209,6 @@ void qtkamal::checkTargetFunction() {
       ? ui->actionToCircle->setEnabled(true)
       : ui->actionToCircle->setEnabled(false);
 
-// TODO: tratar WITH_TRIANG
-#ifdef WITH_TRIANG
   if ((ui->treeWidget->groupBeans->childCount() +
        ui->treeWidget->groupERMs->childCount()) >= 2) {
     ui->actionTrTarget->setEnabled(true);
@@ -251,7 +242,6 @@ void qtkamal::checkTargetFunction() {
   }
 
   ui->actionTrTarget->setEnabled(false);
-#endif
   QApplication::restoreOverrideCursor();
 }
 
@@ -265,8 +255,6 @@ void qtkamal::args(QStringList args) {
 
 void qtkamal::on_actionTrTarget_triggered() {
   QApplication::setOverrideCursor(Qt::WaitCursor);
-// TODO: tratar WITH_TRIANG
-#ifdef WITH_TRIANG
 
   ui->actionTrTarget->setEnabled(false);
 
@@ -319,7 +307,6 @@ void qtkamal::on_actionTrTarget_triggered() {
   delete c;
   delete ls;
   delete vs;
-#endif
   QApplication::restoreOverrideCursor();
 }
 

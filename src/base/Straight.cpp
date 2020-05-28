@@ -31,7 +31,7 @@ Straight::Straight(const Point &pt, const double ang_graus){
 void Straight::define(const Point &A, const Point &B){
 	double m = (B.y - A.y) / (B.x - A.x);
 	double ang_rad = atan(m);
-	define( A, ang_rad);
+    define( A, ang_rad);
 	// Verifica se a reta calculada para A passa pelo ponto B também
 	assert( fabs ( this->a * B.x + this->b * B.y + this->c ) < 0.000001 );
 }

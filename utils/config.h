@@ -3,7 +3,6 @@
 
 #include <QSettings>
 
-// TODO: Implementar tela de configuração
 // TODO: Trazer estilos para a configuração
 class config {
 

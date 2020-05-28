@@ -1,16 +1,8 @@
 #ifndef qtkamal_H
 #define qtkamal_H
 
-// TODO: tratar WITH_TRIANG
-#ifndef WITHOUT_TRIANG
-#define WITH_TRIANG
-#endif /* WITH_TRIANG */
-
-// TODO: tratar WITH_TRIANG
-#ifdef WITH_TRIANG
 #include <src/Calc/LinearSolver.h>
 #include <utils/qtbeamitem.h>
-#endif /* WITH_TRIANG */
 
 #include <QList>
 #include <QMainWindow>
@@ -36,10 +28,7 @@ public:
 
   styleFold *sty;
 
-// TODO: tratar WITH_TRIANG
-#ifdef WITH_TRIANG
   QList<qtbeamitem *> *vbeans;
-#endif /* WITH_TRIANG */
 
   void args(QStringList args);
 
@@ -73,5 +62,3 @@ signals:
 private:
   Ui::qtkamal *ui;
 };
-
-#endif // qtkamal_H

@@ -3,7 +3,6 @@
 
 using namespace std;
 
-// TODO: Desenvolver tela de configuração para os parâmatros
 config::config() {
   // Grava no diretório de configurações do usuário conforme o padrão do sistema
   // de destino

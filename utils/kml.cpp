@@ -252,7 +252,7 @@ bool kml::save() {
   }
 
   if ( filename.right(4).chopped(1).toUpper() != ".KM" ){
-    filename.append(".kmz"); // TODO: Formato padrão de saída configurável
+    filename.append(".kmz");
   }
 
   QString ext = filename.right(1);
