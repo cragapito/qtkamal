@@ -238,8 +238,8 @@ void kml::parsePlaceMark(QDomElement e, QXmlGet xmlGet) {
   xmlGet.rise();
 }
 
+// FIXME: busy cursor quando gravando
 bool kml::save() {
-  QString arq;
   QXmlPut xmlPut = QXmlPut(QXmlGet(*doc));
 
   if (filename.isEmpty()) {
@@ -256,13 +256,20 @@ bool kml::save() {
       kmz2kmltmp();
   }
 
+  addStylesToFile();
+
+  QString fname;
+  (zfilename == NULL) ? fname = QString(QFileInfo(filename).baseName())
+                      : fname = QString(QFileInfo(zfilename).baseName());
+  // The extra firstChild() call which will actually access the text node and enable you to change the value
+  doc->firstChildElement("kml").firstChildElement("Document").firstChildElement("name").firstChild().setNodeValue( fname );
+  wtree->setHeaderLabel(fname);
+
   if (!xmlPut.save( filename )) {
     QMessageBox::critical(parent, "Erro",
                           "Não é possível gravar arquivo" + QString(filename));
     return false;
   }
-
-  addStylesToFile();
 
   if ( zfilename != NULL ) {
       kmltmp2kmz();
@@ -280,9 +287,13 @@ void kml::newFile() {
   xmlPut.descend("Document");
   if (filename.isEmpty())
     this->save();
-  // FIXME: Trazer nome do zfilename se disponível
-  xmlPut.putString("name", QString(QFileInfo(filename).fileName()));
-  wtree->setHeaderLabel(QString(QFileInfo(filename).fileName()));
+
+  QString fname;
+  ( zfilename == NULL )?
+      fname = filename:
+      fname = zfilename;
+  xmlPut.putString("name", QString(QFileInfo(fname).baseName()));
+  wtree->setHeaderLabel(QString(QFileInfo(fname).baseName()));
 
   addStylesToFile();
 
@@ -299,14 +310,14 @@ void kml::addStylesToFile() {
     xmlGet = xmlGet.restricted();
   }
 
+  QXmlPut xmlPut = QXmlPut(xmlGet);
+
   while (xmlGet.findNext("Style")) {
     QString styleTest = xmlGet.getAttributeString("id");
     if (sty->isInternalStyle(styleTest)) {
       return; // Já contém os estilos internos
     }
   }
-
-  QXmlPut xmlPut = QXmlPut(xmlGet);
 
   foreach (QString style, sty->mappedUrl.keys()) {
     xmlPut.descend("Style");
@@ -495,7 +506,7 @@ void kml::update(qtcircleitem *item) {
     QDomElement bound = doc->createElement("outerBoundaryIs");
     elpol.appendChild(bound);
     QDomElement ring = doc->createElement("LinearRing");
-    bound.appendChild(ring);
+    bound.appendChild(ring); // TODO: Use google-pro circle
     QDomElement coords = doc->createElement("coordinates");
     ring.appendChild(coords);
     item->element = place;
@@ -527,12 +538,6 @@ void kml::update(qtcircleitem *item) {
 }
 
 void kml::update(QString style, QString modelStyle) {
-
-  //#ifndef STYLE_UPDATE
-  //    qDebug() << "Método para atualização de estilos bloqueado.";
-  //    return;
-  //#endif
-
   QXmlGet xmlGet = QXmlGet(*doc);
   QDomElement e = QDomElement();
 
@@ -625,7 +630,6 @@ void kml::kmz2kmltmp() {
   }
   QuaZip zip(this->filename);
 
-  // FIXME: Abrindo kmz o nome do arquivo na janela fica doc.kml
   qDebug() << "Original file " << zfilename;
   qDebug() << "Workin on " << filename;
 
