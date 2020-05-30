@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>489</width>
+    <width>448</width>
     <height>227</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>489</width>
+    <width>448</width>
     <height>227</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>489</width>
+    <width>448</width>
     <height>227</height>
    </size>
   </property>
@@ -38,7 +38,7 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>90</x>
      <y>190</y>
      <width>340</width>
      <height>35</height>
@@ -81,7 +81,7 @@
     <rect>
      <x>10</x>
      <y>30</y>
-     <width>471</width>
+     <width>431</width>
      <height>24</height>
     </rect>
    </property>
@@ -91,7 +91,7 @@
     <rect>
      <x>10</x>
      <y>60</y>
-     <width>470</width>
+     <width>430</width>
      <height>120</height>
     </rect>
    </property>

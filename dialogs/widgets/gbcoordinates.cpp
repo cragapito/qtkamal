@@ -5,14 +5,25 @@
 #include <QDebug>
 
 // TODO: Atalho para limpar os dados
-// WARNING: Verificar precisão dos QLineEdit de segundos
 gbcoordinates::gbcoordinates(QWidget *parent) :
     QGroupBox(parent),
     ui(new Ui::gbcoordinates)
 {
     gbc = NULL;
     keepFocus = false;
+
     ui->setupUi(this);
+
+    ui->latgr->installEventFilter( this );
+    ui->latmin->installEventFilter( this );
+    ui->latseg->installEventFilter( this );
+
+    ui->longr->installEventFilter( this );
+    ui->lonmin->installEventFilter( this );
+    ui->lonseg->installEventFilter( this );
+
+    ui->dlat->installEventFilter( this );
+    ui->dlon->installEventFilter( this );
 }
 
 gbcoordinates::~gbcoordinates()
@@ -20,8 +31,7 @@ gbcoordinates::~gbcoordinates()
     delete ui;
 }
 
-Coordinate *gbcoordinates::returnCoord()
-{
+Coordinate *gbcoordinates::returnCoord() {
     if ( ! gbc ) gbc = new Coordinate();
 
     int lat = ui->latgr->text().toInt();
@@ -41,10 +51,8 @@ Coordinate *gbcoordinates::returnCoord()
     return gbc;
 }
 
-void gbcoordinates::EditCoordinates(Coordinate *c)
-{
+void gbcoordinates::updateGMS( Coordinate *c ) {
     keepFocus = true;
-    gbc = c;
     double fractpart, intpart;
     fractpart = modf(fabs(c->x), &intpart);
     ui->latgr->setText( QString::number((int) intpart ));
@@ -62,28 +70,31 @@ void gbcoordinates::EditCoordinates(Coordinate *c)
                  ui->comboLat->setCurrentIndex( 1 );
     (c->y < 0 )? ui->comboLon->setCurrentIndex( 0 ):
                  ui->comboLon->setCurrentIndex( 1 );
-
-   // BUG: Atualizar os decimais quando alterado no GMS
-   // Alterando o Text aqui dispara eventos nos outros
-   //ui->dlat->setText( QString::number( c->x ) );
-   //ui->dlon->setText( QString::number( c->y ) );
-
     keepFocus = false;
 }
 
-// WARNING: Verificar precisão dos dados armazenados
-void gbcoordinates::on_dlat_textChanged(const QString &what) {
-    gbc = this->returnCoord();
-    if ( what.size() > 0 ) keepFocus = true;
-    gbc->x = ui->dlat->text().toDouble();
-    this->EditCoordinates( gbc );
+void gbcoordinates::EditCoordinates( Coordinate *c )
+{
+    gbc = c;
+    updateGMS( c );
+
+    ui->dlat->setText( QString::number( c->x ) );
+    ui->dlon->setText( QString::number( c->y ) );
 }
 
-void gbcoordinates::on_dlon_textChanged(const QString &what) {
-    gbc = this->returnCoord();
-    if ( what.size() > 0 ) keepFocus = true;
-    gbc->y = ui->dlon->text().toDouble();
-    this->EditCoordinates( gbc );
+bool gbcoordinates::eventFilter(QObject *target, QEvent *event) {
+    if ( event->type() == QEvent::KeyPress ) {
+        gbc = this->returnCoord();
+        if ( target == ui->dlat || target == ui->dlon ) {
+            gbc->x = ui->dlat->text().toDouble();
+            gbc->y = ui->dlon->text().toDouble();
+            this->updateGMS( gbc );
+        } else {
+            ui->dlat->setText( QString::number( gbc->x ) );
+            ui->dlon->setText( QString::number( gbc->y ) );
+        }
+    }
+    return false;
 }
 
 /*
@@ -92,6 +103,7 @@ void gbcoordinates::on_dlon_textChanged(const QString &what) {
  *
  */
 
+// BUG: Se alterar o foco sozinho, não atualiza o decimal
 void gbcoordinates::on_latgr_textChanged(const QString &what) {
     if ( keepFocus ) return;
     if ( what.size() >= 2 ) {
