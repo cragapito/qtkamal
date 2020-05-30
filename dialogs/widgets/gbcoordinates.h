@@ -24,6 +24,7 @@ public:
 
 private:
     Ui::gbcoordinates *ui;
+    bool keepFocus;
 
 private slots: 
     void on_latgr_textChanged (const QString &arg1);
@@ -33,6 +34,9 @@ private slots:
     void on_longr_textChanged (const QString &arg1);
     void on_lonmin_textChanged(const QString &arg1);
     void on_lonseg_textChanged(const QString &arg1);
+
+    void on_dlat_textChanged(const QString &arg1);
+    void on_dlon_textChanged(const QString &arg1);
 
 signals:
     void editDone();

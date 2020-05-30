@@ -2,11 +2,16 @@
 #include "ui_gbcoordinates.h"
 #include "src/Geo/Coordinate.h"
 
+#include <QDebug>
+
+// TODO: Atalho para limpar os dados
+// WARNING: Verificar precisão dos QLineEdit de segundos
 gbcoordinates::gbcoordinates(QWidget *parent) :
     QGroupBox(parent),
     ui(new Ui::gbcoordinates)
 {
     gbc = NULL;
+    keepFocus = false;
     ui->setupUi(this);
 }
 
@@ -38,6 +43,7 @@ Coordinate *gbcoordinates::returnCoord()
 
 void gbcoordinates::EditCoordinates(Coordinate *c)
 {
+    keepFocus = true;
     gbc = c;
     double fractpart, intpart;
     fractpart = modf(fabs(c->x), &intpart);
@@ -56,48 +62,79 @@ void gbcoordinates::EditCoordinates(Coordinate *c)
                  ui->comboLat->setCurrentIndex( 1 );
     (c->y < 0 )? ui->comboLon->setCurrentIndex( 0 ):
                  ui->comboLon->setCurrentIndex( 1 );
+
+   // BUG: Atualizar os decimais quando alterado no GMS
+   // Alterando o Text aqui dispara eventos nos outros
+   //ui->dlat->setText( QString::number( c->x ) );
+   //ui->dlon->setText( QString::number( c->y ) );
+
+    keepFocus = false;
 }
 
-// Movimentação do Foco
-void gbcoordinates::on_latgr_textChanged(const QString &arg1) {
-    if ( arg1.size() >= 2 ) {
+// WARNING: Verificar precisão dos dados armazenados
+void gbcoordinates::on_dlat_textChanged(const QString &what) {
+    gbc = this->returnCoord();
+    if ( what.size() > 0 ) keepFocus = true;
+    gbc->x = ui->dlat->text().toDouble();
+    this->EditCoordinates( gbc );
+}
+
+void gbcoordinates::on_dlon_textChanged(const QString &what) {
+    gbc = this->returnCoord();
+    if ( what.size() > 0 ) keepFocus = true;
+    gbc->y = ui->dlon->text().toDouble();
+    this->EditCoordinates( gbc );
+}
+
+/*
+ *
+ *  Movimentação do Foco
+ *
+ */
+
+void gbcoordinates::on_latgr_textChanged(const QString &what) {
+    if ( keepFocus ) return;
+    if ( what.size() >= 2 ) {
         ui->latmin->setFocus();
         ui->latmin->selectAll();
     }
 }
 
-void gbcoordinates::on_latmin_textChanged(const QString &arg1) {
-    if ( arg1.size() >= 2 ) {
+void gbcoordinates::on_latmin_textChanged(const QString &what) {
+    if ( keepFocus ) return;
+    if ( what.size() >= 2 ) {
         ui->latseg->setFocus();
         ui->latseg->selectAll();
     }
 }
 
-void gbcoordinates::on_latseg_textChanged(const QString &arg1) {
-    if ( arg1.size() >= 4 ) {
+void gbcoordinates::on_latseg_textChanged(const QString &what) {
+    if ( keepFocus ) return;
+    if ( what.size() >= 4 ) {
         ui->longr->setFocus();
         ui->longr->selectAll();
     }
 }
 
-void gbcoordinates::on_longr_textChanged(const QString &arg1) {
-    if ( arg1.size() >= 2 ) {
+void gbcoordinates::on_longr_textChanged(const QString &what) {
+    if ( keepFocus ) return;
+    if ( what.size() >= 2 ) {
         ui->lonmin->setFocus();
         ui->lonmin->selectAll();
     }
 }
 
-void gbcoordinates::on_lonmin_textChanged(const QString &arg1) {
-    if ( arg1.size() >= 2 ) {
+void gbcoordinates::on_lonmin_textChanged(const QString &what) {
+    if ( keepFocus ) return;
+    if ( what.size() >= 2 ) {
         ui->lonseg->setFocus();
         ui->lonseg->selectAll();
     }
 }
 
-void gbcoordinates::on_lonseg_textChanged(const QString &arg1) {
-    if ( arg1.size() >= 4 ) {
+void gbcoordinates::on_lonseg_textChanged(const QString &what) {
+    if ( keepFocus ) return;
+    if ( what.size() >= 4 ) {
         emit editDone();
     }
 }
-
-
