@@ -74,7 +74,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="gbcoordinates" name="gbwidget" native="true">
+  <widget class="QStackedWidget" name="coord_entry">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -83,6 +83,11 @@
      <height>100</height>
     </rect>
    </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="gbcoordinates" name="GMS"/>
+   <widget class="gbdeccoordinates" name="decimal"/>
   </widget>
   <widget class="QLabel" name="label_azimute">
    <property name="geometry">
@@ -194,6 +199,12 @@
     <slot>slot1()</slot>
    </slots>
   </customwidget>
+  <customwidget>
+   <class>gbdeccoordinates</class>
+   <extends>QWidget</extends>
+   <header>gbdeccoordinates.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../res.qrc"/>
@@ -228,38 +239,6 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>gbwidget</sender>
-   <signal>editDone()</signal>
-   <receiver>azimute</receiver>
-   <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>164</x>
-     <y>102</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>55</x>
-     <y>181</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>gbwidget</sender>
-   <signal>editDone()</signal>
-   <receiver>azimute</receiver>
-   <slot>selectAll()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>164</x>
-     <y>102</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>55</x>
-     <y>181</y>
     </hint>
    </hints>
   </connection>

@@ -3,16 +3,20 @@
 
 #include <QSettings>
 
-// TODO: Trazer estilos para a configuração
 class config {
 
 public:
+  bool   useDecimal;
+
   double beam_azimuth;
   double beam_reach;
 
   double circ_radius;
   double circ_points;
   double circ_opening;
+
+  double gattack;
+  double gproj;
 
   config();
   void save();

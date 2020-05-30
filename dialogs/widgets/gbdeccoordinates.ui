@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>gbcoordinates</class>
- <widget class="QGroupBox" name="gbcoordinates">
+ <class>gbdeccoordinates</class>
+ <widget class="QGroupBox" name="gbdeccoordinates">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -54,10 +54,13 @@
     <set>Qt::ImhDigitsOnly</set>
    </property>
    <property name="inputMask">
-    <string>99</string>
+    <string>000.000000000000</string>
    </property>
    <property name="maxLength">
-    <number>2</number>
+    <number>16</number>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Normal</enum>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -104,10 +107,10 @@
     <set>Qt::ImhDigitsOnly</set>
    </property>
    <property name="inputMask">
-    <string>99</string>
+    <string>000.000000000000</string>
    </property>
    <property name="maxLength">
-    <number>2</number>
+    <number>16</number>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

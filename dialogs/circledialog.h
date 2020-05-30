@@ -3,8 +3,8 @@
 
 #include <QDialog>
 
-#include "utils/qtcircleitem.h"
 #include "utils/config.h"
+#include "utils/qtcircleitem.h"
 
 namespace Ui {
 class circleDialog;

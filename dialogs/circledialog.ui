@@ -102,7 +102,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="gbcoordinates" name="gbwidget" native="true">
+  <widget class="QStackedWidget" name="coord_entry">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -114,6 +114,11 @@
    <property name="focusPolicy">
     <enum>Qt::NoFocus</enum>
    </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="gbcoordinates" name="GMS"/>
+   <widget class="gbdeccoordinates" name="decimal"/>
   </widget>
   <widget class="QStackedWidget" name="cirSect">
    <property name="geometry">
@@ -352,10 +357,16 @@
     <slot>slot1()</slot>
    </slots>
   </customwidget>
+  <customwidget>
+   <class>gbdeccoordinates</class>
+   <extends>QWidget</extends>
+   <header>gbdeccoordinates.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>circname</tabstop>
-  <tabstop>gbwidget</tabstop>
+  <tabstop>coord_entry</tabstop>
   <tabstop>raio</tabstop>
   <tabstop>azimute</tabstop>
   <tabstop>alcance</tabstop>
@@ -401,22 +412,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>gbwidget</sender>
-   <signal>editDone()</signal>
-   <receiver>raio</receiver>
-   <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>164</x>
-     <y>102</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>65</x>
-     <y>181</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>alcance</sender>
    <signal>valueChanged(double)</signal>
    <receiver>raio</receiver>
@@ -444,22 +439,6 @@
     </hint>
     <hint type="destinationlabel">
      <x>165</x>
-     <y>181</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>gbwidget</sender>
-   <signal>editDone()</signal>
-   <receiver>raio</receiver>
-   <slot>selectAll()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>164</x>
-     <y>102</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>65</x>
      <y>181</y>
     </hint>
    </hints>

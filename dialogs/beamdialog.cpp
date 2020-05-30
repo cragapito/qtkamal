@@ -9,6 +9,12 @@ beamDialog::beamDialog(QWidget *parent) :
     cnf = new config();
     ui->setupUi(this);
 
+    cnf = new config();
+
+    if ( cnf->useDecimal ) {
+        ui->coord_entry->setCurrentIndex(1);
+    }
+
     ui->azimute->setValue( cnf->beam_azimuth    );
     ui->alcance->setValue( cnf->beam_reach      );
 
@@ -23,8 +29,14 @@ beamDialog::beamDialog(QWidget *parent, qtbeamitem *bi) :
     this->bi = bi;
     ui->setupUi(this);
 
+    cnf = new config();
+    if ( cnf->useDecimal ) {
+        ui->coord_entry->setCurrentIndex(1);
+    }
+
     ui->beamname->setText( QString::fromStdString( bi->bm->source->name ) );
-    ui->gbwidget->EditCoordinates( bi->bm->source );
+    ui->GMS->EditCoordinates( bi->bm->source );
+    ui->decimal->EditCoordinates( bi->bm->source );
     ui->azimute->setValue( bi->bm->daz );
     ui->alcance->setValue( bi->alcance );
 }
@@ -42,7 +54,8 @@ void beamDialog::on_buttonBox_accepted()
         cnf->save();
     }
 
-    bi->bm->source = ui->gbwidget->returnCoord();
+    // FIXME: Unificar os dados dos dois widgets de entrada
+    // bi->bm->source = ui->gbwidget->returnCoord();
     bi->bm->source->name = ui->beamname->text().toStdString();
     bi->bm->daz = ui->azimute->value();
     bi->bm->proj( ui->alcance->value() );

@@ -13,6 +13,7 @@
 
 qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
   ui->setupUi(this);
+  cnf = new config();
   sty = new styleFold();
   ui->treeWidget->map = new kml(this, ui->treeWidget, sty);
   ui->treeWidget->SetStyleFold(sty);
@@ -232,8 +233,8 @@ void qtkamal::checkTargetFunction() {
       b = vbeans->at(i);
 
       // Libera se a diferença dos angulos for significativa
-      if ((b->bm->daz - ref) >= MIN_TRIANG_ANGLE ||
-          (b->bm->daz - ref) <= -MIN_TRIANG_ANGLE) {
+      if ((b->bm->daz - ref) >= cnf->gattack / 2 ||
+          (b->bm->daz - ref) <= -cnf->gattack / 2) {
         ui->actionTrTarget->setEnabled(true);
         QApplication::restoreOverrideCursor();
         return;

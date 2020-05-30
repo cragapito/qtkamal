@@ -11,6 +11,8 @@
 #include "src/Geo/Beam.h"
 #include "utils/stylefold.h"
 
+#include "utils/config.h"
+
 namespace Ui {
 class qtkamal;
 }
@@ -21,6 +23,7 @@ class qtkamal : public QMainWindow {
 private:
   QAction *deleteItemAction;
   QAction *clearOldAction;
+  config *cnf;
 
 public:
   explicit qtkamal(QWidget *parent = 0);
@@ -62,3 +65,5 @@ signals:
 private:
   Ui::qtkamal *ui;
 };
+
+#endif // QTKAMAL_H

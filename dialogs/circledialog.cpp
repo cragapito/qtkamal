@@ -7,9 +7,14 @@ circleDialog::circleDialog(QWidget *parent) :
     ui(new Ui::circleDialog)
 {
     ci = new qtcircleitem();
-    cnf = new config();
 
     ui->setupUi(this);
+
+    cnf = new config();
+
+    if ( cnf->useDecimal ) {
+        ui->coord_entry->setCurrentIndex(1);
+    }
 
     ui->raio->setValue      ( cnf->circ_radius      );
     ui->pontos->setValue    ( cnf->circ_points      );
@@ -27,7 +32,14 @@ circleDialog::circleDialog(QWidget *parent, qtcircleitem *ci) :
     cnf = NULL;
     this->ci = ci;
     ui->setupUi(this);
-    ui->gbwidget->EditCoordinates( ci->center );
+
+    cnf = new config();
+    if ( cnf->useDecimal ) {
+        ui->coord_entry->setCurrentIndex(1);
+    }
+
+    ui->GMS->EditCoordinates( ci->center );
+    ui->decimal->EditCoordinates( ci->center );
     ui->circname->setText( QString::fromStdString( ci->center->name ));
     ui->comboType->setCurrentIndex( ci->tipoSelect );
 
@@ -59,7 +71,8 @@ void circleDialog::on_buttonBox_accepted()
     }
 
     ci->center->name = ui->circname->text().toStdString();
-    ci->center       = ui->gbwidget->returnCoord();
+    // FIXME: Unificar os dados dos dois widgets de entrada
+    //ci->center       = ui->gbwidget->returnCoord();
     ci->radius       = ui->raio->value();
     ci->points       = ui->pontos->value();
     ci->azimute      = ui->azimute->value();

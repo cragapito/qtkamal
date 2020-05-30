@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QString>
 
+#include "utils/config.h"
 #include "utils/qtpointitem.h"
 
 namespace Ui {
@@ -20,6 +21,9 @@ public:
     virtual  ~pointDialog();
 
     qtpointitem *pi;
+
+private:
+    config *cnf;
 
 private slots:
     void on_buttonBox_accepted();

@@ -86,7 +86,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="gbcoordinates" name="gbwidget" native="true">
+  <widget class="QStackedWidget" name="coord_entry">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -98,6 +98,11 @@
    <property name="focusPolicy">
     <enum>Qt::NoFocus</enum>
    </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="gbcoordinates" name="GMS"/>
+   <widget class="gbdeccoordinates" name="decimal"/>
   </widget>
   <widget class="QLabel" name="iconPreview">
    <property name="geometry">
@@ -136,31 +141,20 @@
     <slot>slot1()</slot>
    </slots>
   </customwidget>
+  <customwidget>
+   <class>gbdeccoordinates</class>
+   <extends>QWidget</extends>
+   <header>gbdeccoordinates.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>piname</tabstop>
-  <tabstop>gbwidget</tabstop>
+  <tabstop>coord_entry</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
   <include location="../res.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>gbwidget</sender>
-   <signal>editDone()</signal>
-   <receiver>buttonBox</receiver>
-   <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>164</x>
-     <y>102</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>150</x>
-     <y>175</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
