@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>593</width>
-    <height>400</height>
+    <height>311</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,13 +19,13 @@
   <property name="minimumSize">
    <size>
     <width>593</width>
-    <height>400</height>
+    <height>311</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>593</width>
-    <height>400</height>
+    <height>311</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,7 @@
      <x>10</x>
      <y>10</y>
      <width>575</width>
-     <height>339</height>
+     <height>251</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -59,45 +59,13 @@
     <attribute name="title">
      <string>Geral</string>
     </attribute>
-    <widget class="QGroupBox" name="groupBox">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>251</width>
-       <height>91</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Ponto</string>
-     </property>
-     <widget class="QCheckBox" name="usedecimals">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>231</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="toolTip">
-       <string>Utilizar coordenadas em decimal invés de GMS.</string>
-      </property>
-      <property name="text">
-       <string>Utilizar coordenadas decimais</string>
-      </property>
-     </widget>
-    </widget>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>110</y>
+       <y>80</y>
        <width>531</width>
-       <height>121</height>
+       <height>61</height>
       </rect>
      </property>
      <property name="title">
@@ -151,8 +119,8 @@
      <widget class="QSpinBox" name="apoints">
       <property name="geometry">
        <rect>
-        <x>70</x>
-        <y>60</y>
+        <x>230</x>
+        <y>30</y>
         <width>62</width>
         <height>24</height>
        </rect>
@@ -166,13 +134,16 @@
       <property name="maximum">
        <number>10000</number>
       </property>
+      <property name="singleStep">
+       <number>100</number>
+      </property>
      </widget>
      <widget class="QLabel" name="label_7">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>81</width>
+        <x>170</x>
+        <y>30</y>
+        <width>41</width>
         <height>21</height>
        </rect>
       </property>
@@ -183,8 +154,8 @@
      <widget class="QLabel" name="label_8">
       <property name="geometry">
        <rect>
-        <x>140</x>
-        <y>90</y>
+        <x>450</x>
+        <y>30</y>
         <width>59</width>
         <height>21</height>
        </rect>
@@ -196,8 +167,8 @@
      <widget class="QDoubleSpinBox" name="aradius">
       <property name="geometry">
        <rect>
-        <x>70</x>
-        <y>90</y>
+        <x>380</x>
+        <y>30</y>
         <width>62</width>
         <height>24</height>
        </rect>
@@ -215,11 +186,14 @@
      <widget class="QLabel" name="label_9">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>90</y>
+        <x>350</x>
+        <y>30</y>
         <width>59</width>
         <height>21</height>
        </rect>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
       </property>
       <property name="text">
        <string>Raio</string>
@@ -230,7 +204,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>240</y>
+       <y>150</y>
        <width>531</width>
        <height>61</height>
       </rect>
@@ -286,7 +260,7 @@
      <widget class="QLabel" name="label_17">
       <property name="geometry">
        <rect>
-        <x>280</x>
+        <x>170</x>
         <y>30</y>
         <width>81</width>
         <height>21</height>
@@ -299,7 +273,7 @@
      <widget class="QSpinBox" name="gproj">
       <property name="geometry">
        <rect>
-        <x>340</x>
+        <x>230</x>
         <y>30</y>
         <width>62</width>
         <height>24</height>
@@ -318,7 +292,7 @@
      <widget class="QLabel" name="label_18">
       <property name="geometry">
        <rect>
-        <x>410</x>
+        <x>300</x>
         <y>30</y>
         <width>59</width>
         <height>21</height>
@@ -332,10 +306,10 @@
     <widget class="QGroupBox" name="groupBox_4">
      <property name="geometry">
       <rect>
-       <x>290</x>
+       <x>20</x>
        <y>10</y>
-       <width>261</width>
-       <height>91</height>
+       <width>531</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="title">
@@ -376,9 +350,9 @@
      <widget class="QLabel" name="label_20">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>59</width>
+        <x>170</x>
+        <y>30</y>
+        <width>51</width>
         <height>21</height>
        </rect>
       </property>
@@ -389,8 +363,8 @@
      <widget class="QDoubleSpinBox" name="freach">
       <property name="geometry">
        <rect>
-        <x>70</x>
-        <y>60</y>
+        <x>230</x>
+        <y>30</y>
         <width>62</width>
         <height>24</height>
        </rect>
@@ -421,8 +395,8 @@
      <widget class="QLabel" name="label_22">
       <property name="geometry">
        <rect>
-        <x>140</x>
-        <y>60</y>
+        <x>300</x>
+        <y>30</y>
         <width>59</width>
         <height>21</height>
        </rect>
@@ -438,7 +412,7 @@
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>360</y>
+     <y>270</y>
      <width>171</width>
      <height>32</height>
     </rect>
@@ -463,7 +437,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>360</y>
+     <y>270</y>
      <width>141</width>
      <height>32</height>
     </rect>
@@ -481,7 +455,6 @@
  </widget>
  <tabstops>
   <tabstop>tabWidget</tabstop>
-  <tabstop>usedecimals</tabstop>
   <tabstop>fazimuth</tabstop>
   <tabstop>freach</tabstop>
   <tabstop>aazimute</tabstop>

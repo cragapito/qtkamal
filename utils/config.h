@@ -6,8 +6,6 @@
 class config {
 
 public:
-  bool   useDecimal;
-
   double beam_azimuth;
   double beam_reach;
 

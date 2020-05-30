@@ -12,10 +12,6 @@ config::config() {
   // Grava no diretório de execução. A chamada no destrutor precisa ser igual.
   QSettings settings("qtkamal.ini", QSettings::IniFormat);
 
-  settings.beginGroup("Points");
-    useDecimal    = settings.value("decimal", false ).toBool();
-  settings.endGroup();
-
   settings.beginGroup("Beam");
     beam_reach    = settings.value("reach_km",5     ).toDouble();
     beam_azimuth  = settings.value("azimuth", 0     ).toDouble();
@@ -35,10 +31,6 @@ config::config() {
 
 void config::save() {
   QSettings settings("qtkamal.ini", QSettings::IniFormat);
-
-  settings.beginGroup("Points");
-    settings.setValue("decimal",  useDecimal);
-  settings.endGroup();
 
   settings.beginGroup("Beam");
     settings.setValue("reach_km", beam_reach  );

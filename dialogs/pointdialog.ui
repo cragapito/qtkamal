@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>330</width>
-    <height>210</height>
+    <width>448</width>
+    <height>227</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>330</width>
-    <height>210</height>
+    <width>448</width>
+    <height>227</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>330</width>
-    <height>210</height>
+    <width>448</width>
+    <height>227</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -38,8 +38,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>-20</x>
-     <y>170</y>
+     <x>90</x>
+     <y>190</y>
      <width>340</width>
      <height>35</height>
     </rect>
@@ -81,36 +81,31 @@
     <rect>
      <x>10</x>
      <y>30</y>
-     <width>311</width>
+     <width>431</width>
      <height>24</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStackedWidget" name="coord_entry">
+  <widget class="gbcoordinates" name="coord_entry" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>60</y>
-     <width>310</width>
-     <height>100</height>
+     <width>430</width>
+     <height>120</height>
     </rect>
    </property>
    <property name="focusPolicy">
     <enum>Qt::NoFocus</enum>
    </property>
-   <property name="currentIndex">
-    <number>0</number>
-   </property>
-   <widget class="gbcoordinates" name="GMS"/>
-   <widget class="gbdeccoordinates" name="decimal"/>
   </widget>
   <widget class="QLabel" name="iconPreview">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>160</y>
-     <width>40</width>
-     <height>40</height>
+     <x>0</x>
+     <y>180</y>
+     <width>51</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -140,12 +135,6 @@
     <signal>editDone()</signal>
     <slot>slot1()</slot>
    </slots>
-  </customwidget>
-  <customwidget>
-   <class>gbdeccoordinates</class>
-   <extends>QWidget</extends>
-   <header>gbdeccoordinates.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

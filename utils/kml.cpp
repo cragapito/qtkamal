@@ -242,14 +242,14 @@ void kml::parsePlaceMark(QDomElement e, QXmlGet xmlGet) {
 }
 
 bool kml::save() {
-  // Mantém o cursor em Wait quando em operação crítica
-  QApplication::setOverrideCursor(Qt::WaitCursor);
   QXmlPut xmlPut = QXmlPut(QXmlGet(*doc));
 
   if (filename.isEmpty()) {
     filename = QFileDialog::getSaveFileName(parent, QObject::tr("Salvar arquivo"), "",
                                      QObject::tr("Files (*.kml *.kmz)"));
   }
+
+  QApplication::setOverrideCursor(Qt::WaitCursor);
 
   if ( filename.right(4).chopped(1).toUpper() != ".KM" ){
     filename.append(".kmz");

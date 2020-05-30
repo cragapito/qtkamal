@@ -33,11 +33,14 @@ void qtkamal::dropEvent(QDropEvent *ev) {
   foreach (QUrl url, urls) { ui->treeWidget->map->readfile(url.toLocalFile()); }
 }
 
+// BUG: Não aceita Drop de kmz
 void qtkamal::dragEnterEvent(QDragEnterEvent *ev) {
   QList<QUrl> urls = ev->mimeData()->urls();
   foreach (QUrl url, urls) {
     qDebug() << url.toString();
-    if (QFileInfo(url.toLocalFile()).suffix().toUpper() != "KML") {
+    if (QFileInfo(url.toLocalFile()).suffix().toUpper() != "KML" &&
+            QFileInfo(url.toLocalFile()).suffix().toUpper() != "KMZ" )
+    {
       return;
     }
   }

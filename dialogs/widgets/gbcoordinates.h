@@ -12,7 +12,7 @@ class gbcoordinates;
 class gbcoordinates : public QGroupBox
 {
     Q_OBJECT
-    
+
 public:
     explicit gbcoordinates(QWidget *parent = 0);
     ~gbcoordinates();
@@ -25,7 +25,13 @@ public:
 private:
     Ui::gbcoordinates *ui;
 
-private slots: 
+    bool keepFocus;
+
+    bool eventFilter(QObject *target, QEvent *event);
+
+    void updateGMS( Coordinate *c );
+
+private slots:
     void on_latgr_textChanged (const QString &arg1);
     void on_latmin_textChanged(const QString &arg1);
     void on_latseg_textChanged(const QString &arg1);

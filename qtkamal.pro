@@ -15,7 +15,6 @@ INCLUDEPATH += . src/Geo src/base utils src/Calc dialogs dialogs/widgets
 # Input
 HEADERS += dialogs/configdialog.h \
            dialogs/widgets/gbcoordinates.h \
-           dialogs/widgets/gbdeccoordinates.h \
            kamaltree.h \
            qtkamal.h \
            dialogs/aboutdialog.h \
@@ -37,7 +36,6 @@ HEADERS += dialogs/configdialog.h \
            src/Geo/Coordinate.h
 FORMS += dialogs/configdialog.ui \
          dialogs/widgets/gbcoordinates.ui \
-         dialogs/widgets/gbdeccoordinates.ui \
          qtkamal.ui \
          dialogs/aboutdialog.ui \
          dialogs/beamdialog.ui \
@@ -45,7 +43,6 @@ FORMS += dialogs/configdialog.ui \
          dialogs/pointdialog.ui
 SOURCES += dialogs/configdialog.cpp \
            dialogs/widgets/gbcoordinates.cpp \
-           dialogs/widgets/gbcdecoordinates.cpp \
            kamaltree.cpp \
            main.cpp \
            qtkamal.cpp \

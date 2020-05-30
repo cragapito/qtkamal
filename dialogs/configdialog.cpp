@@ -10,8 +10,6 @@ configDialog::configDialog(QWidget *parent) :
     ui->setupUi(this);
     cnf = new config();
 
-    ui->usedecimals->setChecked( cnf->useDecimal);
-
     ui->fazimuth->setValue( cnf->beam_azimuth   );
     ui->freach->setValue(   cnf->beam_reach     );
 
@@ -30,8 +28,6 @@ configDialog::~configDialog()
 
 void configDialog::on_buttonBox_accepted()
 {
-    cnf->useDecimal     = ui->usedecimals->checkState();
-
     cnf->beam_azimuth   = ui->fazimuth->value();
     cnf->beam_reach     = ui->freach->value();
 

@@ -23,7 +23,7 @@ public:
 
 private:
     config *cnf;
-    
+
 private slots:
     void on_buttonBox_accepted();
 
