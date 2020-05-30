@@ -3,8 +3,8 @@
 
 #include <QDialog>
 
-#include "utils/qtcircleitem.h"
 #include "utils/config.h"
+#include "utils/qtcircleitem.h"
 
 namespace Ui {
 class circleDialog;
@@ -23,7 +23,7 @@ public:
 
 private:
     config *cnf;
-    
+
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();

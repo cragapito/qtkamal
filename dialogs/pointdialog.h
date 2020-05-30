@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QString>
 
+#include "utils/config.h"
 #include "utils/qtpointitem.h"
 
 namespace Ui {

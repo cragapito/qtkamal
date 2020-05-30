@@ -1,12 +1,15 @@
 #include "pointdialog.h"
 #include "ui_pointdialog.h"
 
+#include <QDebug>
+
 pointDialog::pointDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::pointDialog)
 {   
     pi = new qtpointitem();
     ui->setupUi(this);
+
     ui->piname->setFocus();
 }
 
@@ -18,10 +21,11 @@ pointDialog::pointDialog(QWidget *parent, Coordinate *pc, QIcon icon ) :
     pi->pc = pc;
 
     ui->setupUi(this);
+
     ui->piname->setText( QString::fromStdString( pc->name ) );
     QPixmap pixmap( icon.pixmap(40, QIcon::Normal, QIcon::On) );
     ui->iconPreview->setPixmap( pixmap );
-    ui->gbwidget->EditCoordinates( pc );
+    ui->coord_entry->EditCoordinates( pc );
 }
 
 pointDialog::~pointDialog()
@@ -31,7 +35,7 @@ pointDialog::~pointDialog()
 
 void pointDialog::on_buttonBox_accepted()
 {
-    pi->pc = ui->gbwidget->returnCoord();
+    pi->pc = ui->coord_entry->returnCoord();
     pi->setText(0, QString::fromStdString(
         ui->piname->text().toStdString() ));
     this->accept();

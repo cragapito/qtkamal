@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <iostream>
 
-// TODO: Passar parâmetros para configuração
+// TODO: Passar parâmetros de estilo para configuração
 styleFold::styleFold() {
   iconStyle.insert("sn_man", new QIcon(":/icon/res/man.png"));
   iconStyle.insert("sn_erm", new QIcon(":/icon/res/target.png"));

@@ -1,8 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-// TODO: Implementar tela de configuração
-// TODO: Trazer estilos para a configuração
+#include <QSettings>
+
 class config {
 
 public:
@@ -13,8 +13,12 @@ public:
   double circ_points;
   double circ_opening;
 
+  double gattack;
+  double gproj;
+
   config();
   void save();
+  void reset();
 };
 
 #endif // CONFIG_H

@@ -50,7 +50,8 @@ bool kml::readfile(QString name) {
   QXmlGet xmlGet = QXmlGet();
 
   if (!xmlGet.load(name)) {
-    QMessageBox::critical(parent, "Erro",
+    QApplication::restoreOverrideCursor();
+    QMessageBox::warning(parent, "Aviso",
                           "Arquivo não suportado ou corrompido");
     return false;
   }
@@ -241,8 +242,6 @@ void kml::parsePlaceMark(QDomElement e, QXmlGet xmlGet) {
 }
 
 bool kml::save() {
-  // Mantém o cursor em Wait quando em operação crítica
-  QApplication::setOverrideCursor(Qt::WaitCursor);
   QXmlPut xmlPut = QXmlPut(QXmlGet(*doc));
 
   if (filename.isEmpty()) {
@@ -250,8 +249,10 @@ bool kml::save() {
                                      QObject::tr("Files (*.kml *.kmz)"));
   }
 
+  QApplication::setOverrideCursor(Qt::WaitCursor);
+
   if ( filename.right(4).chopped(1).toUpper() != ".KM" ){
-    filename.append(".kmz"); // TODO: Formato padrão de saída configurável
+    filename.append(".kmz");
   }
 
   QString ext = filename.right(1);
@@ -269,9 +270,11 @@ bool kml::save() {
   wtree->setHeaderLabel(fname);
 
   if (!xmlPut.save( filename )) {
+    QApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor(); // Sem a segunda chamada o cursor permanece ocupado.
     QMessageBox::critical(parent, "Erro",
-                          "Não é possível gravar arquivo" + QString(filename));
-    return false;
+                          "Não foi possível gravar arquivo" + QString(filename));
+    QApplication::quit();
   }
 
   if ( zfilename != NULL ) {
@@ -627,10 +630,12 @@ void kml::kmz2kmltmp() {
   this->zfilename = this->filename;
 
   if (dirtmp.isValid()) {
-        filename = dirtmp.path() + "/doc.kml";
-    } else {
-        QMessageBox::critical(parent, "Erro",
+    filename = dirtmp.path() + "/doc.kml";
+  } else {
+    QApplication::restoreOverrideCursor();
+    QMessageBox::critical(parent, "Erro",
                           "Falha ao criar pasta de trabalho temporária.");
+    QApplication::quit();
   }
   QuaZip zip(this->filename);
 

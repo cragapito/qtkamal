@@ -5,6 +5,7 @@
 #include "dialogs/beamdialog.h"
 #include "dialogs/circledialog.h"
 #include "dialogs/pointdialog.h"
+#include "dialogs/configdialog.h"
 
 #include <QUrl>
 #include <QDropEvent>
@@ -12,21 +13,15 @@
 
 qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
   ui->setupUi(this);
+  cnf = new config();
   sty = new styleFold();
   ui->treeWidget->map = new kml(this, ui->treeWidget, sty);
   ui->treeWidget->SetStyleFold(sty);
 
-// TODO: tratar WITH_TRIANG
-#ifdef WITH_TRIANG
-  // TODO: MIN_TRIANG_ANGLE para a configuração
-#ifndef MIN_TRIANG_ANGLE
-#define MIN_TRIANG_ANGLE 10
-#endif
   vbeans = new QList<qtbeamitem *>();
   connect(this, SIGNAL(itemMoved()), this, SLOT(checkTargetFunction()));
   connect(ui->treeWidget, SIGNAL(itemMoved()), this,
           SLOT(checkTargetFunction()));
-#endif
 }
 
 qtkamal::~qtkamal() {
@@ -38,11 +33,14 @@ void qtkamal::dropEvent(QDropEvent *ev) {
   foreach (QUrl url, urls) { ui->treeWidget->map->readfile(url.toLocalFile()); }
 }
 
+// BUG: Não aceita Drop de kmz
 void qtkamal::dragEnterEvent(QDragEnterEvent *ev) {
   QList<QUrl> urls = ev->mimeData()->urls();
   foreach (QUrl url, urls) {
     qDebug() << url.toString();
-    if (QFileInfo(url.toLocalFile()).suffix().toUpper() != "KML") {
+    if (QFileInfo(url.toLocalFile()).suffix().toUpper() != "KML" &&
+            QFileInfo(url.toLocalFile()).suffix().toUpper() != "KMZ" )
+    {
       return;
     }
   }
@@ -143,6 +141,12 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
   }
 }
 
+void qtkamal::on_actionConfig_triggered()
+{
+    configDialog *cf = new configDialog();
+    cf->exec();
+}
+
 void qtkamal::on_actionAbout_triggered() {
   aboutDialog *ad = new aboutDialog();
   ad->exec();
@@ -169,7 +173,7 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos) {
     return;
   }
 
-  // FIXME: Perda do texto delete quando chamado no menu de contexto
+  // WARNING: Perda do texto delete quando chamado no menu de contexto
   // Se o item não estiver na raiz
   if (item->parent()) {
     deleteItemAction = new QAction(tr("delete"), this);
@@ -209,14 +213,6 @@ void qtkamal::checkTargetFunction() {
       ? ui->actionToCircle->setEnabled(true)
       : ui->actionToCircle->setEnabled(false);
 
-// TODO: tratar WITH_TRIANG
-
-// Habilita menu ponto para círculo se hover algum ponto na árvore
-( ui->treeWidget->groupPoints->childCount() > 0 )?
-    ui->actionToCircle->setEnabled( true  ):
-    ui->actionToCircle->setEnabled( false );
-
-#ifdef WITH_TRIANG
   if ((ui->treeWidget->groupBeans->childCount() +
        ui->treeWidget->groupERMs->childCount()) >= 2) {
     ui->actionTrTarget->setEnabled(true);
@@ -240,8 +236,8 @@ void qtkamal::checkTargetFunction() {
       b = vbeans->at(i);
 
       // Libera se a diferença dos angulos for significativa
-      if ((b->bm->daz - ref) >= MIN_TRIANG_ANGLE ||
-          (b->bm->daz - ref) <= -MIN_TRIANG_ANGLE) {
+      if ((b->bm->daz - ref) >= cnf->gattack / 2 ||
+          (b->bm->daz - ref) <= -cnf->gattack / 2) {
         ui->actionTrTarget->setEnabled(true);
         QApplication::restoreOverrideCursor();
         return;
@@ -250,7 +246,6 @@ void qtkamal::checkTargetFunction() {
   }
 
   ui->actionTrTarget->setEnabled(false);
-#endif
   QApplication::restoreOverrideCursor();
 }
 
@@ -264,8 +259,6 @@ void qtkamal::args(QStringList args) {
 
 void qtkamal::on_actionTrTarget_triggered() {
   QApplication::setOverrideCursor(Qt::WaitCursor);
-// TODO: tratar WITH_TRIANG
-#ifdef WITH_TRIANG
 
   ui->actionTrTarget->setEnabled(false);
 
@@ -318,6 +311,7 @@ void qtkamal::on_actionTrTarget_triggered() {
   delete c;
   delete ls;
   delete vs;
-#endif
   QApplication::restoreOverrideCursor();
 }
+
+

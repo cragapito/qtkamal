@@ -1,16 +1,8 @@
 #ifndef qtkamal_H
 #define qtkamal_H
 
-// TODO: tratar WITH_TRIANG
-#ifndef WITHOUT_TRIANG
-#define WITH_TRIANG
-#endif /* WITH_TRIANG */
-
-// TODO: tratar WITH_TRIANG
-#ifdef WITH_TRIANG
 #include <src/Calc/LinearSolver.h>
 #include <utils/qtbeamitem.h>
-#endif /* WITH_TRIANG */
 
 #include <QList>
 #include <QMainWindow>
@@ -18,6 +10,8 @@
 
 #include "src/Geo/Beam.h"
 #include "utils/stylefold.h"
+
+#include "utils/config.h"
 
 namespace Ui {
 class qtkamal;
@@ -29,6 +23,7 @@ class qtkamal : public QMainWindow {
 private:
   QAction *deleteItemAction;
   QAction *clearOldAction;
+  config *cnf;
 
 public:
   explicit qtkamal(QWidget *parent = 0);
@@ -36,10 +31,7 @@ public:
 
   styleFold *sty;
 
-// TODO: tratar WITH_TRIANG
-#ifdef WITH_TRIANG
   QList<qtbeamitem *> *vbeans;
-#endif /* WITH_TRIANG */
 
   void args(QStringList args);
 
@@ -53,6 +45,7 @@ private slots:
   void on_actionEst_triggered();
   void on_actionCirc_triggered();
   void on_actionGetEarth_triggered();
+  void on_actionConfig_triggered();
   void on_actionAbout_triggered();
 
   void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
@@ -73,4 +66,4 @@ private:
   Ui::qtkamal *ui;
 };
 
-#endif // qtkamal_H
+#endif // QTKAMAL_H

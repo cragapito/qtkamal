@@ -6,20 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>603</width>
-    <height>359</height>
+    <width>650</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>200</width>
-    <height>324</height>
-   </size>
-  </property>
-  <property name="baseSize">
-   <size>
-    <width>200</width>
-    <height>324</height>
+    <height>200</height>
    </size>
   </property>
   <property name="acceptDrops">
@@ -73,16 +67,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>603</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="contextMenuPolicy">
     <enum>Qt::PreventContextMenu</enum>
@@ -100,9 +84,20 @@
    <addaction name="actionGetEarth"/>
    <addaction name="actionToCircle"/>
    <addaction name="actionTrTarget"/>
+   <addaction name="actionConfig"/>
    <addaction name="actionAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>650</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
   <action name="actionPnt">
    <property name="icon">
     <iconset resource="res.qrc">
@@ -265,7 +260,22 @@
     <string>Converte pontos em círculos</string>
    </property>
    <property name="shortcut">
-    <string>P</string>
+    <string>X</string>
+   </property>
+  </action>
+  <action name="actionConfig">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icon/res/gear.png</normaloff>:/icon/res/gear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Config</string>
+   </property>
+   <property name="toolTip">
+    <string>Configurações</string>
    </property>
   </action>
  </widget>

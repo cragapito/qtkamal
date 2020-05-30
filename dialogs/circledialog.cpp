@@ -8,7 +8,6 @@ circleDialog::circleDialog(QWidget *parent) :
 {
     ci = new qtcircleitem();
     cnf = new config();
-
     ui->setupUi(this);
 
     ui->raio->setValue      ( cnf->circ_radius      );
@@ -24,10 +23,10 @@ circleDialog::circleDialog(QWidget *parent, qtcircleitem *ci) :
     QDialog(parent),
     ui(new Ui::circleDialog)
 {
-    cnf = NULL;
     this->ci = ci;
     ui->setupUi(this);
-    ui->gbwidget->EditCoordinates( ci->center );
+
+    ui->coord_entry->EditCoordinates( ci->center );
     ui->circname->setText( QString::fromStdString( ci->center->name ));
     ui->comboType->setCurrentIndex( ci->tipoSelect );
 
@@ -45,21 +44,8 @@ circleDialog::~circleDialog()
 
 void circleDialog::on_buttonBox_accepted()
 {
-    if ( cnf != NULL ) {
-        cnf->circ_radius    = ui->raio->value();
-        cnf->circ_points    = ui->pontos->value();
-        cnf->circ_radius    = ui->alcance->value();
-        cnf->circ_opening   = ui->abertura->value();
-
-        if ( ci->tipoSelect == 1 ) {
-                    cnf->beam_azimuth   = ui->azimute->value();
-        }
-
-        cnf->save();
-    }
-
     ci->center->name = ui->circname->text().toStdString();
-    ci->center       = ui->gbwidget->returnCoord();
+    ci->center       = ui->coord_entry->returnCoord();
     ci->radius       = ui->raio->value();
     ci->points       = ui->pontos->value();
     ci->azimute      = ui->azimute->value();

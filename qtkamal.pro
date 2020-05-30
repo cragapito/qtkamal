@@ -9,11 +9,12 @@ QT += core
 
 TEMPLATE = app
 TARGET = qtkamal
-DEPENDPATH += . dialogs utils src/base src/Calc src/Geo
-INCLUDEPATH += . src/Geo src/base utils src/Calc dialogs
+DEPENDPATH += . utils src/base src/Calc src/Geo dialogs dialogs/widgets
+INCLUDEPATH += . src/Geo src/base utils src/Calc dialogs dialogs/widgets
 
 # Input
-HEADERS += gbcoordinates.h \
+HEADERS += dialogs/configdialog.h \
+           dialogs/widgets/gbcoordinates.h \
            kamaltree.h \
            qtkamal.h \
            dialogs/aboutdialog.h \
@@ -33,13 +34,15 @@ HEADERS += gbcoordinates.h \
            src/Calc/LinearSolver.h \
            src/Geo/Beam.h \
            src/Geo/Coordinate.h
-FORMS += gbcoordinates.ui \
+FORMS += dialogs/configdialog.ui \
+         dialogs/widgets/gbcoordinates.ui \
          qtkamal.ui \
          dialogs/aboutdialog.ui \
          dialogs/beamdialog.ui \
          dialogs/circledialog.ui \
          dialogs/pointdialog.ui
-SOURCES += gbcoordinates.cpp \
+SOURCES += dialogs/configdialog.cpp \
+           dialogs/widgets/gbcoordinates.cpp \
            kamaltree.cpp \
            main.cpp \
            qtkamal.cpp \

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>330</width>
-    <height>320</height>
+    <width>450</width>
+    <height>347</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>330</width>
-    <height>320</height>
+    <width>450</width>
+    <height>347</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>330</width>
-    <height>320</height>
+    <width>450</width>
+    <height>347</height>
    </size>
   </property>
   <property name="focusPolicy">
@@ -41,8 +41,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>-20</x>
-     <y>280</y>
+     <x>90</x>
+     <y>310</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -59,7 +59,7 @@
     <rect>
      <x>10</x>
      <y>30</y>
-     <width>311</width>
+     <width>431</width>
      <height>24</height>
     </rect>
    </property>
@@ -81,7 +81,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>270</y>
+     <y>300</y>
      <width>40</width>
      <height>40</height>
     </rect>
@@ -102,13 +102,13 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="gbcoordinates" name="gbwidget" native="true">
+  <widget class="gbcoordinates" name="coord_entry" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>60</y>
-     <width>310</width>
-     <height>100</height>
+     <y>70</y>
+     <width>430</width>
+     <height>120</height>
     </rect>
    </property>
    <property name="focusPolicy">
@@ -119,8 +119,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>170</y>
-     <width>311</width>
+     <y>200</y>
+     <width>421</width>
      <height>51</height>
     </rect>
    </property>
@@ -279,7 +279,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>240</y>
+     <y>270</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -299,7 +299,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>220</y>
+     <y>250</y>
      <width>57</width>
      <height>14</height>
     </rect>
@@ -312,7 +312,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>240</y>
+     <y>270</y>
      <width>91</width>
      <height>24</height>
     </rect>
@@ -323,6 +323,9 @@
    <property name="maximum">
     <number>36000</number>
    </property>
+   <property name="singleStep">
+    <number>100</number>
+   </property>
    <property name="value">
     <number>100</number>
    </property>
@@ -331,7 +334,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>220</y>
+     <y>250</y>
      <width>57</width>
      <height>14</height>
     </rect>
@@ -355,7 +358,7 @@
  </customwidgets>
  <tabstops>
   <tabstop>circname</tabstop>
-  <tabstop>gbwidget</tabstop>
+  <tabstop>coord_entry</tabstop>
   <tabstop>raio</tabstop>
   <tabstop>azimute</tabstop>
   <tabstop>alcance</tabstop>
@@ -401,22 +404,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>gbwidget</sender>
-   <signal>editDone()</signal>
-   <receiver>raio</receiver>
-   <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>164</x>
-     <y>102</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>65</x>
-     <y>181</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>alcance</sender>
    <signal>valueChanged(double)</signal>
    <receiver>raio</receiver>
@@ -444,22 +431,6 @@
     </hint>
     <hint type="destinationlabel">
      <x>165</x>
-     <y>181</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>gbwidget</sender>
-   <signal>editDone()</signal>
-   <receiver>raio</receiver>
-   <slot>selectAll()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>164</x>
-     <y>102</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>65</x>
      <y>181</y>
     </hint>
    </hints>
