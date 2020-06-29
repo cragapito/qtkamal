@@ -26,6 +26,8 @@ pointDialog::pointDialog(QWidget *parent, Coordinate *pc, QIcon icon ) :
     QPixmap pixmap( icon.pixmap(40, QIcon::Normal, QIcon::On) );
     ui->iconPreview->setPixmap( pixmap );
     ui->coord_entry->EditCoordinates( pc );
+
+    ui->piname->setFocus();
 }
 
 pointDialog::~pointDialog()

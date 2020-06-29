@@ -83,7 +83,14 @@ void gbcoordinates::EditCoordinates( Coordinate *c )
 }
 
 bool gbcoordinates::eventFilter(QObject *target, QEvent *event) {
-    if ( event->type() == QEvent::KeyPress ) {
+    if ( event->type() == QEvent::FocusIn || event->type() == QEvent::MouseButtonRelease ) {
+        QLineEdit* edit=qobject_cast<QLineEdit*>( target );
+        if(edit !=nullptr) { // beware could be null
+            edit->selectAll();
+            return true;
+        }
+    }
+    if ( event->type() == QEvent::KeyRelease ) {
         gbc = this->returnCoord();
         if ( target == ui->dlat || target == ui->dlon ) {
             gbc->x = ui->dlat->text().toDouble();
@@ -103,7 +110,6 @@ bool gbcoordinates::eventFilter(QObject *target, QEvent *event) {
  *
  */
 
-// BUG: Se alterar o foco sozinho, não atualiza o decimal
 void gbcoordinates::on_latgr_textChanged(const QString &what) {
     if ( keepFocus ) return;
     if ( what.size() >= 2 ) {

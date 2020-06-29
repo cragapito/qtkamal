@@ -26,6 +26,8 @@ beamDialog::beamDialog(QWidget *parent, qtbeamitem *bi) :
     ui->coord_entry->EditCoordinates( bi->bm->source );
     ui->azimute->setValue( bi->bm->daz );
     ui->alcance->setValue( bi->alcance );
+
+    ui->beamname->setFocus();
 }
 
 beamDialog::~beamDialog()

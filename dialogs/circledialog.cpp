@@ -35,6 +35,8 @@ circleDialog::circleDialog(QWidget *parent, qtcircleitem *ci) :
     ui->azimute->setValue ( ci->azimute  );
     ui->alcance->setValue ( ci->radius   );
     ui->abertura->setValue( ci->abertura );
+
+    ui->circname->setFocus();
 }
 
 circleDialog::~circleDialog()
