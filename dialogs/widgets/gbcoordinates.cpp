@@ -97,8 +97,8 @@ bool gbcoordinates::eventFilter(QObject *target, QEvent *event) {
             gbc->y = ui->dlon->text().toDouble();
             this->updateGMS( gbc );
         } else {
-            ui->dlat->setText( QString::number( gbc->x ) );
-            ui->dlon->setText( QString::number( gbc->y ) );
+            ui->dlat->setText( QString::number( gbc->x, 'g', 12) );
+            ui->dlon->setText( QString::number( gbc->y, 'g', 12) );
         }
     }
     return false;
