@@ -1,7 +1,0 @@
-- Comando para transformar os pontos em círculos [Concluído]
-- Botões para registrar padrões no arquivo INI
-- Adicionar parâmetros fixos no arquivo de configuração como cor do fundo e transparência
-- Tratar KMZ
-- Revisar diretiva WITH_TRIANG 
-- Passar MIN_TRIANG_ANGLE para o arquivo INI
-- Calcular área de incerteza
