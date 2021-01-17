@@ -78,8 +78,8 @@ void gbcoordinates::EditCoordinates( Coordinate *c )
     gbc = c;
     updateGMS( c );
 
-    ui->dlat->setText( QString::number( c->x ) );
-    ui->dlon->setText( QString::number( c->y ) );
+    ui->dlat->setText( QString::number( c->x, 'g', 12 ) );
+    ui->dlon->setText( QString::number( c->y, 'g', 12 ) );
 }
 
 bool gbcoordinates::eventFilter(QObject *target, QEvent *event) {
