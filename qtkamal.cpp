@@ -176,7 +176,7 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos) {
   // WARNING: Perda do texto delete quando chamado no menu de contexto
   // Se o item não estiver na raiz
   if (item->parent()) {
-    deleteItemAction = new QAction(tr("delete"), this);
+    deleteItemAction = new QAction(tr("Delete"), this);
     deleteItemAction->setIcon(QIcon(":/icon/res/delete_icon.png"));
     deleteItemAction->setStatusTip(tr("Remove este item"));
     if (item->isDisabled())

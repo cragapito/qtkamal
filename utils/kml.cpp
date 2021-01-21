@@ -241,6 +241,7 @@ void kml::parsePlaceMark(QDomElement e, QXmlGet xmlGet) {
   xmlGet.rise();
 }
 
+// WARNING: Se não escolher um nome, não deixar ficar vazio. (Nem no nome dos objetos filhos)
 bool kml::save() {
   QXmlPut xmlPut = QXmlPut(QXmlGet(*doc));
 
@@ -269,6 +270,7 @@ bool kml::save() {
   doc->firstChildElement("kml").firstChildElement("Document").firstChildElement("name").firstChild().setNodeValue( fname );
   wtree->setHeaderLabel(fname);
 
+  // WARNING: Se filename vazio, criar um default
   if (!xmlPut.save( filename )) {
     QApplication::restoreOverrideCursor();
     QApplication::restoreOverrideCursor(); // Sem a segunda chamada o cursor permanece ocupado.

@@ -33,17 +33,14 @@ kamalTree::kamalTree(QWidget *parent) :
 
     // disable dropping of leaves as top level items
     invisibleRootItem()->setFlags(    Qt::ItemIsSelectable
-                              | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled         );
+                                    | Qt::ItemIsUserCheckable
+                                    | Qt::ItemIsEnabled       );
 
     // top level itens
-    groupPoints->setFlags ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
-    groupBeans->setFlags  ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
-    groupERMs->setFlags   ( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
-    groupCircles->setFlags( Qt::ItemIsSelectable    | Qt::ItemIsUserCheckable
-                          | Qt::ItemIsDropEnabled   | Qt::ItemIsEnabled         );
+    groupPoints->setFlags ( Qt::ItemIsUserCheckable | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled );
+    groupBeans->setFlags  ( Qt::ItemIsUserCheckable | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled );
+    groupERMs->setFlags   ( Qt::ItemIsUserCheckable | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled );
+    groupCircles->setFlags( Qt::ItemIsUserCheckable | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled );
 }
 
 void kamalTree::SetStyleFold(styleFold *sf)
@@ -60,144 +57,122 @@ void kamalTree::removeChild(QTreeWidgetItem *child)
 
 void kamalTree::dropEvent(QDropEvent *event)
 {
-    QTreeWidgetItem *item = currentItem();
-
     QString group;
 
-    if ( ! itemAt(event->pos()) ) {
-        qDebug() << "Falha ao executar a ação";
-        event->ignore();
-        return;
-    }
+    QModelIndexList idxSelectedItems = this->selectionModel()->selectedRows();
+    QList<QTreeWidgetItem *> itens = this->selectedItems();
 
-    if ( itemAt(event->pos())->parent() ) {
-        group = itemAt(event->pos())->parent()->text(0);
-    } else {
-        group = itemAt(event->pos())->text(0);
-    }
+    for(int i=0; i< idxSelectedItems.count(); i++)
+    {
+        QTreeWidgetItem *item = itens.at(i);
 
-    if ( event->proposedAction() == Qt::MoveAction )
-        QTreeWidget::dropEvent(event);
-
-    if ( group == "Pontos" && dynamic_cast<qtbeamitem*>(item)) {
-        if ( event->proposedAction() == Qt::MoveAction ) {
-            toPoint( dynamic_cast<qtbeamitem*>(item), item->parent() );
-            this->removeChild( item );
-            emit itemMoved();
-        } else {
-            toPoint( dynamic_cast<qtbeamitem*>(item), groupPoints );
-            emit itemMoved();
+        if ( ! itemAt(event->pos()) ) {
+            qDebug() << "Falha ao executar a ação";
+            event->ignore();
+            return;
         }
-        return;
-    }
 
-    if ( group == "Pontos" && dynamic_cast<qtcircleitem*>(item)) {
-        if ( event->proposedAction() == Qt::MoveAction ) {
-            toPoint( dynamic_cast<qtcircleitem*>(item), item->parent() );
-            this->removeChild( item );
-            emit itemMoved();
+        if ( itemAt(event->pos())->parent() ) {
+            group = itemAt(event->pos())->parent()->text(0);
         } else {
-            toPoint( dynamic_cast<qtcircleitem*>(item), groupPoints );
-            emit itemMoved();
+            group = itemAt(event->pos())->text(0);
         }
-        return;
-    }
 
-    if ( group == "Feixes Manuais" && dynamic_cast<qtpointitem*>(item)) {
-        if ( event->proposedAction() == Qt::MoveAction ) {
-            toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN, item->parent() );
-            this->removeChild( item );
-            emit itemMoved();
-        } else {
-            toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN, groupBeans );
-            emit itemMoved();
-        }
-        return;
-    }
+        if ( event->proposedAction() == Qt::MoveAction )
+            QTreeWidget::dropEvent(event);
 
-    if ( group == "Feixes de Estação" && dynamic_cast<qtpointitem*>(item)) {
-        if ( event->proposedAction() == Qt::MoveAction ) {
-            toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM, item->parent() );
-            this->removeChild( item );
-            emit itemMoved();
-        } else {
-            toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM, groupERMs );
-            emit itemMoved();
+        if ( group == "Pontos" && dynamic_cast<qtbeamitem*>(item)) {
+            if ( event->proposedAction() == Qt::MoveAction ) {
+                toPoint( dynamic_cast<qtbeamitem*>(item), item->parent() );
+                this->removeChild( item );
+            } else {
+                toPoint( dynamic_cast<qtbeamitem*>(item), groupPoints );
+            }
         }
-        return;
-    }
 
-    if ( group == "Feixes Manuais" && dynamic_cast<qtcircleitem*>(item)) {
-        if ( event->proposedAction() == Qt::MoveAction ) {
-            toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::MAN, item->parent() );
-            this->removeChild( item );
-            emit itemMoved();
-        } else {
-            toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::MAN, groupBeans );
-            emit itemMoved();
+        if ( group == "Pontos" && dynamic_cast<qtcircleitem*>(item)) {
+            if ( event->proposedAction() == Qt::MoveAction ) {
+                toPoint( dynamic_cast<qtcircleitem*>(item), item->parent() );
+                this->removeChild( item );
+            } else {
+                toPoint( dynamic_cast<qtcircleitem*>(item), groupPoints );
+            }
         }
-        return;
-    }
 
-    if ( group == "Feixes de Estação" && dynamic_cast<qtcircleitem*>(item)) {
-        if ( event->proposedAction() == Qt::MoveAction ) {
-            toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM, item->parent() );
-            this->removeChild( item );
-            emit itemMoved();
-        } else {
-            toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM, groupERMs );
-            emit itemMoved();
+        if ( group == "Feixes Manuais" && dynamic_cast<qtpointitem*>(item)) {
+            if ( event->proposedAction() == Qt::MoveAction ) {
+                toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN, item->parent() );
+                this->removeChild( item );
+            } else {
+                toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::MAN, groupBeans );
+            }
         }
-        return;
-    }
 
-    if ( group == "Feixes Manuais" && dynamic_cast<qtbeamitem*>(item)) {
-        if ( event->proposedAction() == Qt::MoveAction ) {
-            toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::MAN, item->parent() );
-            this->removeChild( item );
-            emit itemMoved();
-        } else {
-            toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::MAN, groupBeans );
-            emit itemMoved();
+        if ( group == "Feixes de Estação" && dynamic_cast<qtpointitem*>(item)) {
+            if ( event->proposedAction() == Qt::MoveAction ) {
+                toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM, item->parent() );
+                this->removeChild( item );
+            } else {
+                toBeam( dynamic_cast<qtpointitem*>(item), qtbeamitem::ERM, groupERMs );
+            }
         }
-        return;
-    }
 
-    if ( group == "Feixes de Estação" && dynamic_cast<qtbeamitem*>(item)) {
-        if ( event->proposedAction() == Qt::MoveAction ) {
-            toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM, item->parent() );
-            this->removeChild( item );
-            emit itemMoved();
-        } else {
-            toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM, groupERMs );
-            emit itemMoved();
+        if ( group == "Feixes Manuais" && dynamic_cast<qtcircleitem*>(item)) {
+            if ( event->proposedAction() == Qt::MoveAction ) {
+                toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::MAN, item->parent() );
+                this->removeChild( item );
+            } else {
+                toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::MAN, groupBeans );
+            }
         }
-        return;
-    }
 
-    if ( group == "Área" && dynamic_cast<qtpointitem*>(item)) {
-        if ( event->proposedAction() == Qt::MoveAction ) {
-            toCircle( dynamic_cast<qtpointitem*>(item), item->parent() );
-            this->removeChild( item );
-            emit itemMoved();
-        } else {
-            toCircle( dynamic_cast<qtpointitem*>(item), groupCircles );
-            emit itemMoved();
+        if ( group == "Feixes de Estação" && dynamic_cast<qtcircleitem*>(item)) {
+            if ( event->proposedAction() == Qt::MoveAction ) {
+                toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM, item->parent() );
+                this->removeChild( item );
+            } else {
+                toBeam( dynamic_cast<qtcircleitem*>(item), qtbeamitem::ERM, groupERMs );
+            }
         }
-        return;
-    }
 
-    if ( group == "Área" && dynamic_cast<qtbeamitem*>(item)) {
-        if ( event->proposedAction() == Qt::MoveAction ) {
-            toCircle( dynamic_cast<qtbeamitem*>(item), item->parent() );
-            this->removeChild( item );
-            emit itemMoved();
-        } else {
-            toCircle( dynamic_cast<qtbeamitem*>(item), groupCircles );
-            emit itemMoved();
+        if ( group == "Feixes Manuais" && dynamic_cast<qtbeamitem*>(item)) {
+            if ( event->proposedAction() == Qt::MoveAction ) {
+                toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::MAN, item->parent() );
+                this->removeChild( item );
+            } else {
+                toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::MAN, groupBeans );
+            }
         }
-        return;
+
+        if ( group == "Feixes de Estação" && dynamic_cast<qtbeamitem*>(item)) {
+            if ( event->proposedAction() == Qt::MoveAction ) {
+                toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM, item->parent() );
+                this->removeChild( item );
+            } else {
+                toBeam( dynamic_cast<qtbeamitem*>(item), qtbeamitem::ERM, groupERMs );
+            }
+        }
+
+        if ( group == "Área" && dynamic_cast<qtpointitem*>(item)) {
+            if ( event->proposedAction() == Qt::MoveAction ) {
+                toCircle( dynamic_cast<qtpointitem*>(item), item->parent() );
+                this->removeChild( item );
+            } else {
+                toCircle( dynamic_cast<qtpointitem*>(item), groupCircles );
+            }
+        }
+
+        if ( group == "Área" && dynamic_cast<qtbeamitem*>(item)) {
+            if ( event->proposedAction() == Qt::MoveAction ) {
+                toCircle( dynamic_cast<qtbeamitem*>(item), item->parent() );
+                this->removeChild( item );
+            } else {
+                toCircle( dynamic_cast<qtbeamitem*>(item), groupCircles );
+            }
+        }
     }
+    emit itemMoved();
+    return;
 }
 
 void kamalTree::clearOldHandler()

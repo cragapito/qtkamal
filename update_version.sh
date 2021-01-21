@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
 
-base="0.7"
+base="0.8"
 
 ver="$base.`svnversion -n`"
 

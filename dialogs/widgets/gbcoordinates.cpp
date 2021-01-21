@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-// TODO: Atalho para limpar os dados
+// TODO: Falta atalho para limpar os dados
 gbcoordinates::gbcoordinates(QWidget *parent) :
     QGroupBox(parent),
     ui(new Ui::gbcoordinates)
@@ -14,11 +14,11 @@ gbcoordinates::gbcoordinates(QWidget *parent) :
 
     ui->setupUi(this);
 
-    ui->latgr->installEventFilter( this );
+    ui->latgr->installEventFilter ( this );
     ui->latmin->installEventFilter( this );
     ui->latseg->installEventFilter( this );
 
-    ui->longr->installEventFilter( this );
+    ui->longr->installEventFilter ( this );
     ui->lonmin->installEventFilter( this );
     ui->lonseg->installEventFilter( this );
 
