@@ -33,7 +33,6 @@ void qtkamal::dropEvent(QDropEvent *ev) {
   foreach (QUrl url, urls) { ui->treeWidget->map->readfile(url.toLocalFile()); }
 }
 
-// BUG: Não aceita Drop de kmz
 void qtkamal::dragEnterEvent(QDragEnterEvent *ev) {
   QList<QUrl> urls = ev->mimeData()->urls();
   foreach (QUrl url, urls) {
@@ -194,6 +193,7 @@ void qtkamal::deleteItemHandler() {
   ui->treeWidget->removeChild(item);
 }
 
+// TODO: Clicar em ToCircle com o shift pressionado reverte para pontos.
 void qtkamal::on_actionToCircle_triggered() {
   QApplication::setOverrideCursor(Qt::WaitCursor);
   while (ui->treeWidget->groupPoints->childCount() > 0) {

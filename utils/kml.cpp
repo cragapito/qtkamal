@@ -22,13 +22,6 @@ bool kml::readfile() {
                                    QObject::tr("Files (*.kml *.kmz)"));
 
   QApplication::setOverrideCursor(Qt::WaitCursor);
-  QString ext = filename.right(1);
-  if (ext.toUpper() == 'Z') {
-      kmz2kmltmp();
-  } else {
-      zfilename = NULL;
-  }
-
   if (!filename.isEmpty()) {
     this->readfile(filename);
     QApplication::restoreOverrideCursor();
@@ -39,6 +32,15 @@ bool kml::readfile() {
 }
 
 bool kml::readfile(QString name) {
+  filename = name;
+
+  QString ext = name.right(1);
+  if (ext.toUpper() == 'Z') {
+      kmz2kmltmp();
+  } else {
+      zfilename = NULL;
+  }
+
   QTreeWidgetItemIterator it(wtree);
   while (*it) {
     if ((*it)->parent()) {
@@ -49,14 +51,12 @@ bool kml::readfile(QString name) {
 
   QXmlGet xmlGet = QXmlGet();
 
-  if (!xmlGet.load(name)) {
+  if (!xmlGet.load(filename)) {
     QApplication::restoreOverrideCursor();
     QMessageBox::warning(parent, "Aviso",
                           "Arquivo não suportado ou corrompido");
     return false;
   }
-
-  filename = name;
 
   if (xmlGet.find("Document")) {
     xmlGet.descend();
@@ -642,7 +642,7 @@ void kml::kmz2kmltmp() {
   QuaZip zip(this->filename);
 
   qDebug() << "Original file " << zfilename;
-  qDebug() << "Workin on " << filename;
+  qDebug() << "Working on " << filename;
 
   JlCompress::extractDir( zfilename, dirtmp.path() );
 }

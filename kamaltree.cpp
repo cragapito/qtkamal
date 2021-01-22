@@ -55,6 +55,7 @@ void kamalTree::removeChild(QTreeWidgetItem *child)
     delete child;
 }
 
+// WARNING: Não faz sentido multiseleção para feixes
 void kamalTree::dropEvent(QDropEvent *event)
 {
     QString group;
@@ -227,6 +228,7 @@ void kamalTree::toPoint(qtcircleitem *ci, QTreeWidgetItem *where)
     groupPoints->setExpanded( true );
 }
 
+// BUG: Verificar as movimentações entre beans, o alcance não está acompanhando
 void kamalTree::toBeam(qtpointitem *pi, qtbeamitem::TYPE type, QTreeWidgetItem *where)
 {
     qtbeamitem *bi = new qtbeamitem();
