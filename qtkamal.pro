@@ -66,4 +66,8 @@ SOURCES += dialogs/configdialog.cpp \
 RESOURCES += res.qrc
 
 INCLUDEPATH += /usr/local/include
-unix|win32: LIBS += -lgsl -lgslcblas -lquazip5
+#ifdef QUAZIP
+    unix|win32: LIBS += -lgsl -lgslcblas #-lquazip5
+#else
+    unix|win32: LIBS += -lgsl -lgslcblas
+#endif

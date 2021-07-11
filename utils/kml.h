@@ -15,7 +15,10 @@
 #include <QtXml>
 #include <iostream>
 
+#ifdef QUAZIP
 #include <quazip5/JlCompress.h>
+#endif
+
 
 class kamalTree;
 

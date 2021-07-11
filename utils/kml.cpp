@@ -32,6 +32,7 @@ bool kml::readfile() {
 }
 
 bool kml::readfile(QString name) {
+  // BUG: Ao carregar um arquivo por cima do outro, preservar o primeiro.
   filename = name;
 
   QString ext = name.right(1);
@@ -41,6 +42,7 @@ bool kml::readfile(QString name) {
       zfilename = NULL;
   }
 
+  // BUG: Movimentar estes itens leva a segfault, eles estão desabilitados mas são selecionáveis
   QTreeWidgetItemIterator it(wtree);
   while (*it) {
     if ((*it)->parent()) {
@@ -53,8 +55,10 @@ bool kml::readfile(QString name) {
 
   if (!xmlGet.load(filename)) {
     QApplication::restoreOverrideCursor();
+#ifdef QUAZIP
     QMessageBox::warning(parent, "Aviso",
                           "Arquivo não suportado ou corrompido");
+#endif
     return false;
   }
 
@@ -241,16 +245,24 @@ void kml::parsePlaceMark(QDomElement e, QXmlGet xmlGet) {
   xmlGet.rise();
 }
 
-// WARNING: Se não escolher um nome, não deixar ficar vazio. (Nem no nome dos objetos filhos)
 bool kml::save() {
   QXmlPut xmlPut = QXmlPut(QXmlGet(*doc));
 
+  // TODO: Abrir o diálogo na pasta de trabalho do usuário
   if (filename.isEmpty()) {
     filename = QFileDialog::getSaveFileName(parent, QObject::tr("Salvar arquivo"), "",
                                      QObject::tr("Files (*.kml *.kmz)"));
   }
 
   QApplication::setOverrideCursor(Qt::WaitCursor);
+
+  // NOTE: Verificar implicações de não salvar o arquivo "Sem nome" (usuário cancelando o diálogo).
+  // Cada alteração solicitará o diálogo novamente e não há outra forma de salvar.
+  if (filename.isEmpty()) {
+      QApplication::restoreOverrideCursor();
+      return false;
+      filename = "Sem nome";
+  }
 
   if ( filename.right(4).chopped(1).toUpper() != ".KM" ){
     filename.append(".kmz");
@@ -270,7 +282,6 @@ bool kml::save() {
   doc->firstChildElement("kml").firstChildElement("Document").firstChildElement("name").firstChild().setNodeValue( fname );
   wtree->setHeaderLabel(fname);
 
-  // WARNING: Se filename vazio, criar um default
   if (!xmlPut.save( filename )) {
     QApplication::restoreOverrideCursor();
     QApplication::restoreOverrideCursor(); // Sem a segunda chamada o cursor permanece ocupado.
@@ -294,8 +305,9 @@ void kml::newFile() {
   xmlPut.setAttributeString("xmlns:kml", "http://www.opengis.net/kml/2.2");
   xmlPut.setAttributeString("xmlns:atom", "http://www.w3.org/2005/Atom");
   xmlPut.descend("Document");
-  if (filename.isEmpty())
-    this->save();
+  // NOTE: Verificar implicações de não salvar o arquivo se vazio.
+  //if (filename.isEmpty())
+  //  this->save();
 
   QString fname;
   ( zfilename == NULL )?
@@ -308,7 +320,8 @@ void kml::newFile() {
 
   *doc = xmlPut.document();
 
-  this->save();
+  // NOTE: Verificar implicações de não salvar o arquivo novo.
+  //this->save();
 }
 
 void kml::addStylesToFile() {
@@ -515,7 +528,7 @@ void kml::update(qtcircleitem *item) {
     QDomElement bound = doc->createElement("outerBoundaryIs");
     elpol.appendChild(bound);
     QDomElement ring = doc->createElement("LinearRing");
-    bound.appendChild(ring); // TODO: Use google-pro circle
+    bound.appendChild(ring); // TODO: Usar elemento google-pro circle
     QDomElement coords = doc->createElement("coordinates");
     ring.appendChild(coords);
     item->element = place;
@@ -639,17 +652,31 @@ void kml::kmz2kmltmp() {
                           "Falha ao criar pasta de trabalho temporária.");
     QApplication::quit();
   }
+
+#ifdef QUAZIP
+
   QuaZip zip(this->filename);
 
   qDebug() << "Original file " << zfilename;
   qDebug() << "Working on " << filename;
 
   JlCompress::extractDir( zfilename, dirtmp.path() );
+#else
+  qDebug() << "Quazip was not compiled!";
+  QMessageBox::critical(parent, "Erro",
+                            "Esta versão não suporta kmz!\n\n"
+                            "Se você não sabe porque está lendo esta mensagem,\n"
+                            "então você recebeu por engano uma versão de testes.\n\n"
+                            "Por gentileza, contate o desenvolverdor para resolvermos.\n"
+                            "Você encontrará esta informação no botão com uma interrogação.");
+#endif
 }
 
 void kml::kmltmp2kmz() {
+#ifdef QUAZIP
   JlCompress::compressDir( zfilename, dirtmp.path() + "/");
   qDebug() << "Writting " << zfilename;
+#endif
 }
 
 void kml::remove(QTreeWidgetItem *item) {

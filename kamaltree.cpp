@@ -6,8 +6,10 @@
 #include "utils/qtcircleitem.h"
 
 #include <QDebug>
+#include <QApplication>
 #include <QDragLeaveEvent>
 
+// NOTE: Ordenar os pontos por nome(?)
 kamalTree::kamalTree(QWidget *parent) :
     QTreeWidget(parent)
 {
@@ -55,13 +57,15 @@ void kamalTree::removeChild(QTreeWidgetItem *child)
     delete child;
 }
 
-// WARNING: Não faz sentido multiseleção para feixes
+// NOTE: Faz sentido multiseleção para feixes?
 void kamalTree::dropEvent(QDropEvent *event)
 {
     QString group;
 
     QModelIndexList idxSelectedItems = this->selectionModel()->selectedRows();
     QList<QTreeWidgetItem *> itens = this->selectedItems();
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
 
     for(int i=0; i< idxSelectedItems.count(); i++)
     {
@@ -172,6 +176,7 @@ void kamalTree::dropEvent(QDropEvent *event)
             }
         }
     }
+    QApplication::restoreOverrideCursor();
     emit itemMoved();
     return;
 }
@@ -228,7 +233,7 @@ void kamalTree::toPoint(qtcircleitem *ci, QTreeWidgetItem *where)
     groupPoints->setExpanded( true );
 }
 
-// BUG: Verificar as movimentações entre beans, o alcance não está acompanhando
+// NOTE: Verificar que as movimentações de/para beans, o alcance mantém o estado anterior.
 void kamalTree::toBeam(qtpointitem *pi, qtbeamitem::TYPE type, QTreeWidgetItem *where)
 {
     qtbeamitem *bi = new qtbeamitem();

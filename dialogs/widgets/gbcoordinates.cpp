@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-// TODO: Falta atalho para limpar os dados
+// TODO: Falta atalho para limpar o widget
 gbcoordinates::gbcoordinates(QWidget *parent) :
     QGroupBox(parent),
     ui(new Ui::gbcoordinates)
@@ -31,6 +31,7 @@ gbcoordinates::~gbcoordinates()
     delete ui;
 }
 
+// TODO: Implementar clipboard para resgate do par de coordenadas decimal.
 Coordinate *gbcoordinates::returnCoord() {
     if ( ! gbc ) gbc = new Coordinate();
 

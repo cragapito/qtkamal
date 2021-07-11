@@ -11,6 +11,7 @@
 #include <QDropEvent>
 #include <QApplication>
 
+// NOTE: Implementar histórico de reversão (Ctrl-Z) (?)
 qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
   ui->setupUi(this);
   cnf = new config();
@@ -159,6 +160,7 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos) {
 
   QTreeWidgetItem *item = ui->treeWidget->itemAt(pos);
 
+  // TODO: Adicionar menu de contexto para receber os arquivos obsoletos ou adicioná-los automaticamente.
   // Nenhum item selecionado ou item de grupo ou obsoleto
   if (!item || !item->parent() || item->isDisabled()) {
     clearOldAction = new QAction(tr("limpa obsoletos"), this);
@@ -172,7 +174,7 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos) {
     return;
   }
 
-  // WARNING: Perda do texto delete quando chamado no menu de contexto
+  // WARNING: Perda do texto delete quando chamado no menu de contexto 
   // Se o item não estiver na raiz
   if (item->parent()) {
     deleteItemAction = new QAction(tr("Delete"), this);
@@ -188,12 +190,13 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos) {
   }
 }
 
+// BUG: Implementar delete em multiseleção.
 void qtkamal::deleteItemHandler() {
   QTreeWidgetItem *item = ui->treeWidget->currentItem();
   ui->treeWidget->removeChild(item);
 }
 
-// TODO: Clicar em ToCircle com o shift pressionado reverte para pontos.
+// TODO: Clicar em ToCircle com o shift pressionado para reverter para pontos.
 void qtkamal::on_actionToCircle_triggered() {
   QApplication::setOverrideCursor(Qt::WaitCursor);
   while (ui->treeWidget->groupPoints->childCount() > 0) {
