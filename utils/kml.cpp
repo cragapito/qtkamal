@@ -36,7 +36,7 @@ bool kml::readfile(QString name) {
   filename = name;
 
   QString ext = name.right(1);
-  if (ext.toUpper() == 'Z') {
+  if (ext.toLower() == 'z') {
       kmz2kmltmp();
   } else {
       zfilename = NULL;
@@ -55,10 +55,10 @@ bool kml::readfile(QString name) {
 
   if (!xmlGet.load(filename)) {
     QApplication::restoreOverrideCursor();
-#ifdef QUAZIP
-    QMessageBox::warning(parent, "Aviso",
+    #ifdef QUAZIP
+        QMessageBox::warning(parent, "Aviso",
                           "Arquivo não suportado ou corrompido");
-#endif
+    #endif
     return false;
   }
 
@@ -269,7 +269,7 @@ bool kml::save() {
   }
 
   QString ext = filename.right(1);
-  if (ext.toUpper() == 'Z') {
+  if (ext.toLower() == 'z') {
       kmz2kmltmp();
   }
 
@@ -644,8 +644,10 @@ void kml::update(QString style, QString modelStyle) {
 void kml::kmz2kmltmp() {
   this->zfilename = this->filename;
 
+  filename.replace(QString("kmz"), QString("kml"));
+
   if (dirtmp.isValid()) {
-    filename = dirtmp.path() + "/doc.kml";
+    filename = dirtmp.path() + QDir::separator() + QFileInfo(this->filename).fileName();
   } else {
     QApplication::restoreOverrideCursor();
     QMessageBox::critical(parent, "Erro",
@@ -655,26 +657,26 @@ void kml::kmz2kmltmp() {
 
 #ifdef QUAZIP
 
-  QuaZip zip(this->filename);
+  QuaZip zip( this->filename );
 
   qDebug() << "Original file " << zfilename;
   qDebug() << "Working on " << filename;
 
   JlCompress::extractDir( zfilename, dirtmp.path() );
 #else
-  qDebug() << "Quazip was not compiled!";
+  qDebug() << "Quazip option was not compiled!";
   QMessageBox::critical(parent, "Erro",
                             "Esta versão não suporta kmz!\n\n"
                             "Se você não sabe porque está lendo esta mensagem,\n"
-                            "então você recebeu por engano uma versão de testes.\n\n"
-                            "Por gentileza, contate o desenvolverdor para resolvermos.\n"
-                            "Você encontrará esta informação no botão com uma interrogação.");
+                            "então você recebeu por engano uma versão de teste.\n\n"
+                            "Por gentileza, contate o desenvolverdor para resolvermos isso.\n\n"
+                            "Você encontrará o contato no ícone com uma interrogação.");
 #endif
 }
 
 void kml::kmltmp2kmz() {
 #ifdef QUAZIP
-  JlCompress::compressDir( zfilename, dirtmp.path() + "/");
+  JlCompress::compressDir( zfilename, dirtmp.path() + QDir::separator() );
   qDebug() << "Writting " << zfilename;
 #endif
 }

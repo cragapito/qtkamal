@@ -7,6 +7,8 @@ QT += webkit
 QT += xml
 QT += core
 
+CONFIG += quazip
+
 TEMPLATE = app
 TARGET = qtkamal
 DEPENDPATH += . utils src/base src/Calc src/Geo dialogs dialogs/widgets
@@ -66,8 +68,10 @@ SOURCES += dialogs/configdialog.cpp \
 RESOURCES += res.qrc
 
 INCLUDEPATH += /usr/local/include
-#ifdef QUAZIP
-    unix|win32: LIBS += -lgsl -lgslcblas #-lquazip5
-#else
-    unix|win32: LIBS += -lgsl -lgslcblas
-#endif
+
+unix|win32: LIBS += -lgsl -lgslcblas
+
+quazip {
+     LIBS += -lquazip1-qt5
+     DEFINES += QUAZIP
+}
