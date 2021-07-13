@@ -18,8 +18,13 @@ kml::kml(QWidget *parent, kamalTree *wt, styleFold *styFold) {
 }
 
 bool kml::readfile() {
-  filename = QFileDialog::getOpenFileName(parent, QObject::tr("Abrir arquivo"), "",
+  #ifdef QUAZIP
+    filename = QFileDialog::getOpenFileName(parent, QObject::tr("Abrir arquivo"), QDir::homePath(),
                                    QObject::tr("Files (*.kml *.kmz)"));
+  #else
+    filename = QFileDialog::getOpenFileName(parent, QObject::tr("Abrir arquivo"), QDir::homePath(),
+                                   QObject::tr("Files (*.kml)"));
+  #endif
 
   QApplication::setOverrideCursor(Qt::WaitCursor);
   if (!filename.isEmpty()) {
@@ -55,10 +60,10 @@ bool kml::readfile(QString name) {
 
   if (!xmlGet.load(filename)) {
     QApplication::restoreOverrideCursor();
-    #ifdef QUAZIP
-        QMessageBox::warning(parent, "Aviso",
-                          "Arquivo não suportado ou corrompido");
-    #endif
+
+    QMessageBox::warning(parent, "Aviso",
+        "Arquivo não suportado ou corrompido");
+
     return false;
   }
 
@@ -248,10 +253,14 @@ void kml::parsePlaceMark(QDomElement e, QXmlGet xmlGet) {
 bool kml::save() {
   QXmlPut xmlPut = QXmlPut(QXmlGet(*doc));
 
-  // TODO: Abrir o diálogo na pasta de trabalho do usuário
   if (filename.isEmpty()) {
-    filename = QFileDialog::getSaveFileName(parent, QObject::tr("Salvar arquivo"), "",
-                                     QObject::tr("Files (*.kml *.kmz)"));
+    #ifdef QUAZIP
+      filename = QFileDialog::getSaveFileName(parent, QObject::tr("Salvar arquivo"), QDir::homePath(),
+                                   QObject::tr("Files (*.kml *.kmz)"));
+    #else
+      filename = QFileDialog::getSaveFileName(parent, QObject::tr("Salvar arquivo"), QDir::homePath(),
+                                   QObject::tr("Files (*.kml)"));
+    #endif
   }
 
   QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -666,11 +675,7 @@ void kml::kmz2kmltmp() {
 #else
   qDebug() << "Quazip option was not compiled!";
   QMessageBox::critical(parent, "Erro",
-                            "Esta versão não suporta kmz!\n\n"
-                            "Se você não sabe porque está lendo esta mensagem,\n"
-                            "então você recebeu por engano uma versão de teste.\n\n"
-                            "Por gentileza, contate o desenvolverdor para resolvermos isso.\n\n"
-                            "Você encontrará o contato no ícone com uma interrogação.");
+                            "Esta versão não foi compilada com suporte a kmz!");
 #endif
 }
 

@@ -23,6 +23,18 @@ qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
   connect(this, SIGNAL(itemMoved()), this, SLOT(checkTargetFunction()));
   connect(ui->treeWidget, SIGNAL(itemMoved()), this,
           SLOT(checkTargetFunction()));
+
+  #ifndef QUAZIP
+    qDebug() << "Quazip option was not compiled!";
+    QMessageBox::warning(parent, "Erro",
+                            "Esta versão não foi compilada com suporte a kmz!\n"
+                            "Apenas formatos kml são suportados.\n\n"
+                            "Se você não sabe porque está lendo esta mensagem,\n"
+                            "então você recebeu por engano uma versão de teste.\n\n"
+                            "Por gentileza, contate o desenvolverdor para resolvermos isso.\n\n"
+                            "Você encontrará o contato no ícone com uma interrogação.");
+  #endif
+
 }
 
 qtkamal::~qtkamal() {
@@ -174,7 +186,6 @@ void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos) {
     return;
   }
 
-  // WARNING: Perda do texto delete quando chamado no menu de contexto 
   // Se o item não estiver na raiz
   if (item->parent()) {
     deleteItemAction = new QAction(tr("Delete"), this);
