@@ -13,10 +13,9 @@
 #include <QString>
 #include <QTreeWidget>
 #include <QtXml>
-#include <iostream>
 
 #ifdef QUAZIP
-#include <QuaZip-Qt5-1.1/quazip/JlCompress.h>
+    #include <QuaZip-Qt5-1.4/quazip/JlCompress.h>
 #endif
 
 class kamalTree;

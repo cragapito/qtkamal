@@ -38,7 +38,10 @@
      </rect>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
+     <enum>Qt::FocusPolicy::NoFocus</enum>
+    </property>
+    <property name="frame">
+     <bool>false</bool>
     </property>
     <item>
      <property name="text">
@@ -67,13 +70,13 @@
      </sizepolicy>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
+     <enum>Qt::FocusPolicy::StrongFocus</enum>
     </property>
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhDigitsOnly</set>
+     <set>Qt::InputMethodHint::ImhDigitsOnly</set>
     </property>
     <property name="inputMask">
      <string>99</string>
@@ -82,10 +85,10 @@
      <number>2</number>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
     <property name="cursorMoveStyle">
-     <enum>Qt::LogicalMoveStyle</enum>
+     <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
     </property>
    </widget>
    <widget class="QLabel" name="grlatlabel">
@@ -143,13 +146,13 @@
      </sizepolicy>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
+     <enum>Qt::FocusPolicy::StrongFocus</enum>
     </property>
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhDigitsOnly</set>
+     <set>Qt::InputMethodHint::ImhDigitsOnly</set>
     </property>
     <property name="inputMask">
      <string>99.9</string>
@@ -158,10 +161,10 @@
      <number>4</number>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
     <property name="cursorMoveStyle">
-     <enum>Qt::LogicalMoveStyle</enum>
+     <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
     </property>
    </widget>
    <widget class="QLineEdit" name="latmin">
@@ -180,13 +183,13 @@
      </sizepolicy>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
+     <enum>Qt::FocusPolicy::StrongFocus</enum>
     </property>
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhDigitsOnly</set>
+     <set>Qt::InputMethodHint::ImhDigitsOnly</set>
     </property>
     <property name="inputMask">
      <string>99</string>
@@ -195,10 +198,10 @@
      <number>2</number>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
     <property name="cursorMoveStyle">
-     <enum>Qt::LogicalMoveStyle</enum>
+     <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
     </property>
    </widget>
    <widget class="QLineEdit" name="longr">
@@ -217,13 +220,13 @@
      </sizepolicy>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
+     <enum>Qt::FocusPolicy::StrongFocus</enum>
     </property>
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhDigitsOnly</set>
+     <set>Qt::InputMethodHint::ImhDigitsOnly</set>
     </property>
     <property name="inputMask">
      <string>99</string>
@@ -232,10 +235,10 @@
      <number>2</number>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
     <property name="cursorMoveStyle">
-     <enum>Qt::LogicalMoveStyle</enum>
+     <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
     </property>
    </widget>
    <widget class="QLineEdit" name="lonmin">
@@ -254,13 +257,13 @@
      </sizepolicy>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
+     <enum>Qt::FocusPolicy::StrongFocus</enum>
     </property>
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhDigitsOnly</set>
+     <set>Qt::InputMethodHint::ImhDigitsOnly</set>
     </property>
     <property name="inputMask">
      <string>99</string>
@@ -269,10 +272,10 @@
      <number>2</number>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
     <property name="cursorMoveStyle">
-     <enum>Qt::LogicalMoveStyle</enum>
+     <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
     </property>
    </widget>
    <widget class="QLabel" name="seglatlabel">
@@ -317,13 +320,13 @@
      </sizepolicy>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
+     <enum>Qt::FocusPolicy::StrongFocus</enum>
     </property>
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhDigitsOnly</set>
+     <set>Qt::InputMethodHint::ImhDigitsOnly</set>
     </property>
     <property name="inputMask">
      <string>99.9</string>
@@ -332,10 +335,10 @@
      <number>4</number>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
     <property name="cursorMoveStyle">
-     <enum>Qt::LogicalMoveStyle</enum>
+     <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
     </property>
    </widget>
    <widget class="QComboBox" name="comboLat">
@@ -348,7 +351,10 @@
      </rect>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
+     <enum>Qt::FocusPolicy::NoFocus</enum>
+    </property>
+    <property name="frame">
+     <bool>false</bool>
     </property>
     <item>
      <property name="text">
@@ -403,13 +409,13 @@
      </sizepolicy>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
+     <enum>Qt::FocusPolicy::StrongFocus</enum>
     </property>
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhDigitsOnly</set>
+     <set>Qt::InputMethodHint::ImhDigitsOnly</set>
     </property>
     <property name="inputMask">
      <string/>
@@ -418,10 +424,10 @@
      <number>10</number>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
     <property name="cursorMoveStyle">
-     <enum>Qt::LogicalMoveStyle</enum>
+     <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
     </property>
    </widget>
    <widget class="QLineEdit" name="dlon">
@@ -440,13 +446,13 @@
      </sizepolicy>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
+     <enum>Qt::FocusPolicy::StrongFocus</enum>
     </property>
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhDigitsOnly</set>
+     <set>Qt::InputMethodHint::ImhDigitsOnly</set>
     </property>
     <property name="inputMask">
      <string/>
@@ -455,10 +461,10 @@
      <number>10</number>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
     <property name="cursorMoveStyle">
-     <enum>Qt::LogicalMoveStyle</enum>
+     <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
     </property>
    </widget>
   </widget>
