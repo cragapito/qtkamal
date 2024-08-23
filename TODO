@@ -1,24 +1,6 @@
-- Comando para transformar os pontos em círculos [Concluído]
-- Botões para registrar padrões no arquivo INI [Concluído]
-- Passar MIN_TRIANG_ANGLE para o arquivo INI [Concluído]  
-- Revisar diretiva WITH_TRIANG [Concluído]
-- Tratamento de drag drop em multiseleção [Concluído]
-- Verificar tratamento dos KMZ no Drop [Concluído]
-
-OBSERVAR:
-- Ao clicar sobre o ponto está mantendo a seleção. (no Xming)
-- Parece estar apagando arquivos se carregar outro.
-
-BUG:
-- Verificar as movimentações (drop) para beans, o alcance não está acompanhando
-
-TODO:
 - Usar googlepro circle
-- Falta atalho para limpar os dados
-- Calcular área de incerteza
-- Adicionar parâmetros fixos no arquivo de configuração como cor do fundo e transparência.
-- Clicar em ToCircle com o shift pressionado reverte para pontos.
-
+- Atalho para limpar os dados
+* Calcular área de incerteza
 - Se o usuário cancelar, não gravar um .kmz. (!)
 - Abrir o diálogo na pasta do usuário. (!)
 - Descrever na ajuda o menu de configuração (!)
@@ -28,3 +10,11 @@ TODO:
 WARNING:
 - Perda do texto delete quando chamado no menu de contexto
 
+COMPILING:
+- Substituir qmake p/ qmake-qt4 (lupdate e lrelease também)
+- colocar caminhos dos headers adicioais em principal.pro com LIBINCLUDE+=
+
+	export QMAKESPEC=/usr/local/share/qt5/mkspecs/freebsd-g++
+	qmake-qt5 -project
+	qmake-qt5
+	make

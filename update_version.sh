@@ -1,10 +1,12 @@
 #!/usr/local/bin/bash
 
-base="0.8"
+base="0.9"
 
-ver="$base.`svnversion -n`"
+# A subrevisão apontava para a árvore SVN. Agora migrada, segue as regras do GIT.
+# ver="$base.`svnversion -n`"
+# ver=${ver/[M|S]/}
 
-ver=${ver/[M|S]/}
+ver=$base
 
 sed -i -e "s/Versão .*/Versão $ver\<\/string>/" dialogs/aboutdialog.ui
 
