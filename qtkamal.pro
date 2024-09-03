@@ -72,6 +72,6 @@ INCLUDEPATH += /usr/local/include
 unix|win32: LIBS += -lgsl -lgslcblas
 
 quazip {
-     LIBS += -lquazip1-qt5
+     LIBS += -lquazip5
      DEFINES += QUAZIP
 }

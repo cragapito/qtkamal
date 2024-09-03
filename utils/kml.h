@@ -15,7 +15,7 @@
 #include <QtXml>
 
 #ifdef QUAZIP
-    #include <QuaZip-Qt5-1.4/quazip/JlCompress.h>
+    #include <quazip/JlCompress.h>
 #endif
 
 class kamalTree;
