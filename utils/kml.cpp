@@ -14,7 +14,7 @@ kml::kml(QWidget *parent, kamalTree *wt, styleFold *styFold) {
   this->wtree = wt;
   this->parent = parent;
   this->filename = "";
-  this->zfilename = NULL;
+  this->zfilename = nullptr;
 }
 
 bool kml::readfile() {
@@ -44,7 +44,7 @@ bool kml::readfile(QString name) {
   if (ext.toLower() == 'z') {
       kmz2kmltmp();
   } else {
-      zfilename = NULL;
+      zfilename = nullptr;
   }
 
   // BUG: Movimentar estes itens leva a segfault, eles estão desabilitados mas são selecionáveis

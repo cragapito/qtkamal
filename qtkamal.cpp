@@ -26,13 +26,11 @@ qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
 
   #ifndef QUAZIP
     qDebug() << "Quazip option was not compiled!";
-    QMessageBox::warning(parent, "Erro",
-                            "Esta versão não foi compilada com suporte a kmz!\n"
-                            "Apenas formatos kml são suportados.\n\n"
-                            "Se você não sabe porque está lendo esta mensagem,\n"
-                            "então você recebeu por engano uma versão de teste.\n\n"
-                            "Por gentileza, contate o desenvolverdor para resolvermos isso.\n\n"
-                            "Você encontrará o contato no ícone com uma interrogação.");
+    QMessageBox::warning(parent, "Aviso operacional",
+                            "O programa está operando sem suporte à compressão.\n\n"
+                            "O suporte a arquivos KMZ não está funcionando.\n\n"
+                            "Sugere-se especial cuidado na manipulação de arquivos\n"
+                            "apenas em KML Sujeito a perda de dados.");
   #endif
 
 }
