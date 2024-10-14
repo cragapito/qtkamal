@@ -83,6 +83,11 @@ void kamalTree::dropEvent(QDropEvent *event)
             group = itemAt(event->pos())->text(0);
         }
 
+        if ( dynamic_cast<qtbeamitem*>(item) == nullptr ){
+            qDebug() << "dynamic_cast fail -> item nullptr";
+            continue;
+        }
+
         if ( event->proposedAction() == Qt::MoveAction )
             QTreeWidget::dropEvent(event);
 
