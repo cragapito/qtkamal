@@ -32,13 +32,18 @@ int Coordinate::setGMS(const int lat_gr, const int lat_min, const double lat_seg
 
 double Coordinate::operator- ( const Coordinate& c ) {
     /*
-                     /     ____________________________________________________________________  \
-                     |    /    / lat1 - lat2 \ 2                               / lon1 - lon2 \ 2 |
-          2 . asin . |   / sin | ----------- |  + cos(lat1) . cos (lat2) . sin | ----------- |   |
-                     \ \/      \      2      /                                 \      2      /   /
+     * Em Coordinate.h:
+     * const double earth = 6378.137; // WGS-84
+     * const double magic = ( 2 * M_PI * earth ) / 360;
+     *
+                   /     ____________________________________________________________________  \
+                   |    /    / lat1 - lat2 \ 2                               / lon1 - lon2 \ 2 |
+          2 . asin |   / sin | ----------- |  + cos(lat1) . cos (lat2) . sin | ----------- |   | . magic
+                   \ \/      \      2      /                                 \      2      /   /
 
     */
-    return 2 * asin(
+
+    double ret = 2 * asin(
                 sqrt(
                     pow( ( sin( (this->x - c.x)/2) ), 2)
                   + cos( this->x )
@@ -46,6 +51,8 @@ double Coordinate::operator- ( const Coordinate& c ) {
                   * pow( ( sin( (this->y - c.y)/2) ), 2)
                 )
                ) * magic;
+
+    return ret;
 }
 
 std::ostream& operator<< ( std::ostream& o, const Coordinate *s ) {
