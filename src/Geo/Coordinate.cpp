@@ -36,6 +36,10 @@ double Coordinate::operator- ( const Coordinate& c ) {
      * const double earth = 6378.137; // WGS-84
      * const double magic = ( 2 * M_PI * earth ) / 360;
      *
+     *
+     * Fórmula de Haversine
+     *
+     *
                    /     ____________________________________________________________________  \
                    |    /    / lat1 - lat2 \ 2                               / lon1 - lon2 \ 2 |
           2 . asin |   / sin | ----------- |  + cos(lat1) . cos (lat2) . sin | ----------- |   | . magic
@@ -43,14 +47,16 @@ double Coordinate::operator- ( const Coordinate& c ) {
 
     */
 
+
+    // TODO: Reescrever com funções de chamada para ficar mais clara a conversão necessária para radianos.
     double ret = 2 * asin(
                 sqrt(
-                    pow( ( sin( (this->x - c.x)/2) ), 2)
-                  + cos( this->x )
-                  * cos( c.x     )
-                  * pow( ( sin( (this->y - c.y)/2) ), 2)
+                    pow( ( sin( (this->x / 180 * M_PI - c.x / 180 * M_PI)/2) ), 2)
+                  + cos( this->x / 180 * M_PI)
+                  * cos( c.x     / 180 * M_PI)
+                  * pow( ( sin( (this->y / 180 * M_PI - c.y / 180 * M_PI)/2) ), 2)
                 )
-               ) * magic;
+               ) * magic *180 / M_PI;
 
     return ret;
 }

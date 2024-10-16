@@ -303,7 +303,7 @@ void qtkamal::on_actionTrTarget_triggered() {
 
   /*
    *
-   * Novo alcance 10% maior que a distância entre os pontos
+   * Novo alcance 50% maior que a distância entre os pontos
    * para forçar o cruzamento dos feixes
    *
    */
@@ -311,7 +311,7 @@ void qtkamal::on_actionTrTarget_triggered() {
   for (int i = 0; i < vbeans->size(); i++) {
     qtbeamitem *b = vbeans->at(i);
     double a = *pi->pc - *b->bm->source;
-    b->alcance = a;
+    b->alcance = a * 1.50;
     b->bm->proj(a);
     ui->treeWidget->map->update(b);
   }
