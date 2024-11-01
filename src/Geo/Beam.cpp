@@ -27,8 +27,8 @@ void Beam::proj( const double km ){
 	double lat1 = to_rad( source->x );
 	double lon1 = to_rad( source->y );
 
-	double lat2 = asin ( sin(lat1) * cos(km / earth) + cos(lat1) * sin (km / earth) * cos (rad) );
-	double lon2 = lon1 + atan2( sin(rad) * sin(km / earth) * cos(lat1), cos(km / earth) - sin(lat1) * sin (lat2));
+    double lat2 = asin ( sin(lat1) * cos(km / earth_radius) + cos(lat1) * sin (km / earth_radius) * cos (rad) );
+    double lon2 = lon1 + atan2( sin(rad) * sin(km / earth_radius) * cos(lat1), cos(km / earth_radius) - sin(lat1) * sin (lat2));
 
 	scope->x = to_deg( lat2 );
 	scope->y = to_deg( lon2 );

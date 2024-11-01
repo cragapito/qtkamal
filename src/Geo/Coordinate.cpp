@@ -33,7 +33,7 @@ int Coordinate::setGMS(const int lat_gr, const int lat_min, const double lat_seg
 double Coordinate::operator- ( const Coordinate& c ) {
     /*
      * Em Coordinate.h:
-     * const double earth = 6378.137; // WGS-84
+     * const double earth_radius = 6378.137; // WGS-84
      * const double magic = ( 2 * M_PI * earth ) / 360;
      *
      *
@@ -45,20 +45,26 @@ double Coordinate::operator- ( const Coordinate& c ) {
           2 . asin |   / sin | ----------- |  + cos(lat1) . cos (lat2) . sin | ----------- |   | . magic
                    \ \/      \      2      /                                 \      2      /   /
 
+    *
+    *
+    * $ MS Copilot regenerated below: $
+    *
     */
 
+    double lat1 = this->x * M_PI / 180; // Converter latitude para radianos
+    double lat2 = c.x * M_PI / 180;     // Converter latitude para radianos
+    double lon1 = this->y * M_PI / 180; // Converter longitude para radianos
+    double lon2 = c.y * M_PI / 180;     // Converter longitude para radianos
 
-    // TODO: Reescrever com funções de chamada para ficar mais clara a conversão necessária para radianos.
-    double ret = 2 * asin(
-                sqrt(
-                    pow( ( sin( (this->x / 180 * M_PI - c.x / 180 * M_PI)/2) ), 2)
-                  + cos( this->x / 180 * M_PI)
-                  * cos( c.x     / 180 * M_PI)
-                  * pow( ( sin( (this->y / 180 * M_PI - c.y / 180 * M_PI)/2) ), 2)
-                )
-               ) * magic *180 / M_PI;
+    double delta_lat = lat2 - lat1;
+    double delta_lon = lon2 - lon1;
 
-    return ret;
+    double a = pow(sin(delta_lat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(delta_lon / 2), 2);
+    double h = 2 * asin(sqrt(a));
+
+    double distance = earth_radius * h; // Distância em km
+
+    return distance;
 }
 
 std::ostream& operator<< ( std::ostream& o, const Coordinate *s ) {

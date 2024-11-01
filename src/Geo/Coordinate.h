@@ -4,8 +4,8 @@
 #include "../base/Point.h"
 #include <string>
 
-const double earth = 6378.137; // WGS-84
-const double magic = ( 2 * M_PI * earth ) / 360;
+const double earth_radius = 6378.137; // WGS-84
+const double magic = ( 2 * M_PI * earth_radius ) / 360;
 
 class Coordinate: public Point {
 public:
