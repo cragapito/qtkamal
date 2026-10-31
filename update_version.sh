@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
 
-base="0.92"
+base="0.9"
 
 # A subrevisão apontava para a árvore SVN. Agora migrada, segue as regras do GIT.
 # ver="$base.`svnversion -n`"

@@ -38,9 +38,9 @@ Os itens de área são aproximações para polígonos e podem conter erros de po
 
 ## Licença e Termos de uso
 
-Este projeto está licenciado sob os termos da [GNU General Public License v3.0 (GPLv3)](https://www.gnu.org/licenses/gpl-3.0.html), em total conformidade com as dependências integradas (incluindo a GNU Scientific Library - GSL e o componente QXmlPutGet).
+A Licença está sob os termos da [BSD 3-Clause](https://opensource.org/license/bsd-3-clause), a mais livre e abrangente possível. Resumindo, pode fechar e vender, desde que mantenha o nome dos autores.
 
-Você é livre para usar, estudar, modificar e redistribuir este software e suas versões derivadas, desde que quaisquer distribuições preservem os créditos de autoria original e mantenham o mesmo licenciamento livre e de código aberto sob a GPLv3. Consulte o arquivo [LICENSE](LICENSE) para obter o texto integral da licença.
+Licenças mais restritivas podem ser aplicadas dependendo do fornecedor, mas é possível excluí-las por diretivas de compilação, mantendo o núcleo do projeto.
 
 ## Referências externas
 
