@@ -23,6 +23,7 @@ circleDialog::circleDialog(QWidget *parent, qtcircleitem *ci) :
     QDialog(parent),
     ui(new Ui::circleDialog)
 {
+    cnf = nullptr; // Apenas o construtor padrão utiliza nova instância de configuração
     this->ci = ci;
     ui->setupUi(this);
 
@@ -42,12 +43,18 @@ circleDialog::circleDialog(QWidget *parent, qtcircleitem *ci) :
 circleDialog::~circleDialog()
 {
     delete ui;
+    if (cnf) delete cnf;
 }
 
 void circleDialog::on_buttonBox_accepted()
 {
+    Coordinate *newCoord = ui->coord_entry->returnCoord();
+    // Atualiza coordenada antes de atribuir o nome, evitando perda do valor e liberando a instância antiga
+    if (newCoord && ci->center != newCoord) {
+        delete ci->center;
+        ci->center = newCoord;
+    }
     ci->center->name = ui->circname->text().toStdString();
-    ci->center       = ui->coord_entry->returnCoord();
     ci->radius       = ui->raio->value();
     ci->points       = ui->pontos->value();
     ci->azimute      = ui->azimute->value();

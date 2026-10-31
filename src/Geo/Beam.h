@@ -20,7 +20,7 @@ public:
 
     Beam();
 	Beam( Coordinate &source );
-	virtual ~Beam(){};
+	virtual ~Beam(); // Destrutor virtual para desalocação de 'scope'
 	void proj( const double km );
 	double azimute();
 	friend std::ostream& operator<< ( std::ostream& o, const Beam *b );

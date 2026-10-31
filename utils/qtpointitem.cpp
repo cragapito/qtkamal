@@ -16,8 +16,9 @@ qtpointitem::~qtpointitem()
 
 int qtpointitem::open(QWidget *parent)
 {
-    pointDialog *dialog = new pointDialog( parent, this->pc, this->icon(0));
-    return dialog->exec();
+    // Alocação em pilha para destruição automática ao encerrar o diálogo
+    pointDialog dialog( parent, this->pc, this->icon(0));
+    return dialog.exec();
 }
 
 void qtpointitem::qtpointitem::setText(int column, const QString &text) // Overrided
