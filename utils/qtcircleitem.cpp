@@ -17,8 +17,9 @@ qtcircleitem::~qtcircleitem()
 
 int qtcircleitem::open(QWidget *parent)
 {
-    circleDialog *cd = new circleDialog(parent, this); // passa parâmetros para contrutor
-    return cd->exec();
+    // Alocação em pilha para destruição automática ao encerrar o diálogo
+    circleDialog cd(parent, this); // passa parâmetros para construtor
+    return cd.exec();
 }
 
 void qtcircleitem::setText(int column, const QString &text)

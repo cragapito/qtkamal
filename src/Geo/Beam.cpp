@@ -13,6 +13,14 @@ Beam::Beam( Coordinate &source ){
 	scope = NULL;
 }
 
+Beam::~Beam() {
+	// Libera coordenada de alcance alocada dinamicamente
+	if (scope) {
+		delete scope;
+		scope = NULL;
+	}
+}
+
 double Beam::to_rad( const double d ){
 	return d /180 * M_PI ;
 }
@@ -22,6 +30,10 @@ double Beam::to_deg( const double g ){
 }
 
 void Beam::proj( const double km ){
+	// Libera coordenada anterior para evitar vazamento em cálculos repetidos (ex: cálculo de círculos)
+	if (scope) {
+		delete scope;
+	}
 	scope = new Coordinate();
 	double rad  = to_rad( this->daz );
 	double lat1 = to_rad( source->x );
