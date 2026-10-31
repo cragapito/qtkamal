@@ -709,4 +709,9 @@ void kml::remove(QTreeWidgetItem *item) {
 kml::~kml()
 {
     dirtmp.remove();
+    // Libera documento XML alocado no construtor
+    if (doc) {
+        delete doc;
+        doc = nullptr;
+    }
 }

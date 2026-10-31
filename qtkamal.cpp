@@ -37,6 +37,10 @@ qtkamal::qtkamal(QWidget *parent) : QMainWindow(parent), ui(new Ui::qtkamal) {
 
 qtkamal::~qtkamal() {
     delete ui;
+    // Libera ponteiros de configuração, estilos e feixes criados no construtor
+    if (cnf) delete cnf;
+    if (sty) delete sty;
+    if (vbeans) delete vbeans;
 }
 
 void qtkamal::dropEvent(QDropEvent *ev) {
@@ -58,60 +62,72 @@ void qtkamal::dragEnterEvent(QDragEnterEvent *ev) {
 }
 
 void qtkamal::on_actionPnt_triggered() {
-  pointDialog *pd = new pointDialog();
-  int result = pd->exec();
+  // Diálogo alocado em pilha; caso cancelado, o item pendente é desalocado
+  pointDialog pd(this);
+  int result = pd.exec();
 
   if (result == QDialog::Accepted) {
     ui->treeWidget->groupPoints->setExpanded(true);
-    ui->treeWidget->groupPoints->addChild(pd->pi);
-    if (pd->pi->element.isNull()) {
-      pd->pi->style = "sn_place";
-      sty->setIconStyle("sn_place", pd->pi);
-      ui->treeWidget->map->update(pd->pi);
+    ui->treeWidget->groupPoints->addChild(pd.pi);
+    if (pd.pi->element.isNull()) {
+      pd.pi->style = "sn_place";
+      sty->setIconStyle("sn_place", pd.pi);
+      ui->treeWidget->map->update(pd.pi);
     }
+  } else {
+    delete pd.pi;
   }
 }
 
 void qtkamal::on_actionMan_triggered() {
-  beamDialog *bd = new beamDialog();
-  int result = bd->exec();
+  // Diálogo alocado em pilha; caso cancelado, o item pendente é desalocado
+  beamDialog bd(this);
+  int result = bd.exec();
 
   if (result == QDialog::Accepted) {
     ui->treeWidget->groupBeans->setExpanded(true);
-    ui->treeWidget->groupBeans->addChild(bd->bi);
-    bd->bi->beamType = bd->bi->MAN;
-    bd->bi->style = "sn_man";
-    sty->setIconStyle("sn_man", bd->bi);
-    ui->treeWidget->map->update(bd->bi);
+    ui->treeWidget->groupBeans->addChild(bd.bi);
+    bd.bi->beamType = bd.bi->MAN;
+    bd.bi->style = "sn_man";
+    sty->setIconStyle("sn_man", bd.bi);
+    ui->treeWidget->map->update(bd.bi);
     emit itemMoved();
+  } else {
+    delete bd.bi;
   }
 }
 
 void qtkamal::on_actionEst_triggered() {
-  beamDialog *bd = new beamDialog();
-  int result = bd->exec();
+  // Diálogo alocado em pilha; caso cancelado, o item pendente é desalocado
+  beamDialog bd(this);
+  int result = bd.exec();
 
   if (result == QDialog::Accepted) {
     ui->treeWidget->groupERMs->setExpanded(true);
-    ui->treeWidget->groupERMs->addChild(bd->bi);
-    bd->bi->beamType = bd->bi->ERM;
-    bd->bi->style = "sn_erm";
-    sty->setIconStyle("sn_erm", bd->bi);
-    ui->treeWidget->map->update(bd->bi);
+    ui->treeWidget->groupERMs->addChild(bd.bi);
+    bd.bi->beamType = bd.bi->ERM;
+    bd.bi->style = "sn_erm";
+    sty->setIconStyle("sn_erm", bd.bi);
+    ui->treeWidget->map->update(bd.bi);
     emit itemMoved();
+  } else {
+    delete bd.bi;
   }
 }
 
 void qtkamal::on_actionCirc_triggered() {
-  circleDialog *cd = new circleDialog();
-  int result = cd->exec();
+  // Diálogo alocado em pilha; caso cancelado, o item pendente é desalocado
+  circleDialog cd(this);
+  int result = cd.exec();
 
   if (result == QDialog::Accepted) {
     ui->treeWidget->groupCircles->setExpanded(true);
-    ui->treeWidget->groupCircles->addChild(cd->ci);
-    cd->ci->style = "sn_cir";
-    sty->setIconStyle("sn_cir", cd->ci);
-    ui->treeWidget->map->update(cd->ci);
+    ui->treeWidget->groupCircles->addChild(cd.ci);
+    cd.ci->style = "sn_cir";
+    sty->setIconStyle("sn_cir", cd.ci);
+    ui->treeWidget->map->update(cd.ci);
+  } else {
+    delete cd.ci;
   }
 }
 
@@ -153,13 +169,15 @@ void qtkamal::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 
 void qtkamal::on_actionConfig_triggered()
 {
-    configDialog *cf = new configDialog();
-    cf->exec();
+    // Alocação em pilha para destruição automática
+    configDialog cf(this);
+    cf.exec();
 }
 
 void qtkamal::on_actionAbout_triggered() {
-  aboutDialog *ad = new aboutDialog();
-  ad->exec();
+    // Alocação em pilha para destruição automática
+    aboutDialog ad(this);
+    ad.exec();
 }
 
 void qtkamal::on_treeWidget_customContextMenuRequested(const QPoint &pos) {
@@ -288,6 +306,16 @@ void qtkamal::on_actionTrTarget_triggered() {
   std::cout << "Calculando cruzamento de " << vbeans->size() << " retas."
             << std::endl;
   Point *c = ls->solve();
+
+  // Verifica retorno nulo para evitar segfault caso o sistema seja singular ou sem solução
+  if (!c) {
+    std::cerr << "Falha ao calcular a localização estimada (dados insuficientes ou retas paralelas)." << std::endl;
+    delete pi;
+    delete ls;
+    delete vs;
+    QApplication::restoreOverrideCursor();
+    return;
+  }
 
   std::cout << "Localização estimada em " << (Coordinate *)c << std::endl;
 

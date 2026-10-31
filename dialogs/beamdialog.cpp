@@ -19,6 +19,7 @@ beamDialog::beamDialog(QWidget *parent, qtbeamitem *bi) :
     QDialog(parent),
     ui(new Ui::beamDialog)
 {
+    cnf = nullptr; // Apenas o construtor padrão utiliza nova instância de configuração
     this->bi = bi;
     ui->setupUi(this);
 
@@ -33,11 +34,17 @@ beamDialog::beamDialog(QWidget *parent, qtbeamitem *bi) :
 beamDialog::~beamDialog()
 {
     delete ui;
+    if (cnf) delete cnf;
 }
 
 void beamDialog::on_buttonBox_accepted()
 {
-    bi->bm->source = ui->coord_entry->returnCoord();
+    Coordinate *newCoord = ui->coord_entry->returnCoord();
+    // Atualiza a coordenada de origem do feixe liberando a anterior caso seja uma nova instância
+    if (newCoord && bi->bm->source != newCoord) {
+        delete bi->bm->source;
+        bi->bm->source = newCoord;
+    }
     bi->bm->source->name = ui->beamname->text().toStdString();
     bi->bm->daz = ui->azimute->value();
     bi->bm->proj( ui->alcance->value() );
