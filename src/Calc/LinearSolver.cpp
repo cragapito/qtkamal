@@ -1,11 +1,9 @@
 #include "LinearSolver.h"
 
 // TODO: Calcular área de incerteza
-// Inicialização segura de ponteiros para evitar segfault se v.size() < 2 ou se solve() não for executado.
-LinearSolver::LinearSolver(const vector<Straight *> &v)
-    : m(nullptr), b(nullptr), m_res(nullptr), res(nullptr), sto(0) {
+LinearSolver::LinearSolver(const vector<Straight *> &v) {
 
-  // Dados insuficientes para decomposição QR / mínimos quadrados
+  // Dados insuficientes
   if (v.size() < 2)
     return;
 
@@ -24,8 +22,8 @@ Point *LinearSolver::solve() {
 
   gsl_vector *m_tau, *m_x;
 
-  // Garante que existem dados suficientes e matrizes válidas alocadas
-  if (sto < 2 || !m || !b)
+  // Dados insuficientes
+  if (sto < 2)
     return NULL;
 
   m_x = gsl_vector_alloc(2);
@@ -44,10 +42,6 @@ Point *LinearSolver::solve() {
 }
 
 string LinearSolver::getIncognitas(void) {
-  // Evita acesso a matriz nula se dados foram insuficientes
-  if (!m)
-    return "";
-
   ostringstream o;
   o.precision(2);
 
@@ -61,10 +55,6 @@ string LinearSolver::getIncognitas(void) {
 }
 
 string LinearSolver::getIndependentes(void) {
-  // Evita acesso a vetor nulo se dados foram insuficientes
-  if (!b)
-    return "";
-
   ostringstream o;
   o.precision(2);
 
@@ -75,10 +65,6 @@ string LinearSolver::getIndependentes(void) {
 }
 
 string LinearSolver::getResidual(void) {
-  // Evita acesso a vetor residual nulo se solve() não foi chamado
-  if (!m_res)
-    return "";
-
   ostringstream o;
   o.precision(2);
 
@@ -89,18 +75,8 @@ string LinearSolver::getResidual(void) {
 }
 
 LinearSolver::~LinearSolver() {
-  // Libera estruturas da GSL apenas se foram devidamente alocadas
-  if (b) {
-    gsl_vector_free(b);
-    b = nullptr;
-  }
-  if (m_res) {
-    gsl_vector_free(m_res);
-    m_res = nullptr;
-  }
-  if (m) {
-    gsl_matrix_free(m);
-    m = nullptr;
-  }
-  // delete res; // 'res' é retornado ao chamador em solve(), que assume a posse do ponteiro
+  gsl_vector_free(b);
+  gsl_vector_free(m_res);
+  gsl_matrix_free(m);
+  // delete res;
 }

@@ -29,9 +29,9 @@ Straight::Straight(const Point &pt, const double ang_graus){
 }
 
 void Straight::define(const Point &A, const Point &B){
-	// atan2 trata o caso de retas verticais (B.x == A.x), evitando divisão por zero
-	double ang_rad = atan2(B.y - A.y, B.x - A.x);
-	define( A, ang_rad);
+	double m = (B.y - A.y) / (B.x - A.x);
+	double ang_rad = atan(m);
+    define( A, ang_rad);
 	// Verifica se a reta calculada para A passa pelo ponto B também
     //assert( fabs ( this->a * B.x + this->b * B.y + this->c ) < 0.000001 );
 }
